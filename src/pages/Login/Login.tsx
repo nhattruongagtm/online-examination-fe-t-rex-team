@@ -1,3 +1,4 @@
+import { createFromIconfontCN } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import Password from 'antd/lib/input/Password'
 import React, { useState } from 'react'
@@ -98,7 +99,17 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
+
             <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+          <a className='forget'>Forget password</a>
           </Form.Item>
 
           <Form.Item
