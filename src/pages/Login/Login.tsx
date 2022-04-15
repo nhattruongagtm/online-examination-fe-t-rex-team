@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { IRoute } from '../../components/Content/router'
 interface Props {}
 
-interface InputForm {
+export interface InputForm {
   username: string
   password: string
   type: 0 | 1
