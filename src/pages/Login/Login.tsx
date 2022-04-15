@@ -1,14 +1,35 @@
 import { Button, Checkbox, Form, Input } from 'antd'
-import React from 'react'
+import Password from 'antd/lib/input/Password'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IRoute } from '../../components/Content/router'
 interface Props {}
 
+interface InputForm {
+  username: string
+  password: string
+  type: 0 | 1
+  remember: boolean
+}
+
 const Login = (props: Props) => {
+  const [inputForm, setInputForm] = useState({
+    username: '',
+    password: '',
+    type: 0,
+    remember: false,
+  })
   const navigate = useNavigate()
-  const onFinish = (values: any) => {
-    localStorage.setItem('e-exam', JSON.stringify(123))
-    navigate(IRoute.SUBJECT_LIST)
+  const onFinish = () => {
+    if (inputForm.username === 'sinhvien1' && inputForm.password === '123') {
+      localStorage.setItem('e-exam', JSON.stringify({ ...inputForm, type: 0 }))
+      navigate(IRoute.SUBJECT_LIST)
+    } else if (inputForm.username === 'gv1' && inputForm.password === '123') {
+      localStorage.setItem('e-exam', JSON.stringify({ ...inputForm, type: 1 }))
+      navigate(IRoute.SUBJECT_LIST)
+    } else {
+      alert('Tên tài khoản hoặc mật khẩu không chính xác!')
+    }
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -43,7 +64,12 @@ const Login = (props: Props) => {
               },
             ]}
           >
-            <Input />
+            <Input
+              value={inputForm.username}
+              onChange={(e) =>
+                setInputForm({ ...inputForm, username: e.target.value })
+              }
+            />
           </Form.Item>
 
           <Form.Item
@@ -56,7 +82,12 @@ const Login = (props: Props) => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              value={inputForm.password}
+              onChange={(e) =>
+                setInputForm({ ...inputForm, password: e.target.value })
+              }
+            />
           </Form.Item>
 
           <Form.Item
