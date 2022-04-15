@@ -1,7 +1,6 @@
 import React from 'react'
-import { Layout, Menu, Avatar } from 'antd'
+import { Layout, Avatar } from 'antd'
 import { InputForm } from '../../pages/Login/Login'
-const { SubMenu } = Menu
 const { Header: Head } = Layout
 const Header = () => {
   let authPermission: InputForm = {
