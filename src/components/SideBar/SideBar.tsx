@@ -1,8 +1,8 @@
 import { LaptopOutlined, UserOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLinkClickHandler } from 'react-router-dom'
 import { ISideBar, RouterModel } from '../../models/router'
 import { IRoute } from '../Content/router'
 
@@ -53,6 +53,19 @@ const SideBar = (props: Props) => {
   const pos = sideBar.filter((item) => {
     item.routes.filter((route) => route.path === path)
   })
+
+  const u = localStorage.getItem('e-exam')
+
+  const handleItem = (path: string) => {
+    console.log(path)
+    if (path === '/dang-xuat') {
+      localStorage.removeItem('e-exam')
+      navigate('/')
+    } else navigate(path)
+    // navigate(path)
+    // localStorage.removeItem("e-exam");
+  }
+
   return (
     <Sider width={200} className="site-layout-background">
       <Menu
@@ -66,7 +79,10 @@ const SideBar = (props: Props) => {
         {sideBar.map((item) => (
           <SubMenu key={item.key} icon={item.icon} title={item.title}>
             {item.routes.map((route) => (
-              <Menu.Item key={route.path} onClick={() => navigate(route.path)}>
+              <Menu.Item
+                key={route.path}
+                onClick={() => handleItem(route.path)}
+              >
                 {route.title}
               </Menu.Item>
             ))}
