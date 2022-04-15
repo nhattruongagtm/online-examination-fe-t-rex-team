@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ant-layout-has-sider {
+  min-height: calc(100vh - 64px);
+
+  .site-layout-background {
+    min-width: 250px !important;
+  }
+  .ant-layout-content {
+    background-color: white;
+    box-shadow: 0px 0px 55px 5px rgb(221, 221, 221);
+    border-radius: 15px;
+  }
+}
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header {
+  height: 100%;
+  &__logo {
+    width: 120px;
+    height: 40px;
+    background-color: aquamarine;
+  }
+  &__user {
+    display: flex;
+    align-items: center;
+    span.header__name {
+      color: white;
+      margin-right: 15px;
+    }
+    i {
+      display: inline-block;
+      color: white;
+      font-size: 25px;
+    }
+  }
+  &__menu {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    align-items: flex-end;
+    
+    width: 30px;
+
+    span{
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: white;
+    }
+    
+  }
+}
+
