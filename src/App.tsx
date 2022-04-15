@@ -13,7 +13,7 @@ function App() {
   const isLogin = localStorage.getItem('e-exam')
   const navigate = useNavigate()
   if (!isLogin) {
-    return <Login/>
+    return <Login />
   }
   return <Util />
 }
