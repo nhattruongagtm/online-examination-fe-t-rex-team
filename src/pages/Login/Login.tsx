@@ -99,7 +99,6 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
@@ -109,7 +108,7 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-          <a className='forget'>Forget password</a>
+            <a className="forget">Forget password</a>
           </Form.Item>
 
           <Form.Item
