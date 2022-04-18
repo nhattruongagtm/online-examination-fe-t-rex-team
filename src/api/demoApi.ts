@@ -6,3 +6,10 @@ export const testApi = {
     return clientAxios.get(url)
   },
 }
+
+export const fetchSubject = {
+  fetchData: (id: number): Promise<any> => {
+    const url = `/subject/${id}`
+    return clientAxios.get(url)
+  },
+}
