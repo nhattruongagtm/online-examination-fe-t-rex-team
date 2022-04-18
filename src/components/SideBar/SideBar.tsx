@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { NavLink, useLinkClickHandler } from 'react-router-dom'
 import { ISideBar, RouterModel } from '../../models/router'
+import { InputForm } from '../../pages/Login/Login'
 import { IRoute } from '../Content/router'
 
 const { SubMenu } = Menu
@@ -14,7 +15,7 @@ const SideBar = (props: Props) => {
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
-  const sideBar: ISideBar[] = [
+  const studentSideBar: ISideBar[] = [
     {
       title: 'Thông tin chung',
       routes: [
@@ -40,9 +41,35 @@ const SideBar = (props: Props) => {
           title: 'Đổi mật khẩu',
           icon: '',
         },
+      ],
+      icon: <LaptopOutlined />,
+      key: 2,
+    },
+  ]
+  const teacherSideBar: ISideBar[] = [
+    {
+      title: 'Thông tin chung',
+      routes: [
         {
-          path: IRoute.LOGOUT,
-          title: 'Đăng xuất',
+          path: IRoute.SUBJECT_LIST,
+          title: 'Danh sách môn học',
+          icon: '',
+        },
+        {
+          path: IRoute.CREATE_EXAM,
+          title: 'Tạo đề thi',
+          icon: '',
+        },
+      ],
+      icon: <UserOutlined />,
+      key: 1,
+    },
+    {
+      title: 'Cài đặt',
+      routes: [
+        {
+          path: IRoute.CHANGE_PASSWORD,
+          title: 'Đổi mật khẩu',
           icon: '',
         },
       ],
@@ -50,20 +77,21 @@ const SideBar = (props: Props) => {
       key: 2,
     },
   ]
+  const user: InputForm = localStorage.getItem('e-exam')
+    ? JSON.parse(localStorage.getItem('e-exam') as string)
+    : null
+  let sideBar = user.type === 0 ? studentSideBar : teacherSideBar
+
   const pos = sideBar.filter((item) => {
     item.routes.filter((route) => route.path === path)
   })
 
-  const u = localStorage.getItem('e-exam')
-
   const handleItem = (path: string) => {
     console.log(path)
-    if (path === '/dang-xuat') {
+    if (path === IRoute.LOGOUT) {
       localStorage.removeItem('e-exam')
-      navigate('/')
+      navigate(IRoute.HOME)
     } else navigate(path)
-    // navigate(path)
-    // localStorage.removeItem("e-exam");
   }
 
   return (

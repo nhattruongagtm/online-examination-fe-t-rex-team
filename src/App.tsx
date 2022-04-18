@@ -7,9 +7,9 @@ import { IRoute } from './components/Content/router'
 import './index.css'
 import Login from './pages/Login/Login'
 import Util from './pages/Util/Util'
+import Test from './components/Content/Test/Test'
 import './scss/app.scss'
-import { useEffect } from 'react'
-import { testApi } from './api/demoApi'
+import { useCountDown } from './hook/useCountDown'
 
 function App() {
   const isLogin = localStorage.getItem('e-exam')
@@ -18,7 +18,14 @@ function App() {
   if (!isLogin) {
     return <Login />
   }
-  return <Util />
+  return (
+    <>
+      <Routes>
+        <Route path={IRoute.TEST} element={<Test />} />
+        <Route path="*" element={<Util />} />
+      </Routes>
+    </>
+  )
 }
 
 export default App
