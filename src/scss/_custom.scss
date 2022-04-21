@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ant-layout-has-sider {
+  min-height: calc(100vh - 64px);
+
+  .site-layout-background {
+    min-width: 250px !important;
+  }
+  .ant-layout-content {
+    background-color: white;
+    box-shadow: 0px 0px 55px 5px rgb(221, 221, 221);
+    border-radius: 15px;
+  }
+}
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header {
+  height: 100%;
+  &__logo {
+    width: 120px;
+    height: 40px;
+    background-color: aquamarine;
+    background: url('../assets/imgs/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  p {
+    color: white;
+    font-size: 20px;
+  }
+  &__user {
+    display: flex;
+    align-items: center;
+    span.header__name {
+      color: white;
+      margin-right: 15px;
+    }
+    i {
+      display: inline-block;
+      color: white;
+      font-size: 25px;
+    }
+  }
+  &__menu {
+    display: inline-flex;
+    justify-content: right;
+    width: 30px;
+    position: relative;
+    align-items: flex-end;
+    label {
+      flex-direction: column;
+      gap: 3px;
+      display: flex;
+      cursor: pointer;
+
+      span {
+        display: block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: white;
+      }
+    }
+    #option:checked ~ &__popup {
+      opacity: 1;
+      visibility: visible;
+    }
+    &__popup {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      width: 200px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.151);
+      z-index: 20;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s;
+      padding: 10px;
+
+      line-height: unset;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      svg{
+        font-size: 20px;
+      }
+
+      .menu__popup__item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        &:hover {
+          color: rgb(45, 136, 255);
+        }
+      }
+
+
+      span {
+        line-height: 1;
+      }
+    }
+  }
+}
