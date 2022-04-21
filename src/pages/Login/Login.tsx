@@ -108,7 +108,9 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-            <a className="forget">Forget password</a>
+            <a className="forget" href={IRoute.FORGOT_PASSWORD}>
+              Forget password
+            </a>
           </Form.Item>
 
           <Form.Item

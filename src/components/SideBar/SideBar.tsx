@@ -45,6 +45,11 @@ const SideBar = (props: Props) => {
           title: 'Đăng xuất',
           icon: '',
         },
+        {
+          path: IRoute.FORGOT_PASSWORD,
+          title: 'Quên mật khẩu',
+          icon: '',
+        },
       ],
       icon: <LaptopOutlined />,
       key: 2,
