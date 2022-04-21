@@ -18,7 +18,13 @@ const Test = (props: Props) => {
   const { choose, test: testList } = testStore
 
   const [visible, setVisible] = React.useState(false)
+  const [timeout, setTimeout] = useState<boolean>(false)
 
+  useEffect(() => {
+    if (isFinished) {
+      setTimeout(true)
+    }
+  }, [isFinished])
   useEffect(() => {
     const test: TestModel = [
       {
@@ -196,6 +202,10 @@ const Test = (props: Props) => {
     setVisible(false)
   }
 
+  const handleExit = () => {
+    setTimeout(false)
+  }
+
   return (
     <Layout className="test">
       <Sider className="test__sidebar">
@@ -254,6 +264,17 @@ const Test = (props: Props) => {
       >
         <p>Bạn có chắc muốn nộp bài không?</p>
       </Modal>
+      {timeout && (
+        <div className="timeout">
+          <div className="timeout__modal">
+            <h3>Hết thời gian làm bài!</h3>
+            <i className="bx bx-time-five"></i>
+            <Button type="primary" onClick={handleExit}>
+              Thoát
+            </Button>
+          </div>
+        </div>
+      )}
     </Layout>
   )
 }

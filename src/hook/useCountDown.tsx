@@ -21,7 +21,7 @@ export const useCountDown = ({ time }: Props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      (minute > 0 || second > 0) &&
+      ;(minute > 0 || second > 0) &&
         setSecond(second <= 60 && second > 0 ? second - 1 : 59)
     }, 1000)
 

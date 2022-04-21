@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Avatar } from 'antd'
-import { InputForm } from '../../pages/Login/Login'
+import { InputForm, LoginResponse } from '../../pages/Login/Login'
 import { InfoCircleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Modal, Button, Space } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
@@ -11,12 +11,9 @@ const { confirm } = Modal
 const { Header: Head } = Layout
 const Header = () => {
   const navigate = useNavigate()
-  let authPermission: InputForm = {
-    username: '',
-    password: '',
-    type: 0,
-    remember: false,
-  }
+  const user = JSON.parse(
+    localStorage.getItem('e-exam') as string
+  ) as LoginResponse
   const showConfirm = () => {
     confirm({
       title: 'Bạn có muốn đăng xuất tài khoản này không?',
@@ -33,15 +30,19 @@ const Header = () => {
     <Head className="header">
       <div className="header__logo"></div>
       <div className="header__user">
-        <span className="header__name">Nguyen Van A</span>
-        <Avatar
-          style={{
-            color: '#f56a00',
-            backgroundColor: '#fde3cf',
-          }}
-        >
-          U
-        </Avatar>
+        <span className="header__name">{user && user.name}</span>
+        {user && user.photoUrl === '' ? (
+          <Avatar
+            style={{
+              color: '#f56a00',
+              backgroundColor: '#fde3cf',
+            }}
+          >
+            {user.name && user.name.split('')[0]}
+          </Avatar>
+        ) : (
+          <Avatar src={user.photoUrl} />
+        )}
         <div className="header__menu">
           <label htmlFor="option">
             <span></span>

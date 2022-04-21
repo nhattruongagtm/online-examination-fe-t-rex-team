@@ -1,64 +1,81 @@
 import { Space, Table, Tag } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Subject } from '../../../models/subject'
+import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 
 type Props = {}
 
 const History = (props: Props) => {
+  const [subjects, setSubjects] = useState<Subject[]>([])
+
+  useEffect(() => {
+    const data: Subject[] = [
+      {
+        code: 26524,
+        name: 'Lâp trình nâng cao',
+        examDate: 13215466,
+        examTime: 15,
+        id: 1,
+        grade: 8,
+      },
+      {
+        code: 26345,
+        name: 'Thiết kế hướng đối tượng',
+        examDate: 13215466,
+        examTime: 60,
+        id: 2,
+        grade: 7,
+      },
+      {
+        code: 23632,
+        name: 'Chuyên đề Web',
+        examDate: 13215466,
+        examTime: 45,
+        id: 3,
+        grade: 8.5,
+      },
+    ]
+    setSubjects(data)
+  }, [])
+
   const columns = [
     {
       title: 'Mã môn học',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'code',
+      key: 'code',
       render: (text: string) => <>{text}</>,
     },
     {
       title: 'Tên môn học',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Ngày thi',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'examDate',
+      key: 'examDate',
       render: (date: any) => <>10/4/2022</>,
     },
     {
       title: 'Thời gian thi (phút)',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (tags: any) => <>60 phút</>,
+      key: 'examTime',
+      dataIndex: 'examTime',
+      render: (tags: number) => <>{tags} phút</>,
     },
     {
       title: 'Điểm',
-      key: 'action',
-      render: (text: string, record: any) => <>10</>,
+      key: 'grade',
+      render: (text: string, record: Subject) => <>{record.grade}</>,
     },
   ]
 
-  const data = [
-    {
-      key: '1',
-      name: '54654651',
-      age: 'Lập trình cơ bản',
-      address: 'Lập trình cơ bản',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: '54656764',
-      age: 'Lập trình Nâng Cao',
-      address: 'Lập trình Nâng Cao',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: '14646516',
-      age: 'Lập trình Nâng Web',
-      address: 'Lập trình Web',
-      tags: ['cool', 'teacher'],
-    },
-  ]
-  return <Table columns={columns} dataSource={data} />
+  const storage = localStorage.getItem('e-exam')
+  let user: LoginResponse = storage ? JSON.parse(storage as string) : null
+
+  if (user && user.type !== 0) {
+    return <>bạn không có quyền</>
+  }
+  return <Table columns={columns} dataSource={subjects} />
 }
 
 export default History
