@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 export const clientAxios = axios.create({
   baseURL: 'http://localhost:8080',
-  // baseURL: 'https://jsonplaceholder.typicode.com',
   headers: {
     'Content-Type': 'application/json',
-  },
+    },
+
 })
 
 clientAxios.interceptors.request.use(
