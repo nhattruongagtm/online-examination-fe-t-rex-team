@@ -2,6 +2,7 @@ import { createFromIconfontCN } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import Password from 'antd/lib/input/Password'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { IRoute } from '../../components/Content/router'
 interface Props {}
@@ -108,9 +109,13 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-            <a className="forget" href={IRoute.FORGOT_PASSWORD}>
-              Forget password
-            </a>
+            <Link to="/dat-lat-mat-khau">
+                {/* <a className="forget" href={IRoute.FORGOT_PASSWORD}>
+             
+            </a> */}
+             Forget password
+            </Link>
+          
           </Form.Item>
 
           <Form.Item
