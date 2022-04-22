@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { loadTest } from '../../../slice/testSlice'
 import { useCountDown } from '../../../hook/useCountDown'
+import { Subject } from '../../../models/subject'
 
 const { Header, Footer, Sider, Content } = Layout
 type Props = {}
@@ -16,9 +17,27 @@ const Test = (props: Props) => {
   const [minute, second, isFinished] = countDown
   const testStore = useSelector((state: RootState) => state.test)
   const { choose, test: testList } = testStore
+  const [subject, setSubject] = useState<Subject>({
+    id: 1,
+    code: 1,
+    examDate: 13146546548,
+    examTime: 44646546486,
+    name: 'Nhập môn công nghệ phần mềm',
+  })
 
   const [visible, setVisible] = React.useState(false)
   const [timeout, setTimeout] = useState<boolean>(false)
+
+  useEffect(() => {
+    const subject: Subject = {
+      id: 1,
+      code: 1,
+      examDate: 13146546548,
+      examTime: 44646546486,
+      name: 'Nhập môn công nghệ phần mềm',
+    }
+    setSubject(subject)
+  }, [])
 
   useEffect(() => {
     if (isFinished) {
@@ -210,7 +229,7 @@ const Test = (props: Props) => {
     <Layout className="test">
       <Sider className="test__sidebar">
         <div className="test__sidebar__header">
-          <h5>Môn thi: Nhập môn CNPM</h5>
+          <h5>Môn thi: {subject.name}</h5>
           <div className="exam__time">
             <h5>Ngày thi: 20/5/2022</h5>
             <h5>

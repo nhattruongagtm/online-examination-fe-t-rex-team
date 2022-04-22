@@ -4,5 +4,5 @@ export interface Subject {
   name: string
   examDate: number
   examTime: number
-  grade: number
+  grade?: number
 }
