@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Layout, Modal, Pagination } from 'antd'
 import Question from './Question'
-import { SubmitAnswer, Test as TestModel } from '../../../models/test'
+import { ResponseResult, SubmitAnswer, Test as TestModel } from '../../../models/test'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { chooseAnswer, loadTest } from '../../../slice/testSlice'
@@ -18,7 +18,7 @@ type Props = {}
 const Test = (props: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const countDown = useCountDown({ time: 1 })
+  const countDown = useCountDown({ time: 15 })
   const [minute, second, isFinished] = countDown
   const testStore = useSelector((state: RootState) => state.test)
   const { choose, test: testList } = testStore
@@ -33,6 +33,10 @@ const Test = (props: Props) => {
   const [visible, setVisible] = React.useState(false)
   const [visible1, setVisible1] = React.useState(false)
   const [timeout, setTimeout] = useState<boolean>(false)
+  const [result,setResult] = useState<ResponseResult>({
+    total: 0,
+    correct: 0
+  })
 
   useEffect(() => {
     const subject: Subject = {
@@ -144,10 +148,10 @@ const Test = (props: Props) => {
     })
 
     const data: SubmitAnswer = {
-      studentID: (
+      studentId: (
         JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
       ).id,
-      subjectID: subject.id,
+      subjectId: subject.id,
       answers: choose,
     }
 
@@ -156,11 +160,18 @@ const Test = (props: Props) => {
       .then((res) => {
         console.log(res)
         // navigate(IRoute.HISTORY)
+        setResult({
+          correct: res.correct,
+          total: res.total
+        
+        })
+        setVisible1(true)
+
       })
       .catch((e) => {
         console.log(e)
       })
-    setVisible1(true)
+    
   }
 
   const showModal = () => {
@@ -265,7 +276,7 @@ const Test = (props: Props) => {
         onOk={handleOk1}
         onCancel={handleCancel1}
       >
-        <p>Điểm thi: {8}</p>
+        <p>Kết quả: {result.correct} / {result.total}</p>
       </Modal>
     </Layout>
   )

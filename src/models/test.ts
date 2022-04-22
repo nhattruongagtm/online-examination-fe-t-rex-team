@@ -21,7 +21,11 @@ export interface Answer {
 export type Test = Question[]
 
 export interface SubmitAnswer {
-  studentID: number
-  subjectID: number
+  studentId: number
+  subjectId: number
   answers: ChooseAnswer[]
+}
+export interface ResponseResult{
+  correct: number;
+  total: number;
 }
