@@ -10,13 +10,21 @@ import Util from './pages/Util/Util'
 import Test from './components/Content/Test/Test'
 import './scss/app.scss'
 import { useCountDown } from './hook/useCountDown'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 
 function App() {
   const isLogin = localStorage.getItem('e-exam')
 
   const navigate = useNavigate()
   if (!isLogin) {
-    return <Login />
+    return (
+      <>
+        <Routes>
+          <Route path={IRoute.HOME} element={<Login />} />
+          <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        </Routes>
+      </>
+    )
   }
   return (
     <>

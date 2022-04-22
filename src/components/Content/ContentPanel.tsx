@@ -17,12 +17,8 @@ const ContentPanel = (props: Props) => {
         <Route path={IRoute.SUBJECT_LIST} element={<SubjectList />} />
         <Route path={IRoute.HISTORY} element={<History />} />
         <Route path={IRoute.CHANGE_PASSWORD} element={<ChangePassword />} />
-<<<<<<< HEAD
-        <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
-=======
         <Route path={IRoute.STUDENT_LIST} element={<StudentList />} />
->>>>>>> origin/main
       </Routes>
     </div>
   )

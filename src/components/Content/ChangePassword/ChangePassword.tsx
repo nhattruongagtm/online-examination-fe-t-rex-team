@@ -9,7 +9,7 @@ import { LoginResponse } from '../../../pages/Login/Login'
 type Props = {}
 
 interface InputForm {
-  password: string;
+  password: string
   // oldPassword: string;
   confirmPwd: string
 }
@@ -27,7 +27,8 @@ const ChangePassword = (props: Props) => {
       .oneOf([Yup.ref('password')], 'Mật khẩu mới không khớp'),
   })
   const formOptions = { resolver: yupResolver(formSchema) }
-  const { register, handleSubmit, reset, formState } = useForm<InputForm>(formOptions)
+  const { register, handleSubmit, reset, formState } =
+    useForm<InputForm>(formOptions)
   const { errors } = formState
   function onSubmit(data: InputForm) {
     // console.log(JSON.stringify(data, null, 4))
@@ -45,13 +46,18 @@ const ChangePassword = (props: Props) => {
     //   ).catch(
 
     //   )
-    const u = JSON.parse(localStorage.getItem("e-exam") as string) as LoginResponse
-    userApi.changePassword(u.id, data.password).then(res => {
-      console.log(res)
-    }).catch(e => {
-      console.log(e)
-    })
-    
+    const u = JSON.parse(
+      localStorage.getItem('e-exam') as string
+    ) as LoginResponse
+    userApi
+      .changePassword(u.id, data.password)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+
     // return false
   }
   return (
@@ -100,8 +106,9 @@ const ChangePassword = (props: Props) => {
             <input
               type="password"
               {...register('confirmPwd')}
-              className={`form-control ${errors.confirmPwd ? 'is-invalid' : ''
-                }`}
+              className={`form-control ${
+                errors.confirmPwd ? 'is-invalid' : ''
+              }`}
             />
             <div className="invalid-feedback">{errors.confirmPwd?.message}</div>
           </div>

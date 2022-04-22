@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import { useNavigate } from 'react-router'
 import { IRoute } from '../../components/Content/router'
+import { userApi } from '../../api/userApi'
 
 type Props = {}
 
@@ -21,6 +22,14 @@ const ForgotPassword = (props: Props) => {
 
   const handleSubmit = () => {
     console.log(email)
+    userApi
+      .sendEmail(email)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   return (
