@@ -6,4 +6,7 @@ export enum IRoute {
   RESET_PASSWORD = '/dat-lai-mat-khau',
   HISTORY = '/lich-su-thi',
   LOGOUT = '/dang-xuat',
+  CREATE_EXAM = '/tao-de-thi',
+  STUDENT_LIST = '/danh-sach-sinh-vien',
+  TEST = '/test',
 }
