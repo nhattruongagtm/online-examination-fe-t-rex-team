@@ -2,14 +2,23 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2'
+import axios from 'axios'
+import { userApi } from '../../../api/userApi'
+import { LoginResponse } from '../../../pages/Login/Login'
 
 type Props = {}
 
+interface InputForm {
+  password: string;
+  // oldPassword: string;
+  confirmPwd: string
+}
+
 const ChangePassword = (props: Props) => {
   const formSchema = Yup.object().shape({
-    oldPassword: Yup.string()
-      .required('Vui lòng nhập mật khẩu cũ')
-      .min(3, 'Mật khẩu tối thiểu 3 ký tự'),
+    // oldPassword: Yup.string()
+    //   .required('Vui lòng nhập mật khẩu cũ')
+    //   .min(3, 'Mật khẩu tối thiểu 3 ký tự'),
     password: Yup.string()
       .required('Vui lòng nhập mật khẩu mới')
       .min(3, 'Mật khẩu tối thiểu 3 ký tự'),
@@ -18,28 +27,45 @@ const ChangePassword = (props: Props) => {
       .oneOf([Yup.ref('password')], 'Mật khẩu mới không khớp'),
   })
   const formOptions = { resolver: yupResolver(formSchema) }
-  const { register, handleSubmit, reset, formState } = useForm(formOptions)
+  const { register, handleSubmit, reset, formState } = useForm<InputForm>(formOptions)
   const { errors } = formState
-  function onSubmit(data: any) {
-    console.log(JSON.stringify(data, null, 4))
-    Swal.fire({
-      icon: 'success',
-      text: 'Đổi mật khẩu thành công',
+  function onSubmit(data: InputForm) {
+    // console.log(JSON.stringify(data, null, 4))
+    // Swal.fire({
+    //   icon: 'success',
+    //   text: 'Đổi mật khẩu thành công',
+    // })
+
+    // console.log(data)
+
+    // axios.post('http://localhost:8080/getAll', data).then(
+    // res => {
+    //   console.log(res)
+    // }
+    //   ).catch(
+
+    //   )
+    const u = JSON.parse(localStorage.getItem("e-exam") as string) as LoginResponse
+    userApi.changePassword(u.id, data.password).then(res => {
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
     })
-    return false
+    
+    // return false
   }
   return (
     <div className="mainDiv">
       <div className="cardStyle">
         <form
-          action=""
+          action="@{user}"
           onSubmit={handleSubmit(onSubmit)}
           method="post"
           name="signUpForm"
           id="signUpForm"
         >
           <h2 className="formTitle">Đổi mật khẩu</h2>
-          <div className="inputDiv">
+          {/* <div className="inputDiv">
             <label className="inputLabel" htmlFor="oldPassword">
               Mật khẩu cũ
             </label>
@@ -53,7 +79,7 @@ const ChangePassword = (props: Props) => {
             <div className="invalid-feedback">
               {errors.oldPassword?.message}
             </div>
-          </div>
+          </div> */}
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="password">
@@ -74,9 +100,8 @@ const ChangePassword = (props: Props) => {
             <input
               type="password"
               {...register('confirmPwd')}
-              className={`form-control ${
-                errors.confirmPwd ? 'is-invalid' : ''
-              }`}
+              className={`form-control ${errors.confirmPwd ? 'is-invalid' : ''
+                }`}
             />
             <div className="invalid-feedback">{errors.confirmPwd?.message}</div>
           </div>
