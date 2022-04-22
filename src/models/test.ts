@@ -2,9 +2,9 @@ export interface Question {
   id: number
   title: string
   answers: Answer[]
-  correct: number[]
+  correct: number
   imgs?: string
-  choose: number[]
+  choose: number
   flag: boolean
   status: 0 | 1
   // 0 is uncheck, 1 is checked
@@ -16,3 +16,4 @@ export interface Answer {
 }
 
 export type Test = Question[]
+

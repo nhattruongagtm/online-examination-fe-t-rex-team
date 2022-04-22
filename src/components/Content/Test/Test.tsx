@@ -4,9 +4,10 @@ import Question from './Question'
 import { Test as TestModel } from '../../../models/test'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
-import { loadTest } from '../../../slice/testSlice'
+import { chooseAnswer, loadTest } from '../../../slice/testSlice'
 import { useCountDown } from '../../../hook/useCountDown'
 import { Subject } from '../../../models/subject'
+import { LoginResponse } from '../../../pages/Login/Login'
 
 const { Header, Footer, Sider, Content } = Layout
 type Props = {}
@@ -67,8 +68,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1],
-        choose: [-1],
+        correct: 1,
+        choose: -1,
         flag: false,
         status: 0,
       },
@@ -93,8 +94,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1],
-        choose: [-1],
+        correct: 1,
+        choose: -1,
         flag: false,
         status: 0,
       },
@@ -119,8 +120,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1, 2],
-        choose: [-1],
+        correct: 2,
+        choose: 1,
         flag: false,
         status: 0,
       },
@@ -145,8 +146,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1],
-        choose: [-1],
+        correct: 2,
+        choose: 1,
         flag: false,
         status: 0,
       },
@@ -171,8 +172,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1],
-        choose: [-1],
+        correct: 1,
+        choose: -1,
         flag: false,
         status: 0,
       },
@@ -197,8 +198,8 @@ const Test = (props: Props) => {
             title: 'Business Analytics',
           },
         ],
-        correct: [1],
-        choose: [-1],
+        correct: 1,
+        choose: 1,
         flag: false,
         status: 0,
       },
@@ -206,13 +207,22 @@ const Test = (props: Props) => {
     dispatch(loadTest(test))
   }, [])
 
-  const handleSubmit = () => {}
+  const handleSubmit = () => {
+    console.log({
+      idStudent: (
+        JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
+      ).id,
+      idSubject: subject.id,
+      answers: choose,
+    })
+  }
 
   const showModal = () => {
     setVisible(true)
   }
 
   const handleOk = () => {
+    handleSubmit()
     setVisible(false)
   }
 
