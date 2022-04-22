@@ -14,7 +14,7 @@ const initialState: ITestSlice = {
 }
 export interface ChooseAnswer {
   id: number
-  answer: number[]
+  answer: number
 }
 export const testSlice = createSlice({
   name: 'test',
