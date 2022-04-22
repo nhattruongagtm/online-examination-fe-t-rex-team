@@ -17,3 +17,10 @@ export interface Answer {
 
 export type Test = Question[]
 
+export interface SubmitAnswer{
+  idStudent: string, 
+  idSubject: String, 
+  listIDQuestion: string[],
+  listAnswer: string[]
+}
+
