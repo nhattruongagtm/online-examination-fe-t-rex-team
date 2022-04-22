@@ -9,7 +9,7 @@ export const userApi = {
   },
   changePassword: (id: number, password: string): Promise<User> => {
     const url = '/change-pass'
-   
+
     return clientAxios.put(url, id)
   },
 }

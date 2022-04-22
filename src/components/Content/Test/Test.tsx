@@ -209,10 +209,10 @@ const Test = (props: Props) => {
 
   const handleSubmit = () => {
     console.log({
-      idStudent: (
+      studentID: (
         JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
       ).id,
-      idSubject: subject.id,
+      subjectID: subject.id,
       answers: choose,
     })
   }
@@ -254,11 +254,12 @@ const Test = (props: Props) => {
           {testList.map((question, index) => (
             <Button
               className={`question__item ${
-                choose.findIndex((item) => item.id === question.id) > -1 &&
-                choose[choose.findIndex((item) => item.id === question.id)]
-                  .answer.length > 0
-                  ? 'choosed'
-                  : ''
+                // choose.findIndex((item) => item.id === question.id) > -1 &&
+                // choose[choose.findIndex((item) => item.id === question.id)]
+                //   .answer.length > 0
+                //   ? 'choosed'
+                //   : ''
+                false
               } ${question.flag ? 'flag' : ''}`}
               key={question.id}
             >
@@ -282,6 +283,7 @@ const Test = (props: Props) => {
               title={item.title}
               id={item.id}
             />
+            
           ))}
         </div>
       </Content>

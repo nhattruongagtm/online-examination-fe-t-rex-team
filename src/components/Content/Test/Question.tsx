@@ -13,28 +13,27 @@ interface Props {
 
 const Question = ({ order, test, id, title }: Props) => {
   const dispatch = useDispatch()
-  const [answer, setAnswer] = useState<number[]>([])
+  const [answer, setAnswer] = useState<number>(-1)
 
   const handleChangeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
 
-    let list: number[] = []
-    if (test.correct.length > 1) {
-      if (answer.includes(value)) {
-        list = [...answer.filter((item) => item === value)]
-        setAnswer(list)
-      } else {
-        list = [...answer, value]
-        setAnswer(list)
-      }
-    } else {
-      list = [value]
-      setAnswer(list)
-    }
+    // if (test.correct > 1) {
+    //   if (answer.includes(value)) {
+    //     list = [...answer.filter((item) => item === value)]
+    //     setAnswer(list)
+    //   } else {
+    //     list = [...answer, value]
+    //     setAnswer(list)
+    //   }
+    // } else {
+    //   list = [value]
+    setAnswer(value)
+
     dispatch(
       chooseAnswer({
         id,
-        answer: list,
+        answer: value,
       })
     )
   }
@@ -65,5 +64,4 @@ const Question = ({ order, test, id, title }: Props) => {
     </div>
   )
 }
-
 export default Question
