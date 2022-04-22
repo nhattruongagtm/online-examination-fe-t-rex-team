@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Layout, Modal, Pagination } from 'antd'
 import Question from './Question'
-import { Test as TestModel } from '../../../models/test'
+import { SubmitAnswer, Test as TestModel } from '../../../models/test'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { chooseAnswer, loadTest } from '../../../slice/testSlice'
 import { useCountDown } from '../../../hook/useCountDown'
 import { Subject } from '../../../models/subject'
 import { LoginResponse } from '../../../pages/Login/Login'
+import { submitTest } from '../../../api/submitTest'
+import { useNavigate } from 'react-router'
+import { IRoute } from '../router'
 
 const { Header, Footer, Sider, Content } = Layout
 type Props = {}
 
 const Test = (props: Props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const countDown = useCountDown({ time: 1 })
   const [minute, second, isFinished] = countDown
   const testStore = useSelector((state: RootState) => state.test)
@@ -27,6 +31,7 @@ const Test = (props: Props) => {
   })
 
   const [visible, setVisible] = React.useState(false)
+  const [visible1, setVisible1] = React.useState(false)
   const [timeout, setTimeout] = useState<boolean>(false)
 
   useEffect(() => {
@@ -215,6 +220,25 @@ const Test = (props: Props) => {
       subjectID: subject.id,
       answers: choose,
     })
+
+    const data: SubmitAnswer = {
+      studentID: (
+        JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
+      ).id,
+      subjectID: subject.id,
+      answers: choose,
+    }
+
+    submitTest
+      .submitTest(data)
+      .then((res) => {
+        console.log(res)
+        // navigate(IRoute.HISTORY)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+    setVisible1(true)
   }
 
   const showModal = () => {
@@ -225,10 +249,18 @@ const Test = (props: Props) => {
     handleSubmit()
     setVisible(false)
   }
+  const handleOk1 = () => {
+    setVisible1(false)
+    navigate(IRoute.HISTORY)
+  }
 
   const handleCancel = () => {
     console.log('Clicked cancel button')
     setVisible(false)
+  }
+  const handleCancel1 = () => {
+    console.log('Clicked cancel button')
+    setVisible1(false)
   }
 
   const handleExit = () => {
@@ -283,7 +315,6 @@ const Test = (props: Props) => {
               title={item.title}
               id={item.id}
             />
-            
           ))}
         </div>
       </Content>
@@ -306,6 +337,14 @@ const Test = (props: Props) => {
           </div>
         </div>
       )}
+      <Modal
+        title="Đã nộp bài thi"
+        visible={visible1}
+        onOk={handleOk1}
+        onCancel={handleCancel1}
+      >
+        <p>Điểm thi: {8}</p>
+      </Modal>
     </Layout>
   )
 }
