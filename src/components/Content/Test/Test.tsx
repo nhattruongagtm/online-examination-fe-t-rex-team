@@ -208,12 +208,12 @@ const Test = (props: Props) => {
           {testList.map((question, index) => (
             <Button
               className={`question__item ${
-                // choose.findIndex((item) => item.id === question.id) > -1 &&
-                // choose[choose.findIndex((item) => item.id === question.id)]
-                //   .answer.length > 0
-                //   ? 'choosed'
-                //   : ''
-                false
+                choose.findIndex((item) => item.id === question.id) > -1 &&
+                choose[choose.findIndex((item) => item.id === question.id)]
+                  .answer != -1
+                  ? 'choosed'
+                  : ''
+            
               } ${question.flag ? 'flag' : ''}`}
               key={question.id}
             >
