@@ -8,16 +8,16 @@ const ChangePassword = (props: Props) => {
     <div className="mainDiv">
       <div className="cardStyle">
         <form action="" method="post" name="signupForm" id="signupForm">
-          <img
-            src="https://s3-us-west-2.amazonaws.com/shipsy-public-assets/shipsy/SHIPSY_LOGO_BIRD_BLUE.png"
+          {/* <img
+            src="https://i.imgur.com/m2i2zsI.png"
             id="signupLogo"
-          />
+          /> */}
 
-          <h2 className="formTitle">Đổi mật khẩu</h2>
+          <h2 className="formTitle">Change password</h2>
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="password">
-              Mật khẩu cũ
+              Current password
             </label>
 
             <input
@@ -30,14 +30,14 @@ const ChangePassword = (props: Props) => {
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="password">
-              Mật khẩu mới
+              New password
             </label>
             <input type="password" id="password" name="password" required />
           </div>
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="confirmPassword">
-              Nhập lại mật khẩu mới
+              Confirm password
             </label>
             <input
               type="password"
@@ -53,7 +53,7 @@ const ChangePassword = (props: Props) => {
               id="submitButton"
               className="submitButton pure-button pure-button-primary"
             >
-              <span>Tiếp tục</span>
+              <span>Reset password</span>
               {/* <span id="loader"></span> */}
             </button>
           </div>
