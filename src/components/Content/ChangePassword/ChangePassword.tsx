@@ -64,10 +64,10 @@ const ChangePassword = (props: Props) => {
     <div className="mainDiv">
       <div className="cardStyle">
         <form action="" method="post" name="signupForm" id="signupForm">
-          {/* <img
+          <img
             src="https://i.imgur.com/m2i2zsI.png"
             id="signupLogo"
-          /> */}
+          />
 
           <h2 className="formTitle">Change password</h2>
 
