@@ -2,14 +2,21 @@ import { createFromIconfontCN } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import Password from 'antd/lib/input/Password'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { userApi } from '../../api/userApi'
 import { IRoute } from '../../components/Content/router'
 interface Props {}
 
+export interface LoginResponse {
+  id: number
+  name: string
+  photoUrl: string
+  type: number
+}
 export interface InputForm {
   username: string
   password: string
-  type: 0 | 1
   remember: boolean
 }
 
@@ -17,20 +24,23 @@ const Login = (props: Props) => {
   const [inputForm, setInputForm] = useState({
     username: '',
     password: '',
-    type: 0,
     remember: false,
   })
   const navigate = useNavigate()
   const onFinish = () => {
-    if (inputForm.username === 'sinhvien1' && inputForm.password === '123') {
-      localStorage.setItem('e-exam', JSON.stringify({ ...inputForm, type: 0 }))
-      navigate(IRoute.SUBJECT_LIST)
-    } else if (inputForm.username === 'gv1' && inputForm.password === '123') {
-      localStorage.setItem('e-exam', JSON.stringify({ ...inputForm, type: 1 }))
-      navigate(IRoute.SUBJECT_LIST)
-    } else {
-      alert('Tên tài khoản hoặc mật khẩu không chính xác!')
-    }
+    userApi
+      .login(inputForm.username, inputForm.password)
+      .then((res) => {
+        if (res.id) {
+          localStorage.setItem('e-exam', JSON.stringify(res))
+          navigate(IRoute.SUBJECT_LIST)
+        } else {
+          alert('Tên tài khoản hoặc mật khẩu không chính xác!')
+        }
+      })
+      .catch((e) => {
+        alert('Đã xảy ra lỗi! Vui lòng thử lại!')
+      })
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -108,7 +118,9 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-            <a className="forget">Forget password</a>
+            <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
+              Forget password
+            </a>
           </Form.Item>
 
           <Form.Item

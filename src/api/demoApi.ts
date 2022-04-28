@@ -1,3 +1,4 @@
+import { Subject } from '../models/subject'
 import { clientAxios } from './clientAxios'
 
 export const testApi = {
@@ -8,7 +9,7 @@ export const testApi = {
 }
 
 export const fetchSubject = {
-  fetchData: (id: number): Promise<any> => {
+  fetchData: (id: number): Promise<Subject[]> => {
     const url = `/subject/${id}`
     return clientAxios.get(url)
   },

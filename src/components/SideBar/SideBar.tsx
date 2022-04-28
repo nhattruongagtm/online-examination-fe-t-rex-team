@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { NavLink, useLinkClickHandler } from 'react-router-dom'
 import { ISideBar, RouterModel } from '../../models/router'
-import { InputForm } from '../../pages/Login/Login'
+import { InputForm, LoginResponse } from '../../pages/Login/Login'
 import { IRoute } from '../Content/router'
 
 const { SubMenu } = Menu
@@ -72,12 +72,17 @@ const SideBar = (props: Props) => {
           title: 'Đổi mật khẩu',
           icon: '',
         },
+        // {
+        //   path: IRoute.FORGOT_PASSWORD,
+        //   title: 'Quên mật khẩu',
+        //   icon: '',
+        // },
       ],
       icon: <LaptopOutlined />,
       key: 2,
     },
   ]
-  const user: InputForm = localStorage.getItem('e-exam')
+  const user: LoginResponse = localStorage.getItem('e-exam')
     ? JSON.parse(localStorage.getItem('e-exam') as string)
     : null
   let sideBar = user.type === 0 ? studentSideBar : teacherSideBar

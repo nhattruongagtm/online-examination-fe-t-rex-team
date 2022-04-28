@@ -3,13 +3,20 @@ import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { fetchSubject } from '../../../api/demoApi'
+import { Subject } from '../../../models/subject'
+import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
 
 type Props = {}
 
 const SubjectList = (props: Props) => {
-  const [subjects, setSubjects] = useState([])
+  const [subjects, setSubjects] = useState<Subject[]>([])
   const navigate = useNavigate()
+
+  const user = JSON.parse(
+    localStorage.getItem('e-exam') as string
+  ) as LoginResponse
+
   useEffect(() => {
     fetchSubject.fetchData(1).then(
       (response) => {
@@ -45,12 +52,6 @@ const SubjectList = (props: Props) => {
       key: 'examTime',
       dataIndex: 'examTime',
       render: (time: any) => <>{time} phút</>,
-    },
-    {
-      title: 'Điểm',
-      dataIndex: 'grade',
-      key: 'grade',
-      render: (text: string) => <>{text}</>,
     },
   ]
 
@@ -102,25 +103,12 @@ const SubjectList = (props: Props) => {
     },
   ]
 
-  const data = [
-    {
-      key: '1',
-      id: '54654651',
-      name: 'Lập trình cơ bản',
-    },
-    {
-      key: '2',
-      id: '54656764',
-      name: 'Lập trình Nâng Cao',
-    },
-    {
-      key: '3',
-      id: '14646516',
-      name: 'Lập trình Nâng Web',
-    },
-  ]
-
-  return <Table columns={columns} dataSource={subjects} />
+  return (
+    <Table
+      columns={user && user.type === 0 ? columnss : columns}
+      dataSource={subjects}
+    />
+  )
 }
 
 export default SubjectList
