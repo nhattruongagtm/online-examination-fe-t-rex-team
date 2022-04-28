@@ -40,30 +40,30 @@ const History = (props: Props) => {
 
   const columns = [
     {
-      title: 'Mã môn học',
+      title: 'Subject ID',
       dataIndex: 'code',
       key: 'code',
       render: (text: string) => <>{text}</>,
     },
     {
-      title: 'Tên môn học',
+      title: 'Subject',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Ngày thi',
+      title: 'Exam date',
       dataIndex: 'examDate',
       key: 'examDate',
       render: (date: any) => <>10/4/2022</>,
     },
     {
-      title: 'Thời gian thi (phút)',
+      title: 'Time',
       key: 'examTime',
       dataIndex: 'examTime',
       render: (tags: number) => <>{tags} phút</>,
     },
     {
-      title: 'Điểm',
+      title: 'Result',
       key: 'grade',
       render: (text: string, record: Subject) => <>{record.grade}</>,
     },

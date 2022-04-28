@@ -5,6 +5,7 @@ import {
   ResponseResult,
   SubmitAnswer,
   Test as TestModel,
+  TestCode,
 } from '../../../models/test'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
@@ -15,6 +16,9 @@ import { LoginResponse } from '../../../pages/Login/Login'
 import { submitTest } from '../../../api/submitTest'
 import { useNavigate } from 'react-router'
 import { IRoute } from '../router'
+import { useParams } from 'react-router'
+import useQuery from '../../../hook/useQuery'
+import useTestCode from '../../../hook/useTestCode'
 
 const { Header, Footer, Sider, Content } = Layout
 type Props = {}
@@ -41,6 +45,9 @@ const Test = (props: Props) => {
     total: 0,
     correct: 0,
   })
+
+  const [testInfo] = useTestCode('code')
+  console.log(testInfo)
 
   useEffect(() => {
     const subject: Subject = {

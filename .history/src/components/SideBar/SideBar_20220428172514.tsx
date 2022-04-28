@@ -60,11 +60,6 @@ const SideBar = (props: Props) => {
           title: 'Create exam',
           icon: '',
         },
-        {
-          path: IRoute.CLASS_LIST,
-          title: 'Class',
-          icon: '',
-        },
       ],
       icon: <UserOutlined />,
       key: 1,

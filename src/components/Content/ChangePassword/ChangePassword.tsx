@@ -63,6 +63,15 @@ const ChangePassword = (props: Props) => {
   return (
     <div className="mainDiv">
       <div className="cardStyle">
+        <form action="" method="post" name="signupForm" id="signupForm">
+          <img src="https://i.imgur.com/m2i2zsI.png" id="signupLogo" />
+
+          <h2 className="formTitle">Change password</h2>
+
+          {/* <div className="inputDiv">
+            <label className="inputLabel" htmlFor="password">
+              Current password */}
+          {/* 
         <form
           action="@{user}"
           onSubmit={handleSubmit(onSubmit)}
@@ -70,7 +79,7 @@ const ChangePassword = (props: Props) => {
           name="signUpForm"
           id="signUpForm"
         >
-          <h2 className="formTitle">Đổi mật khẩu</h2>
+          <h2 className="formTitle">Đổi mật khẩu</h2> */}
           {/* <div className="inputDiv">
             <label className="inputLabel" htmlFor="oldPassword">
               Mật khẩu cũ
@@ -89,7 +98,7 @@ const ChangePassword = (props: Props) => {
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="password">
-              Mật khẩu mới
+              New password
             </label>
             <input
               type="password"
@@ -101,7 +110,7 @@ const ChangePassword = (props: Props) => {
 
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="confirmPassword">
-              Nhập lại mật khẩu mới
+              Confirm password
             </label>
             <input
               type="password"
@@ -118,7 +127,8 @@ const ChangePassword = (props: Props) => {
               id="submitButton"
               className="submitButton pure-button pure-button-primary"
             >
-              <span>Tiếp tục</span>
+              <span>Reset password</span>
+              {/* <span id="loader"></span> */}
             </button>
           </div>
         </form>

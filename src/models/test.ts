@@ -28,3 +28,12 @@ export interface ResponseResult {
   correct: number
   total: number
 }
+export interface DateTime {
+  day: number
+  month: number
+  year: number
+}
+export interface TestCode {
+  id: number
+  date: DateTime
+}

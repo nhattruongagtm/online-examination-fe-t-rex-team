@@ -7,24 +7,24 @@ type Props = {}
 const StudentList = (props: Props) => {
   const columns = [
     {
-      title: 'MSSV',
+      title: 'Student ID',
       dataIndex: 'id',
       key: 'id',
       render: (text: string) => <>{text}</>,
     },
     {
-      title: 'Họ tên',
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Lớp',
+      title: 'Class',
       dataIndex: 'class',
       key: 'class',
       render: (date: any) => <>DH18DTC</>,
     },
     {
-      title: 'Ngày sinh',
+      title: 'Date of birth',
       dataIndex: 'dob',
       key: 'dob',
       render: (date: any) => <>11/5/2000</>,

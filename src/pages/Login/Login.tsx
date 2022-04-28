@@ -58,13 +58,13 @@ const Login = (props: Props) => {
             span: 16,
           }}
           initialValues={{
-            remember: true,
+            remember: false,
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <div className="login__title title">Đăng nhập</div>
+          <div className="login__title title">Log in</div>
           <Form.Item
             label="Username"
             name="username"
@@ -129,7 +129,7 @@ const Login = (props: Props) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" color="#678433">
               Submit
             </Button>
           </Form.Item>
