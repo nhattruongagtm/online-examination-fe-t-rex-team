@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Modal } from 'antd'
 import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -6,12 +6,15 @@ import { fetchSubject } from '../../../api/demoApi'
 import { Subject } from '../../../models/subject'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
+import AddSubject from './AddSubject'
 
 type Props = {}
 
 const SubjectList = (props: Props) => {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const navigate = useNavigate()
+
+  const [visible, setVisible] = useState(false)
 
   const user = JSON.parse(
     localStorage.getItem('e-exam') as string
@@ -104,10 +107,29 @@ const SubjectList = (props: Props) => {
   ]
 
   return (
-    <Table
-      columns={user && user.type === 0 ? columnss : columns}
-      dataSource={subjects}
-    />
+    <>
+      <Button
+        style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
+        onClick={() => setVisible(true)}
+      >
+        Thêm môn học
+      </Button>
+      <Modal
+        okButtonProps={{ style: { display: 'none' } }}
+        title="Thêm môn học"
+        centered
+        visible={visible}
+        // onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        width={700}
+      >
+        <AddSubject></AddSubject>
+      </Modal>
+      <Table
+        columns={user && user.type === 0 ? columnss : columns}
+        dataSource={subjects}
+      />
+    </>
   )
 }
 

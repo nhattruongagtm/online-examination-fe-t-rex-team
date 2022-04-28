@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { Button, Form, Input } from 'antd'
-import { useNavigate } from 'react-router'
 import { IRoute } from '../../components/Content/router'
 import { userApi } from '../../api/userApi'
+import { useNavigate, useParams } from 'react-router'
+import { Formik } from 'formik'
 
 type Props = {}
 
 const ForgotPassword = (props: Props) => {
   const [email, setEmail] = useState('')
+  const { userEmail } = useParams()
+  const [message, setMessage] = useState('')
 
   const navigate = useNavigate()
   const onFinish = (values: any) => {
-    // localStorage.setItem('e-exam', JSON.stringify(123))
-    // navigate(IRoute.SUBJECT_LIST)
     alert('Gửi thành công, vui lòng kiểm tra email')
   }
 
@@ -22,19 +23,27 @@ const ForgotPassword = (props: Props) => {
 
   const handleSubmit = () => {
     console.log(email)
-    userApi
-      .sendEmail(email)
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    if (email === null) {
+      setMessage("Vui lòng điền email của bạn")
+    } else {
+      userApi
+        .sendEmail(email)
+        .then((res) => {
+          console.log(res)
+          if (res.message==='Invalid token') {
+
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   }
 
   return (
     <div className="forgotPw__page">
       <div className="forgotPw__form">
+        <div className="forgotPw__title title">Quên mật khẩu</div>
         <Form
           name="basic"
           labelCol={{
@@ -44,24 +53,28 @@ const ForgotPassword = (props: Props) => {
             span: 16,
           }}
           initialValues={{
-            remember: true,
+            email: userEmail,
+            redirectUrl: 'http://localhost:3000/passwordReset',
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <div className="login__title title">Quên mật khẩu</div>
           <Form.Item
             label="Email"
             name="Email"
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your email!',
               },
             ]}
           >
-            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              placeholder="oval@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Form.Item>
 
           <Form.Item
@@ -73,8 +86,12 @@ const ForgotPassword = (props: Props) => {
             <Button onClick={handleSubmit} type="primary" htmlType="submit">
               Submit
             </Button>
+            <a className="link-login" onClick={() => navigate(IRoute.HOME)}>
+              Login
+            </a>
           </Form.Item>
         </Form>
+        {/* </Formik> */}
       </div>
     </div>
   )

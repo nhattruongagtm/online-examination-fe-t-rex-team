@@ -11,6 +11,7 @@ import Test from './components/Content/Test/Test'
 import './scss/app.scss'
 import { useCountDown } from './hook/useCountDown'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
+import ResetPassword from './pages/ForgotPassword/ResetPassword'
 
 function App() {
   const isLogin = localStorage.getItem('e-exam')
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path={IRoute.HOME} element={<Login />} />
           <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
+          <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
         </Routes>
       </>
     )

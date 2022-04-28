@@ -1,20 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import { useNavigate } from 'react-router'
 import { IRoute } from '../../components/Content/router'
+import { userApi } from '../../api/userApi'
+import { useParams } from 'react-router'
 
 type Props = {}
 
 const ResetPassword = (props: Props) => {
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmNewPassword, setConfirmNewPassword] = useState('')
+  // const { userId, resetString } = useParams()
+
   const navigate = useNavigate()
   const onFinish = (values: any) => {
-    localStorage.setItem('e-exam', JSON.stringify(123))
-    navigate(IRoute.SUBJECT_LIST)
+    // localStorage.setItem('e-exam', JSON.stringify(123))
+    // navigate(IRoute.SUBJECT_LIST)
   }
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const token = urlParams.get('token') || ''
+  console.log(token)
+
+  const handleSubmit = () => {
+    userApi
+      .resetPassword(token, confirmNewPassword)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
   return (
     <div className="forgotPw__page">
       <div className="forgotPw__form">
@@ -26,47 +48,71 @@ const ResetPassword = (props: Props) => {
           wrapperCol={{
             span: 16,
           }}
-          initialValues={{
-            remember: true,
-          }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <div className="login__title title">Đổi mật khẩu</div>
+          <div className="forgotPw__title title">Quên mật khẩu</div>
           <Form.Item
-            label="Password"
-            name="password"
+            label="New Password"
+            name="newPassword"
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Please input new password',
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              placeholder="********"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
           </Form.Item>
+
           <Form.Item
-            label="Confirm"
-            name="repassword"
+            label="Confirm New Password"
+            name="confirmNewPassword"
+            dependencies={['newPassword']}
+            hasFeedback
             rules={[
               {
                 required: true,
-                message: 'Please input your confirm!',
+                message: 'Please input confirm new passwordl!',
               },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve()
+                  }
+                  return Promise.reject(
+                    new Error(
+                      'The two passwords that you entered do not match!'
+                    )
+                  )
+                },
+              }),
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              placeholder="********"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+            />
           </Form.Item>
+
           <Form.Item
             wrapperCol={{
               offset: 8,
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button onClick={handleSubmit} type="primary" htmlType="submit">
               Submit
             </Button>
+            <a className="link-login" onClick={() => navigate(IRoute.HOME)}>
+              Login
+            </a>
           </Form.Item>
         </Form>
       </div>

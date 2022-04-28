@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Layout, Modal, Pagination } from 'antd'
 import Question from './Question'
-import { ResponseResult, SubmitAnswer, Test as TestModel } from '../../../models/test'
+import {
+  ResponseResult,
+  SubmitAnswer,
+  Test as TestModel,
+} from '../../../models/test'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { chooseAnswer, loadTest } from '../../../slice/testSlice'
@@ -33,9 +37,9 @@ const Test = (props: Props) => {
   const [visible, setVisible] = React.useState(false)
   const [visible1, setVisible1] = React.useState(false)
   const [timeout, setTimeout] = useState<boolean>(false)
-  const [result,setResult] = useState<ResponseResult>({
+  const [result, setResult] = useState<ResponseResult>({
     total: 0,
-    correct: 0
+    correct: 0,
   })
 
   useEffect(() => {
@@ -162,16 +166,13 @@ const Test = (props: Props) => {
         // navigate(IRoute.HISTORY)
         setResult({
           correct: res.correct,
-          total: res.total
-        
+          total: res.total,
         })
         setVisible1(true)
-
       })
       .catch((e) => {
         console.log(e)
       })
-    
   }
 
   const showModal = () => {
@@ -224,7 +225,6 @@ const Test = (props: Props) => {
                   .answer != -1
                   ? 'choosed'
                   : ''
-            
               } ${question.flag ? 'flag' : ''}`}
               key={question.id}
             >
@@ -276,7 +276,9 @@ const Test = (props: Props) => {
         onOk={handleOk1}
         onCancel={handleCancel1}
       >
-        <p>Kết quả: {result.correct} / {result.total}</p>
+        <p>
+          Kết quả: {result.correct} / {result.total}
+        </p>
       </Modal>
     </Layout>
   )

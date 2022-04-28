@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { ResponseData } from '../models/responseData'
 import { User } from '../models/user'
 import { LoginResponse } from '../pages/Login/Login'
@@ -14,6 +15,15 @@ export const userApi = {
   },
   sendEmail: (email: string): Promise<ResponseData> => {
     const url = '/user/forgot-password'
-    return clientAxios.put(url, { email })
+    return clientAxios.get(`${url}?email=${email}`)
+  },
+  resetPassword: (
+    token: string,
+    confirmNewPassword: string
+  ): Promise<ResponseData> => {
+    const url = '/user/reset-password'
+    return clientAxios.put(
+      `${url}?token=${token}&password=${confirmNewPassword}`
+    )
   },
 }
