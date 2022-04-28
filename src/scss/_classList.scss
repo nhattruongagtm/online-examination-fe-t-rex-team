@@ -1,0 +1,39 @@
+.container{
+  display: flex;
+}
+.link{
+  display: flex; /* Important */ 
+  align-items: center; /* Important */ 
+}
+.container{
+  display: inline-block;
+  // width: 80%;
+  margin: 0 auto
+  pad
+}
+
+form{
+  // width: 80%;
+  margin: 0 auto;
+}
+.container{
+    // border: solid blue 1px;
+    margin: 0 auto 1em auto;
+    padding: 0;
+    align-items: center;
+}
+.panel{
+  border: solid blue 1px;
+  margin: 1rem auto;
+}
+.panel-heading{
+  background-color: #4267b2;
+  padding: 10px;
+  color: white;
+}
+.panel-body{
+  padding: 10px;
+}
+.table{
+  width: 100%;
+}

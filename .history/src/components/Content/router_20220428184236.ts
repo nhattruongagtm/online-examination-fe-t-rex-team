@@ -9,6 +9,6 @@ export enum IRoute {
   CREATE_EXAM = '/tao-de-thi',
   STUDENT_LIST = '/danh-sach-sinh-vien',
   TEST = '/test',
-  CLASS_LIST = "/danh-sach-lop",
+  CLASS_LIST = "CLASS_LIST",
   // CLASS_LIST = "CLASS_LIST"
 }

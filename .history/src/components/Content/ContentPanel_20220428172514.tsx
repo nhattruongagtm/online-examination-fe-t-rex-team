@@ -8,7 +8,6 @@ import { IRoute } from './router'
 import StudentList from './StudentList/StudentList'
 import SubjectList from './SubjectList/SubjectList'
 import CreateExam from '../../pages/Subject/CreateExam'
-import ClassList from './ClassList/ClassList'
 
 type Props = {}
 
@@ -22,7 +21,6 @@ const ContentPanel = (props: Props) => {
         <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
         <Route path={IRoute.STUDENT_LIST} element={<StudentList />} />
         <Route path={IRoute.CREATE_EXAM} element={<CreateExam />} />
-        <Route path={IRoute.CLASS_LIST} element={<ClassList />} />
       </Routes>
     </div>
   )
