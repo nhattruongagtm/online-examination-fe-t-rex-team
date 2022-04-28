@@ -31,53 +31,53 @@ const SubjectList = (props: Props) => {
 
   const columnss = [
     {
-      title: 'Mã môn học',
+      title: 'Subject ID',
       dataIndex: 'code',
       key: 'code',
       render: (text: string) => <>{text}</>,
     },
     {
-      title: 'Tên môn học',
+      title: 'Subject',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Ngày thi',
+      title: 'Exam date',
       dataIndex: 'examDate',
       key: 'examDate',
       render: (date: any) => <>{date}</>,
     },
     {
-      title: 'Thời gian thi (phút)',
+      title: 'Time',
       key: 'examTime',
       dataIndex: 'examTime',
-      render: (time: any) => <>{time} phút</>,
+      render: (time: any) => <>{time} minutes</>,
     },
   ]
 
   const columns = [
     {
-      title: 'Mã môn học',
+      title: 'Subject ID',
       dataIndex: 'code',
       key: 'code',
       render: (text: string) => <>{text}</>,
     },
     {
-      title: 'Tên môn học',
+      title: 'Subject',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Ngày thi',
+      title: 'Exam date',
       dataIndex: 'examDate',
       key: 'examDate',
       render: (date: any) => <>{date}</>,
     },
     {
-      title: 'Thời gian thi (phút)',
+      title: 'Time',
       key: 'examTime',
       dataIndex: 'examTime',
-      render: (time: any) => <>{time} phút</>,
+      render: (time: any) => <>{time} minutes</>,
     },
     {
       title: '',
@@ -86,7 +86,7 @@ const SubjectList = (props: Props) => {
         <Button
           onClick={() => navigate(`${IRoute.STUDENT_LIST}?ma-mon-hoc=${123}`)}
         >
-          Danh sách sinh viên
+          List of students
         </Button>
       ),
     },
@@ -97,7 +97,7 @@ const SubjectList = (props: Props) => {
         <Button
           onClick={() => navigate(`${IRoute.CREATE_EXAM}?ma-mon-hoc=${123}`)}
         >
-          Xem đề thi
+          View exam questions
         </Button>
       ),
     },

@@ -17,16 +17,16 @@ const SideBar = (props: Props) => {
   const path = location.pathname
   const studentSideBar: ISideBar[] = [
     {
-      title: 'Thông tin chung',
+      title: 'Dashboard',
       routes: [
         {
           path: IRoute.SUBJECT_LIST,
-          title: 'Danh sách môn học',
+          title: 'Exams schedule',
           icon: '',
         },
         {
           path: IRoute.HISTORY,
-          title: 'Lịch sử thi',
+          title: 'Results',
           icon: '',
         },
       ],
@@ -34,11 +34,11 @@ const SideBar = (props: Props) => {
       key: 1,
     },
     {
-      title: 'Cài đặt',
+      title: 'Setting',
       routes: [
         {
           path: IRoute.CHANGE_PASSWORD,
-          title: 'Đổi mật khẩu',
+          title: 'Change password',
           icon: '',
         },
       ],
@@ -48,16 +48,16 @@ const SideBar = (props: Props) => {
   ]
   const teacherSideBar: ISideBar[] = [
     {
-      title: 'Thông tin chung',
+      title: 'Dashboard',
       routes: [
         {
           path: IRoute.SUBJECT_LIST,
-          title: 'Danh sách môn học',
+          title: 'Subject',
           icon: '',
         },
         {
           path: IRoute.CREATE_EXAM,
-          title: 'Tạo đề thi',
+          title: 'Create exam',
           icon: '',
         },
       ],
@@ -65,11 +65,11 @@ const SideBar = (props: Props) => {
       key: 1,
     },
     {
-      title: 'Cài đặt',
+      title: 'Setting',
       routes: [
         {
           path: IRoute.CHANGE_PASSWORD,
-          title: 'Đổi mật khẩu',
+          title: 'Change password',
           icon: '',
         },
         // {

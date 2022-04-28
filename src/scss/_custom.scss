@@ -25,10 +25,11 @@ body {
 }
 
 .ant-layout {
-  background-color: #fffede;
+  // background-color: #fffede;
+  background-color: #d6edd6;
 
   .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-    background-color: #ddffda;
+    background-color: #d6edd6;
 }
 }
 .ant-layout-header {
@@ -38,13 +39,13 @@ body {
 }
 .header {
   // height: 100%;
-  background-color: #fff1cd;
-  border-bottom: 5px solid #ffd15c;
+  background-color: #252424;
+  // border-bottom: 5px solid #292929;
   height: 80px;
   &__logo {
-    width: 240px;
+    width: 275px;
     // height: 40px;
-    height: 60px;
+    height: 90px;
     background-color: aquamarine;
     background: url('../assets/imgs/logo1.png');
     background-size: contain;
