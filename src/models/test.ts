@@ -1,4 +1,4 @@
-import { ChooseAnswer } from "../slice/testSlice";
+import { ChooseAnswer } from '../slice/testSlice'
 
 export interface Question {
   id: number
@@ -17,7 +17,6 @@ export interface Answer {
   title: string
 }
 
-
 export type Test = Question[]
 
 export interface SubmitAnswer {
@@ -25,7 +24,17 @@ export interface SubmitAnswer {
   subjectId: number
   answers: ChooseAnswer[]
 }
-export interface ResponseResult{
-  correct: number;
-  total: number;
+export interface ResponseResult {
+  correct: number
+  total: number
+}
+
+export interface DateTime {
+  day: number
+  month: number
+  year: number
+}
+export interface TestCode {
+  id: number
+  date: DateTime
 }

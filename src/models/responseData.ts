@@ -1,4 +1,4 @@
-export interface ResponseData{
+export interface ResponseData {
   status: string
   message: string
   object: string
