@@ -10,9 +10,6 @@ const AddSubject = (props: Props) => {
 
   const [nameSubject, setNameSubject] = useState('')
   const [idSubject, setIdSubject] = useState('')
-  const [examDate, setExamDate] = useState('')
-  const [examTime, setExamTime] = useState(0)
-  const [grade, setGrade] = useState(1)
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
@@ -24,7 +21,7 @@ const AddSubject = (props: Props) => {
 
   const handleAddSubject = () => {
     subjectApi
-      .addSubject(nameSubject, idSubject, examDate, examTime, grade)
+      .addSubject(nameSubject, idSubject)
       .then((res) => {
         console.log(res)
         setMessage(res.message)
@@ -47,9 +44,13 @@ const AddSubject = (props: Props) => {
         autoComplete="off"
         style={{ width: '500px' }}
       >
-        <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
+        <div
+          style={{ color: 'green', fontSize: '1.2rem', marginBottom: '1rem' }}
+        >
+          {message}
+        </div>
         <Form.Item
-          label="Tên môn"
+          label="Name subject"
           name="nameSubject"
           rules={[{ required: true, message: 'Please input name subject!' }]}
         >
@@ -60,7 +61,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Mã môn"
+          label="Code subject"
           name="idSubject"
           rules={[{ required: true, message: 'Please input id subject!' }]}
         >
@@ -70,8 +71,8 @@ const AddSubject = (props: Props) => {
           />
         </Form.Item>
 
-        <Form.Item
-          label="Ngày thi"
+        {/* <Form.Item
+          label="Exam date"
           name="examDate"
           rules={[{ required: true, message: 'Please input date exam!' }]}
         >
@@ -83,7 +84,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Thời gian thi"
+          label="Exam time"
           name="examTime"
           rules={[{ required: true, message: 'Please input time exam!' }]}
         >
@@ -96,7 +97,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Khối"
+          label="Grade"
           name="grade"
           rules={[{ required: true, message: 'Please input grade!' }]}
         >
@@ -106,7 +107,7 @@ const AddSubject = (props: Props) => {
             value={grade}
             onChange={(e) => setGrade(Number.parseFloat(e.target.value))}
           />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit" onClick={handleAddSubject}>
