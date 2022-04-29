@@ -2,40 +2,29 @@ import { Space, Table, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Subject } from '../../../models/subject'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
-
+import { examApi } from '../../../api/history'
+import { Result } from '../../../models/exam'
 type Props = {}
 
 const History = (props: Props) => {
-  const [subjects, setSubjects] = useState<Subject[]>([])
+  const [subjects, setSubjects] = useState<Result[]>([])
+
+  const u = localStorage.getItem('e-exam')
+    ? (JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse)
+    : null
 
   useEffect(() => {
-    const data: Subject[] = [
-      {
-        code: 26524,
-        name: 'Lâp trình nâng cao',
-        examDate: 13215466,
-        examTime: 15,
-        id: 1,
-        grade: 8,
-      },
-      {
-        code: 26345,
-        name: 'Thiết kế hướng đối tượng',
-        examDate: 13215466,
-        examTime: 60,
-        id: 2,
-        grade: 7,
-      },
-      {
-        code: 23632,
-        name: 'Chuyên đề Web',
-        examDate: 13215466,
-        examTime: 45,
-        id: 3,
-        grade: 8.5,
-      },
-    ]
-    setSubjects(data)
+    if (u) {
+      examApi
+        .getHistory(1)
+        .then((res) => {
+          console.log(res)
+          setSubjects(res)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   }, [])
 
   const columns = [
@@ -43,29 +32,34 @@ const History = (props: Props) => {
       title: 'Subject ID',
       dataIndex: 'code',
       key: 'code',
-      render: (text: string) => <>{text}</>,
+      render: (text: string,rs: Result) => <p>{rs && rs.subject.code}</p>,
     },
     {
       title: 'Subject',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'subject',
+      key: 'subject',
+      render: (text: string,rs: Result) => <p>{rs && rs.subject.name}</p>,
     },
     {
       title: 'Exam date',
       dataIndex: 'examDate',
       key: 'examDate',
-      render: (date: any) => <>10/4/2022</>,
+      render: (text: string,rs: Result) => <p>{rs && rs.subject.examDate}</p>,
     },
     {
       title: 'Time',
-      key: 'examTime',
-      dataIndex: 'examTime',
+      key: 'duration',
+      dataIndex: 'duration',
       render: (tags: number) => <>{tags} phút</>,
     },
     {
       title: 'Result',
       key: 'grade',
-      render: (text: string, record: Subject) => <>{record.grade}</>,
+      render: (text: string, record: Result) => (
+        <>
+          {record.correct}/{record.total}
+        </>
+      ),
     },
   ]
 
