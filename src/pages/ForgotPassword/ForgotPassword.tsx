@@ -24,14 +24,13 @@ const ForgotPassword = (props: Props) => {
   const handleSubmit = () => {
     console.log(email)
     if (email === null) {
-      setMessage("Vui lòng điền email của bạn")
+      setMessage('Vui lòng điền email của bạn')
     } else {
       userApi
         .sendEmail(email)
         .then((res) => {
           console.log(res)
-          if (res.message==='Invalid token') {
-
+          if (res.message === 'Invalid token') {
           }
         })
         .catch((e) => {

@@ -11,6 +11,6 @@ export enum IRoute {
   ADD_SUBJECT = '/them-mon-thi',
   STUDENT_LIST = '/danh-sach-sinh-vien',
   TEST = '/test',
-  CLASS_LIST = "/danh-sach-lop",
+  CLASS_LIST = '/danh-sach-lop',
   // CLASS_LIST = "CLASS_LIST"
 }

@@ -1,21 +1,21 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
-import Icon from '@material-ui/core/Icon';
-import { v4 as uuidv4 } from 'uuid';
-import SendIcon from '@mui/icons-material/Send';
+import React, { useState, Fragment, useEffect } from 'react'
+import Container from '@material-ui/core/Container'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import RemoveIcon from '@material-ui/icons/Remove'
+import AddIcon from '@material-ui/icons/Add'
+import Icon from '@material-ui/core/Icon'
+import { v4 as uuidv4 } from 'uuid'
+import SendIcon from '@mui/icons-material/Send'
 // import data from '../../../mock-data.json'
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import { Table } from 'antd';
-import ReadOnlyRow from './ReadOnlyRow';
-import EditTableRow from './EditTableRow';
-import { customAlphabet } from 'nanoid';
-const nanoid = customAlphabet('1234567890', 10);
+import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles'
+import { Table } from 'antd'
+import ReadOnlyRow from './ReadOnlyRow'
+import EditTableRow from './EditTableRow'
+import { customAlphabet } from 'nanoid'
+const nanoid = customAlphabet('1234567890', 10)
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: theme.spacing(1),
-  }
+  },
 }))
 
 type Props = {}
@@ -33,7 +33,7 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
   const classes = useStyles()
   const [inputFields, setInputFields] = useState([
     { id: uuidv4(), firstName: '', lastName: '' },
-  ]);
+  ])
 
   // const handleSubmit = (e: { preventDefault: () => void; }) => {
   //   e.preventDefault();
@@ -41,122 +41,131 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
   // };
 
   const handleAddFields = () => {
-    setInputFields([...inputFields, { id: uuidv4(), firstName: '', lastName: '' }])
+    setInputFields([
+      ...inputFields,
+      { id: uuidv4(), firstName: '', lastName: '' },
+    ])
   }
 
   const handleRemoveFields = (id: any) => {
-    const values = [...inputFields];
-    values.splice(values.findIndex(value => value.id === id), 1);
-    setInputFields(values);
+    const values = [...inputFields]
+    values.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    )
+    setInputFields(values)
   }
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState([])
   // const [class, setClass] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8080/getAllClass')
-      .then(res => {
+    axios
+      .get('http://localhost:8080/getAllClass')
+      .then((res) => {
         console.log(res)
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
       })
     // fetch('http://localhost:8080/getAllClass').then(response => response.json()).then(res => console.log(res))
   }, [])
   const [addFormData, setAddFormData] = useState({
-    firstName: '', lastName: ''
+    firstName: '',
+    lastName: '',
   })
   const [editFormData, setEditFormData] = useState({
-    firstName: '', lastName: ''
+    firstName: '',
+    lastName: '',
   })
 
-  const [editContactId, setEditContactId] = useState(null);
+  const [editContactId, setEditContactId] = useState(null)
 
   const handleAddFormChange = (event: any) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    // newFormData[fieldName] = fieldValue;
-
-    setAddFormData(newFormData);
-  };
-
-  const handleEditFormChange = (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const fieldName = event.target.getAttribute('name')
-    const fieldValue = event.target.value;
+    const fieldValue = event.target.value
+
+    const newFormData = { ...addFormData }
+    // newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData)
+  }
+
+  const handleEditFormChange = (event: any) => {
+    event.preventDefault()
+
+    const fieldName = event.target.getAttribute('name')
+    const fieldValue = event.target.value
 
     const newFormData = { ...editFormData }
     // newFormData[fieldName] = fieldValue;
 
-    setEditFormData(newFormData);
-
+    setEditFormData(newFormData)
   }
   const handleAddFormSubmit = (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const newContact = {
       id: nanoid(),
       firstName: addFormData.firstName,
-      lastName: addFormData.lastName
-    };
+      lastName: addFormData.lastName,
+    }
     const newContacts = [...contacts, newContact]
     // setContacts(newContacts);
   }
   const handleEditFormSubmit = (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const editedContact = {
       id: editContactId,
       firstName: editFormData.firstName,
       lastName: editFormData.lastName,
-    };
+    }
 
-    const newContacts = [...contacts];
+    const newContacts = [...contacts]
 
     // const index = contacts.findIndex((contact) => contact.classID === editContactId);
 
     // newContacts[index] = editedContact;
 
-    setContacts(newContacts);
-    setEditContactId(null);
-  };
+    setContacts(newContacts)
+    setEditContactId(null)
+  }
 
-
-
-  const handleEditClick = (event: { preventDefault: () => void; }, contact: { id: React.SetStateAction<null>; firstName: any; lastName: any; }) => {
-    event.preventDefault();
-    setEditContactId(contact.id);
+  const handleEditClick = (
+    event: { preventDefault: () => void },
+    contact: { id: React.SetStateAction<null>; firstName: any; lastName: any }
+  ) => {
+    event.preventDefault()
+    setEditContactId(contact.id)
 
     const formValues = {
       firstName: contact.firstName,
       lastName: contact.lastName,
-    };
+    }
 
-    setEditFormData(formValues);
-  };
+    setEditFormData(formValues)
+  }
 
   const handleCancelClick = () => {
-    setEditContactId(null);
-  };
+    setEditContactId(null)
+  }
 
   const handleDeleteClick = (contactId: any) => {
-    const newContacts = [...contacts];
+    const newContacts = [...contacts]
 
     // const index = contacts.findIndex((contact) => contact.classID === contactId);
 
     // newContacts.splice(index, 1);
 
     // setContacts(newContacts);
-  };
+  }
   return (
     <Container>
       <div className="container">
         <h3>Thêm lớp</h3>
         <form className={classes.root} onSubmit={handleAddFormSubmit}>
-          {inputFields.map(inputField => (
+          {inputFields.map((inputField) => (
             <div key={inputField.id}>
               <TextField
                 name="firstName"
@@ -164,7 +173,7 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
                 variant="filled"
                 // value={inputField.firstName}
                 onChange={handleAddFormChange}
-              // required
+                // required
               />
               <TextField
                 name="lastName"
@@ -174,16 +183,16 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
                 // value={inputField.lastName}
                 onChange={handleAddFormChange}
               />
-              <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
+              <IconButton
+                disabled={inputFields.length === 1}
+                onClick={() => handleRemoveFields(inputField.id)}
+              >
                 <RemoveIcon />
               </IconButton>
-              <IconButton
-                onClick={handleAddFields}
-              >
+              <IconButton onClick={handleAddFields}>
                 <AddIcon />
               </IconButton>
             </div>
-
           ))}
           <Button
             className={classes.button}
@@ -191,17 +200,17 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
             color="primary"
             type="submit"
             endIcon={<SendIcon></SendIcon>}
-          // onClick={handleSubmit}
-          >Lưu</Button>
+            // onClick={handleSubmit}
+          >
+            Lưu
+          </Button>
         </form>
       </div>
       <div className="panel">
-        <div className="panel-heading">
-          Danh sách lớp
-        </div>
+        <div className="panel-heading">Danh sách lớp</div>
         <div className="panel-body">
           <form action="" onSubmit={handleEditFormSubmit}>
-            <table className='table'>
+            <table className="table">
               <thead>
                 <tr>
                   <th>Tên lớp</th>
@@ -210,7 +219,7 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody id='result'>
+              <tbody id="result">
                 {/* {contacts.map((contact) => (
                   <li key={contact.classID}>{contact.className}</li>
                   <Fragment>
@@ -235,6 +244,6 @@ const ClassList = (props: Props, handleAddStudent: () => any) => {
         </div>
       </div>
     </Container>
-  );
+  )
 }
 export default ClassList
