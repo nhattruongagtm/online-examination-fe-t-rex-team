@@ -1,14 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { isTypeNode } from 'typescript'
-import { number } from 'yup/lib/locale'
-import { Question } from '../models/test'
+import { useEffect } from 'react'
 import { CreateInput } from '../pages/Subject/CreateExam'
 
 export interface ExamModel {
   questionList: CreateInput[]
+  edit: CreateInput
 }
 export const initialState: ExamModel = {
   questionList: [],
+  edit: {
+    id: -1,
+    title: '',
+    correct: 1,
+    anwsers: [
+      {
+        id: 1,
+        title: '',
+      },
+      {
+        id: 2,
+        title: '',
+      },
+      {
+        id: 3,
+        title: '',
+      },
+      {
+        id: 4,
+        title: '',
+      },
+    ],
+  },
 }
 const examSlice = createSlice({
   name: 'createExam',
@@ -31,17 +53,28 @@ const examSlice = createSlice({
       )
 
       if (index > -1) {
-        // state.questionList.filter((item) => item.id === action.payload)
         state.questionList.splice(index, 1)
       }
     },
     addQuestion: (state, action: PayloadAction<CreateInput>) => {
       state.questionList.push(action.payload)
     },
+    loadEdit: (state, action: PayloadAction<CreateInput>) => {
+      state.edit = action.payload
+    },
+    resetEdit: (state) => {
+      state.edit = initialState.edit
+    },
   },
 })
 
-export const { addQuestion, deleteQuestion, loadQuestions, updateQuestion } =
-  examSlice.actions
+export const {
+  addQuestion,
+  deleteQuestion,
+  loadQuestions,
+  updateQuestion,
+  loadEdit,
+  resetEdit,
+} = examSlice.actions
 
 export default examSlice.reducer
