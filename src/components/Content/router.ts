@@ -9,8 +9,7 @@ export enum IRoute {
   LOGOUT = '/dang-xuat',
   CREATE_EXAM = '/tao-de-thi',
   ADD_SUBJECT = '/them-mon-thi',
+  CLASS_LIST = '/danh-sach-lop',
   STUDENT_LIST = '/danh-sach-sinh-vien',
   TEST = '/test',
-  CLASS_LIST = '/danh-sach-lop',
-  // CLASS_LIST = "CLASS_LIST"
 }

@@ -3,3 +3,8 @@ export interface ResponseData {
   message: string
   object: Object
 }
+export interface ResponseDataClass {
+  status: string
+  message: string
+  object: Object
+}

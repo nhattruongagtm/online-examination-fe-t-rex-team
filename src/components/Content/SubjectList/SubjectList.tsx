@@ -71,25 +71,13 @@ const SubjectList = (props: Props) => {
       key: 'name',
     },
     {
-      title: 'Exam date',
-      dataIndex: 'examDate',
-      key: 'examDate',
-      render: (date: any) => <>{date}</>,
-    },
-    {
-      title: 'Time',
-      key: 'examTime',
-      dataIndex: 'examTime',
-      render: (time: any) => <>{time} minutes</>,
-    },
-    {
       title: '',
       key: 'list',
       render: (text: string, record: any) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.CLASS_LIST}?ma-mon-hoc=${123}`)}
         >
-          List of students
+          List of Class
         </Button>
       ),
     },
