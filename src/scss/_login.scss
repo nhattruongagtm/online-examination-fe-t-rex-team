@@ -17,6 +17,28 @@
     position: relative;
     left: 15%;
   }
+  .ant-form-item-label{
+    align-items: center;
+    text-align: center;
+  }
+  .ant-form-item-control{
+    transform: translateX(-30px);
+  }
+  .forgotandremen{
+    display: flex;
+  }
+  .forgotandremen .ant-form-item{
+    width: 50%;
+  }
+  .forgotandremen .ant-form-item-control{
+    text-align: right;
+  }
+  .rememberme{
+    transform: translateX(30px);
+  }
+  .buttonsm {
+    transform: translateX(76px);
+  }
   .title{
     text-align: center;
     margin-bottom: 15px;

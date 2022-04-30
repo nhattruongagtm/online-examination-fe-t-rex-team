@@ -30,7 +30,7 @@ const Header = () => {
     <Head className="header">
       <div className="header__logo"></div>
       <div className="header__user">
-        <span className="header__name">{user && user.name}</span>
+        <span className="header__name" >{user && user.name}</span>
         {user && user.photoUrl === '' ? (
           <Avatar
             style={{

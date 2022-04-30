@@ -32,10 +32,15 @@ body {
     background-color: #d6edd6;
 }
 }
+
 .ant-layout-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.ant-spin-container{
+  height: 450px;
+  overflow-y: scroll;
 }
 .header {
   // height: 100%;
@@ -62,7 +67,6 @@ body {
     span.header__name {
       color: white;
       margin-right: 15px;
-      color: black;
       font-weight: 400;
     }
     i {
@@ -90,7 +94,7 @@ body {
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background-color: black;
+        background-color: rgb(219, 248, 239);
       }
     }
     #option:checked ~ &__popup {

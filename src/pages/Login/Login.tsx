@@ -68,6 +68,7 @@ const Login = (props: Props) => {
           <Form.Item
             label="Username"
             name="username"
+            className="label_user"
             rules={[
               {
                 required: true,
@@ -101,7 +102,9 @@ const Login = (props: Props) => {
             />
           </Form.Item>
 
+          <div className="forgotandremen">
           <Form.Item
+          className="rememberme"
             name="remember"
             valuePropName="checked"
             wrapperCol={{
@@ -122,8 +125,11 @@ const Login = (props: Props) => {
               Forget password
             </a>
           </Form.Item>
+          </div>
+         
 
           <Form.Item
+          className="buttonsm"
             wrapperCol={{
               offset: 8,
               span: 16,

@@ -82,12 +82,12 @@ const ForgotPassword = (props: Props) => {
               span: 16,
             }}
           >
-            <Button onClick={handleSubmit} type="primary" htmlType="submit">
+            <Button className="btnsm" onClick={handleSubmit} type="primary" htmlType="submit">
               Submit
             </Button>
-            <a className="link-login" onClick={() => navigate(IRoute.HOME)}>
-              Login
-            </a>
+            <Button  className="link-login" onClick={() => navigate(IRoute.HOME)}>
+              Cancel
+            </Button>
           </Form.Item>
         </Form>
         {/* </Formik> */}
