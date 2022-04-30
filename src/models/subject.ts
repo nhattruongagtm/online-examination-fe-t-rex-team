@@ -6,3 +6,5 @@ export interface Subject {
   examTime: number
   grade?: number
 }
+
+

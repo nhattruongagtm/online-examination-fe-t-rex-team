@@ -87,9 +87,9 @@ const SubjectList = (props: Props) => {
       key: 'list',
       render: (text: string, record: any) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.CLASS_LIST}?ma-mon-hoc=${123}`)}
         >
-          List of class
+          List of Class
         </Button>
       ),
     },
