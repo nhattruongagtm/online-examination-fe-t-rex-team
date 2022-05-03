@@ -10,7 +10,10 @@ export const userApi = {
     return clientAxios.post(url, { username, password })
   },
   changePassword: (id: number, password: string): Promise<User> => {
-    const url = '/change-pass'
+    const u = JSON.parse(
+      localStorage.getItem('e-exam') as string
+    ) as LoginResponse
+    const url = `/change-pass/${u.id}`
     return clientAxios.put(url, { id, password })
   },
   sendEmail: (email: string): Promise<ResponseData> => {
