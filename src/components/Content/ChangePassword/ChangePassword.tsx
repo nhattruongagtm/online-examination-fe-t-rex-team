@@ -27,18 +27,14 @@ const ChangePassword = (props: Props) => {
     useForm<InputForm>(formOptions)
   const { errors } = formState
   function onSubmit(data: InputForm) {
-    console.log(JSON.stringify(data, null, 4))
     Swal.fire({
       icon: 'success',
       text: 'Đổi mật khẩu thành công',
     })
 
-    console.log(data.password)
-
     const u = JSON.parse(
       localStorage.getItem('e-exam') as string
     ) as LoginResponse
-    console.log(u.id)
     userApi
       .changePassword(u.id, data.password)
       .then((res) => {
@@ -90,7 +86,6 @@ const ChangePassword = (props: Props) => {
               className="submitButton pure-button pure-button-primary"
             >
               <span>Reset password</span>
-              {/* <span id="loader"></span> */}
             </button>
           </div>
         </form>
