@@ -69,23 +69,23 @@ const Test = (props: Props) => {
     const test: TestModel = [
       {
         id: 1,
-        title: 'Công nghệ phần mềm là gì?',
+        title: 'T-rex thành lập vào năm nào?',
         answers: [
           {
             id: 1,
-            title: 'Data Analytics',
+            title: '2022',
           },
           {
             id: 2,
-            title: 'Database Design',
+            title: '2019',
           },
           {
             id: 3,
-            title: 'Software Engineering',
+            title: '2023',
           },
           {
             id: 4,
-            title: 'Business Analytics',
+            title: '2021',
           },
         ],
         correct: 1,
@@ -95,23 +95,23 @@ const Test = (props: Props) => {
       },
       {
         id: 2,
-        title: 'Công nghệ thông tin là gì? sdf',
+        title: 'Biểu tượng của T-rex là gì',
         answers: [
           {
             id: 1,
-            title: 'Data Analytics',
+            title: 'Khủng long',
           },
           {
             id: 2,
-            title: 'Database Design',
+            title: 'Ngựa 1 sừng',
           },
           {
             id: 3,
-            title: 'Software Engineering',
+            title: 'Thiên nga',
           },
           {
             id: 4,
-            title: 'Business Analytics',
+            title: 'Rùa',
           },
         ],
         correct: 1,
@@ -121,26 +121,78 @@ const Test = (props: Props) => {
       },
       {
         id: 3,
-        title: 'Công nghệ thông tin là gì?',
+        title: 'Slogan của T-rex là gì?',
         answers: [
           {
             id: 1,
-            title: 'Data Analytics',
+            title: 'Nâng niu từng dòng code',
           },
           {
             id: 2,
-            title: 'Database Design',
+            title: 'Rawr....Rawr...',
           },
           {
             id: 3,
-            title: 'Software Engineering',
+            title: 'gr ừ..gr ừ',
           },
           {
             id: 4,
-            title: 'Business Analytics',
+            title: 'roarrrrrr',
           },
         ],
         correct: 2,
+        choose: 1,
+        flag: false,
+        status: 0,
+      },
+      {
+        id: 4,
+        title: 'T-rex có mấy thành viên?',
+        answers: [
+          {
+            id: 1,
+            title: '8',
+          },
+          {
+            id: 2,
+            title: '9',
+          },
+          {
+            id: 3,
+            title: '10',
+          },
+          {
+            id: 4,
+            title: '5',
+          },
+        ],
+        correct: 2,
+        choose: 1,
+        flag: false,
+        status: 0,
+      },
+      {
+        id: 5,
+        title: 'Có bao nhiêu devs?',
+        answers: [
+          {
+            id: 1,
+            title: '5',
+          },
+          {
+            id: 2,
+            title: '6',
+          },
+          {
+            id: 3,
+            title: '7',
+          },
+          {
+            id: 4,
+            title: '8',
+          },
+        ],
+        correct: 3,
         choose: 1,
         flag: false,
         status: 0,

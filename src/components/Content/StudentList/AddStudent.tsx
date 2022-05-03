@@ -4,12 +4,15 @@ import { subjectApi } from '../../../api/subject'
 
 type Props = {}
 
-const AddSubject = (props: Props) => {
+const AddStudent = (props: Props) => {
   // let message: string
   const [message, setMessage] = useState('')
 
   const [nameSubject, setNameSubject] = useState('')
   const [idSubject, setIdSubject] = useState('')
+  const [examDate, setExamDate] = useState('')
+  const [examTime, setExamTime] = useState(0)
+  const [grade, setGrade] = useState(1)
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
@@ -20,16 +23,16 @@ const AddSubject = (props: Props) => {
   }
 
   const handleAddSubject = () => {
-    subjectApi
-      .addSubject(nameSubject, idSubject)
-      .then((res) => {
-        console.log(res)
-        setMessage(res.message)
-        console.log(message)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    // subjectApi
+    //   .addSubject(nameSubject, idSubject, examDate, examTime, grade)
+    //   .then((res) => {
+    //     console.log(res)
+    //     setMessage(res.message)
+    //     console.log(message)
+    //   })
+    //   .catch((e) => {
+    //     console.log(e)
+    //   })
   }
 
   return (
@@ -44,15 +47,11 @@ const AddSubject = (props: Props) => {
         autoComplete="off"
         style={{ width: '500px' }}
       >
-        <div
-          style={{ color: 'green', fontSize: '1.2rem', marginBottom: '1rem' }}
-        >
-          {message}
-        </div>
+        <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
         <Form.Item
-          label="Name subject"
-          name="nameSubject"
-          rules={[{ required: true, message: 'Please input name subject!' }]}
+          label="Tên lớp"
+          name="className"
+          rules={[{ required: true, message: 'Please input name classs!' }]}
         >
           <Input
             value={nameSubject}
@@ -61,7 +60,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Code subject"
+          label="Mã môn"
           name="idSubject"
           rules={[{ required: true, message: 'Please input id subject!' }]}
         >
@@ -71,8 +70,8 @@ const AddSubject = (props: Props) => {
           />
         </Form.Item>
 
-        {/* <Form.Item
-          label="Exam date"
+        <Form.Item
+          label="Ngày thi"
           name="examDate"
           rules={[{ required: true, message: 'Please input date exam!' }]}
         >
@@ -84,7 +83,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Exam time"
+          label="Thời gian thi"
           name="examTime"
           rules={[{ required: true, message: 'Please input time exam!' }]}
         >
@@ -97,7 +96,7 @@ const AddSubject = (props: Props) => {
         </Form.Item>
 
         <Form.Item
-          label="Grade"
+          label="Khối"
           name="grade"
           rules={[{ required: true, message: 'Please input grade!' }]}
         >
@@ -107,7 +106,7 @@ const AddSubject = (props: Props) => {
             value={grade}
             onChange={(e) => setGrade(Number.parseFloat(e.target.value))}
           />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit" onClick={handleAddSubject}>
@@ -121,4 +120,4 @@ const AddSubject = (props: Props) => {
     </div>
   )
 }
-export default AddSubject
+export default AddStudent

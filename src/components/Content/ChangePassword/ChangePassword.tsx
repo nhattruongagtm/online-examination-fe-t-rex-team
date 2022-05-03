@@ -10,15 +10,11 @@ type Props = {}
 
 interface InputForm {
   password: string
-  // oldPassword: string;
   confirmPwd: string
 }
 
 const ChangePassword = (props: Props) => {
   const formSchema = Yup.object().shape({
-    // oldPassword: Yup.string()
-    //   .required('Vui lòng nhập mật khẩu cũ')
-    //   .min(3, 'Mật khẩu tối thiểu 3 ký tự'),
     password: Yup.string()
       .required('Vui lòng nhập mật khẩu mới')
       .min(3, 'Mật khẩu tối thiểu 3 ký tự'),
@@ -31,24 +27,18 @@ const ChangePassword = (props: Props) => {
     useForm<InputForm>(formOptions)
   const { errors } = formState
   function onSubmit(data: InputForm) {
-    // console.log(JSON.stringify(data, null, 4))
-    // Swal.fire({
-    //   icon: 'success',
-    //   text: 'Đổi mật khẩu thành công',
-    // })
+    console.log(JSON.stringify(data, null, 4))
+    Swal.fire({
+      icon: 'success',
+      text: 'Đổi mật khẩu thành công',
+    })
 
-    // console.log(data)
+    console.log(data.password)
 
-    // axios.post('http://localhost:8080/getAll', data).then(
-    // res => {
-    //   console.log(res)
-    // }
-    //   ).catch(
-
-    //   )
     const u = JSON.parse(
       localStorage.getItem('e-exam') as string
     ) as LoginResponse
+    console.log(u.id)
     userApi
       .changePassword(u.id, data.password)
       .then((res) => {
@@ -57,45 +47,19 @@ const ChangePassword = (props: Props) => {
       .catch((e) => {
         console.log(e)
       })
-
-    // return false
   }
   return (
     <div className="mainDiv">
       <div className="cardStyle">
-        <form action="" method="post" name="signupForm" id="signupForm">
-          <img src="https://i.imgur.com/m2i2zsI.png" id="signupLogo" />
-
-          <h2 className="formTitle">Change password</h2>
-
-          {/* <div className="inputDiv">
-            <label className="inputLabel" htmlFor="password">
-              Current password */}
-          {/* 
         <form
           action="@{user}"
           onSubmit={handleSubmit(onSubmit)}
-          method="post"
+          method="put"
           name="signUpForm"
           id="signUpForm"
         >
-          <h2 className="formTitle">Đổi mật khẩu</h2> */}
-          {/* <div className="inputDiv">
-            <label className="inputLabel" htmlFor="oldPassword">
-              Mật khẩu cũ
-            </label>
-            <input
-              type="password"
-              {...register('oldPassword')}
-              className={`form-control ${
-                errors.oldPassword ? 'is-invalid' : ''
-              }`}
-            />
-            <div className="invalid-feedback">
-              {errors.oldPassword?.message}
-            </div>
-          </div> */}
-
+          <img src="https://i.imgur.com/m2i2zsI.png" id="signupLogo" />
+          <h2 className="formTitle">Change password</h2>
           <div className="inputDiv">
             <label className="inputLabel" htmlFor="password">
               New password

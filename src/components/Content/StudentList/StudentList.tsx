@@ -1,10 +1,21 @@
-import { Table } from 'antd'
-import React from 'react'
-import { useParams } from 'react-router'
+import { Button, Modal, Table } from 'antd'
+import React, { useState } from 'react'
+import { Subject } from 'react-hook-form/dist/utils/createSubject'
+import { useNavigate, useParams } from 'react-router'
+import { LoginResponse } from '../../../pages/Login/Login'
+import AddSubject from '../SubjectList/AddSubject'
 
 type Props = {}
 
 const StudentList = (props: Props) => {
+  // const [subjects, setSubjects] = useState<Subject[]>([])
+  const navigate = useNavigate()
+
+  const [visible, setVisible] = useState(false)
+
+  const user = JSON.parse(
+    localStorage.getItem('e-exam') as string
+  ) as LoginResponse
   const columns = [
     {
       title: 'Student ID',
@@ -48,7 +59,28 @@ const StudentList = (props: Props) => {
       name: 'Nguyễn Văn Cương',
     },
   ]
-  return <Table columns={columns} dataSource={data} />
+  return (
+    <>
+      <Button
+        style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
+        onClick={() => setVisible(true)}
+      >
+        Thêm sinh viên
+      </Button>
+      <Modal
+        okButtonProps={{ style: { display: 'none' } }}
+        title="Thêm sinh viên"
+        centered
+        visible={visible}
+        // onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        width={700}
+      >
+        <AddSubject></AddSubject>
+      </Modal>
+      <Table columns={columns} dataSource={data} />)
+    </>
+  )
 }
 
 export default StudentList

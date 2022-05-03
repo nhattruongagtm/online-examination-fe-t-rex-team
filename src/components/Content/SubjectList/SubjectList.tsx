@@ -44,18 +44,18 @@ const SubjectList = (props: Props) => {
       dataIndex: 'name',
       key: 'name',
     },
-    {
-      title: 'Exam date',
-      dataIndex: 'examDate',
-      key: 'examDate',
-      render: (date: any) => <>{date}</>,
-    },
-    {
-      title: 'Time',
-      key: 'examTime',
-      dataIndex: 'examTime',
-      render: (time: any) => <>{time} minutes</>,
-    },
+    // {
+    //   title: 'Exam date',
+    //   dataIndex: 'examDate',
+    //   key: 'examDate',
+    //   render: (date: any) => <>{date}</>,
+    // },
+    // {
+    //   title: 'Time',
+    //   key: 'examTime',
+    //   dataIndex: 'examTime',
+    //   render: (time: any) => <>{time} minutes</>,
+    // },
   ]
 
   const columns = [
@@ -70,26 +70,26 @@ const SubjectList = (props: Props) => {
       dataIndex: 'name',
       key: 'name',
     },
-    {
-      title: 'Exam date',
-      dataIndex: 'examDate',
-      key: 'examDate',
-      render: (date: any) => <>{date}</>,
-    },
-    {
-      title: 'Time',
-      key: 'examTime',
-      dataIndex: 'examTime',
-      render: (time: any) => <>{time} minutes</>,
-    },
+    // {
+    //   title: 'Exam date',
+    //   dataIndex: 'examDate',
+    //   key: 'examDate',
+    //   render: (date: any) => <>{date}</>,
+    // },
+    // {
+    //   title: 'Time',
+    //   key: 'examTime',
+    //   dataIndex: 'examTime',
+    //   render: (time: any) => <>{time} minutes</>,
+    // },
     {
       title: '',
       key: 'list',
       render: (text: string, record: any) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.CLASS_LIST}?ma-mon-hoc=${123}`)}
         >
-          List of students
+          List of Class
         </Button>
       ),
     },
@@ -112,11 +112,11 @@ const SubjectList = (props: Props) => {
         style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
         onClick={() => setVisible(true)}
       >
-        Thêm môn học
+        Add Subject
       </Button>
       <Modal
         okButtonProps={{ style: { display: 'none' } }}
-        title="Thêm môn học"
+        title="Add Subject"
         centered
         visible={visible}
         // onOk={() => setVisible(false)}

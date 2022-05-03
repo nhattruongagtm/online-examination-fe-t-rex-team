@@ -1,4 +1,4 @@
-import { QuestionRequest } from "./test";
+import { QuestionRequest } from './test'
 
 export interface ResponseData {
   status: string
@@ -6,7 +6,12 @@ export interface ResponseData {
   object: Object
 }
 
-export interface CreateExamRequest{
+export interface CreateExamRequest {
   idSubject: number
   listQuestions: QuestionRequest[]
+}
+export interface ResponseDataClass {
+  status: string
+  message: string
+  object: Object
 }

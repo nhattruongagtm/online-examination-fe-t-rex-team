@@ -68,6 +68,7 @@ const Login = (props: Props) => {
           <Form.Item
             label="Username"
             name="username"
+            className="label_user"
             rules={[
               {
                 required: true,
@@ -101,29 +102,33 @@ const Login = (props: Props) => {
             />
           </Form.Item>
 
-          <Form.Item
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+          <div className="forgotandremen">
+            <Form.Item
+              className="rememberme"
+              name="remember"
+              valuePropName="checked"
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
+                Forget password
+              </a>
+            </Form.Item>
+          </div>
 
           <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
-              Forget password
-            </a>
-          </Form.Item>
-
-          <Form.Item
+            className="buttonsm"
             wrapperCol={{
               offset: 8,
               span: 16,
