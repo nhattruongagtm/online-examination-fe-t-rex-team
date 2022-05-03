@@ -23,16 +23,16 @@ const AddStudent = (props: Props) => {
   }
 
   const handleAddSubject = () => {
-    subjectApi
-      .addSubject(nameSubject, idSubject, examDate, examTime, grade)
-      .then((res) => {
-        console.log(res)
-        setMessage(res.message)
-        console.log(message)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    // subjectApi
+    //   .addSubject(nameSubject, idSubject, examDate, examTime, grade)
+    //   .then((res) => {
+    //     console.log(res)
+    //     setMessage(res.message)
+    //     console.log(message)
+    //   })
+    //   .catch((e) => {
+    //     console.log(e)
+    //   })
   }
 
   return (
