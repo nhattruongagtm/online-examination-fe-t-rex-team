@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { useCSVReader } from 'react-papaparse'
 import { useDispatch, useSelector } from 'react-redux'
 import Question from '../../components/Content/Test/Question'
-import { Answer } from '../../models/test'
+import { CreateExamRequest } from '../../models/responseData'
+import { Answer, QuestionRequest } from '../../models/test'
+import { examApi } from '../../api/history'
 import {
   addQuestion,
   deleteQuestion,
@@ -117,6 +119,34 @@ const CreateExam = (props: Props) => {
     setInput(edit)
   }, [edit])
 
+  const handleCreateExam = () => {
+    const newQuestions: any[] = questionState.map((item) => {
+      return {
+        title: item.title,
+        correct: item.correct,
+        answers: item.anwsers.map((ans) => {
+          return {
+            title: ans.title,
+          }
+        }),
+      }
+    })
+    const request: CreateExamRequest = {
+      idSubject: 1,
+      listQuestions: newQuestions,
+    }
+    examApi
+      .createExam(request)
+      .then((res) => {
+        if (res) {
+          alert('Tạo đề thi thành công!')
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
   return (
     <div className="create__exam">
       <div className="create__exam__main">
@@ -148,7 +178,9 @@ const CreateExam = (props: Props) => {
                 {/* <CSVReader></CSVReader> */}
               </div>
               <div className="create__exam__options__item btn__upload">
-                <Button type="primary">Create</Button>
+                <Button type="primary" onClick={handleCreateExam}>
+                  Create
+                </Button>
               </div>
             </div>
             <form name="basic" onSubmit={handleSubmit} className="create__form">

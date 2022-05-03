@@ -18,10 +18,9 @@ body {
 }
 .ant-menu-item-selected {
   color: #006800;
-
 }
-.ant-menu-item::after{
-  border-right: 3px solid rgb(27, 146, 27)!important;
+.ant-menu-item::after {
+  border-right: 3px solid rgb(27, 146, 27) !important;
 }
 
 .ant-layout {
@@ -30,7 +29,7 @@ body {
 
   .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: #d6edd6;
-}
+  }
 }
 .ant-layout-header {
   display: flex;
@@ -54,7 +53,7 @@ body {
   p {
     color: white;
     font-size: 20px;
-    color: black;
+    // color: black;
   }
   &__user {
     display: flex;
@@ -62,14 +61,14 @@ body {
     span.header__name {
       color: white;
       margin-right: 15px;
-      color: black;
+      // color: black;
       font-weight: 400;
     }
     i {
       display: inline-block;
       color: white;
       font-size: 25px;
-      color: black;
+      // color: black;
     }
   }
   &__menu {
@@ -78,7 +77,7 @@ body {
     width: 30px;
     position: relative;
     align-items: flex-end;
-    color: black;
+    // color: black;
     label {
       flex-direction: column;
       gap: 3px;
@@ -90,7 +89,8 @@ body {
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background-color: black;
+        background-color: white;
+        // background-color: black;
       }
     }
     #option:checked ~ &__popup {
