@@ -61,7 +61,7 @@ const StudentList = (props: Props) => {
   ]
   return (
     <>
-    <Button
+      <Button
         style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
         onClick={() => setVisible(true)}
       >
@@ -78,8 +78,8 @@ const StudentList = (props: Props) => {
       >
         <AddSubject></AddSubject>
       </Modal>
-  <Table columns={columns} dataSource={data} />)
-  </>
+      <Table columns={columns} dataSource={data} />)
+    </>
   )
 }
 

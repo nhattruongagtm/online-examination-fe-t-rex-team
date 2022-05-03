@@ -82,10 +82,18 @@ const ForgotPassword = (props: Props) => {
               span: 16,
             }}
           >
-            <Button className="btnsm" onClick={handleSubmit} type="primary" htmlType="submit">
+            <Button
+              className="btnsm"
+              onClick={handleSubmit}
+              type="primary"
+              htmlType="submit"
+            >
               Submit
             </Button>
-            <Button  className="link-login" onClick={() => navigate(IRoute.HOME)}>
+            <Button
+              className="link-login"
+              onClick={() => navigate(IRoute.HOME)}
+            >
               Cancel
             </Button>
           </Form.Item>

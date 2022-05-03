@@ -51,10 +51,7 @@ const AddClass = (props: Props) => {
           name="classID"
           rules={[{ required: true, message: 'Please input name classs!' }]}
         >
-          <Input
-            value={classID}
-            onChange={(e) => setClassID(e.target.value)}
-          />
+          <Input value={classID} onChange={(e) => setClassID(e.target.value)} />
         </Form.Item>
 
         <Form.Item

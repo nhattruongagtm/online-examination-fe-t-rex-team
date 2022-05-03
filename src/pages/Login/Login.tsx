@@ -103,33 +103,32 @@ const Login = (props: Props) => {
           </Form.Item>
 
           <div className="forgotandremen">
-          <Form.Item
-          className="rememberme"
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+            <Form.Item
+              className="rememberme"
+              name="remember"
+              valuePropName="checked"
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
 
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
-              Forget password
-            </a>
-          </Form.Item>
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
+                Forget password
+              </a>
+            </Form.Item>
           </div>
-         
 
           <Form.Item
-          className="buttonsm"
+            className="buttonsm"
             wrapperCol={{
               offset: 8,
               span: 16,

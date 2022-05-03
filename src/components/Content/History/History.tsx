@@ -32,19 +32,19 @@ const History = (props: Props) => {
       title: 'Subject ID',
       dataIndex: 'code',
       key: 'code',
-      render: (text: string,rs: Result) => <p>{rs && rs.subject.code}</p>,
+      render: (text: string, rs: Result) => <p>{rs && rs.subject.code}</p>,
     },
     {
       title: 'Subject',
       dataIndex: 'subject',
       key: 'subject',
-      render: (text: string,rs: Result) => <p>{rs && rs.subject.name}</p>,
+      render: (text: string, rs: Result) => <p>{rs && rs.subject.name}</p>,
     },
     {
       title: 'Exam date',
       dataIndex: 'examDate',
       key: 'examDate',
-      render: (text: string,rs: Result) => <p>{rs && rs.subject.examDate}</p>,
+      render: (text: string, rs: Result) => <p>{rs && rs.subject.examDate}</p>,
     },
     {
       title: 'Time',

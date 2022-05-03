@@ -37,3 +37,11 @@ export interface TestCode {
   id: number
   date: DateTime
 }
+export interface QuestionRequest {
+  title: string
+  correct: number
+  answers: AnswerRequest
+}
+export interface AnswerRequest {
+  title: string
+}

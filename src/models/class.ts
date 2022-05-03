@@ -1,4 +1,4 @@
 export interface Class {
-    classID: number
-    className: string
-  }
+  classID: number
+  className: string
+}
