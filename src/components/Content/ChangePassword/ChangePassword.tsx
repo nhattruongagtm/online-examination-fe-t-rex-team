@@ -35,6 +35,7 @@ const ChangePassword = (props: Props) => {
     const u = JSON.parse(
       localStorage.getItem('e-exam') as string
     ) as LoginResponse
+    console.log(u.id)
     userApi
       .changePassword(u.id, data.password)
       .then((res) => {
@@ -47,13 +48,11 @@ const ChangePassword = (props: Props) => {
   return (
     <div className="mainDiv">
       <div className="cardStyle">
-        <form
-          action="@{user}"
+        <form action="@{user}"
           onSubmit={handleSubmit(onSubmit)}
           method="put"
           name="signUpForm"
-          id="signUpForm"
-        >
+          id="signUpForm">
           <img src="https://i.imgur.com/m2i2zsI.png" id="signupLogo" />
           <h2 className="formTitle">Change password</h2>
           <div className="inputDiv">

@@ -1,21 +1,36 @@
 import { Button, Checkbox, DatePicker, Form, Input, Space } from 'antd'
 import { useState } from 'react'
+import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
-
+import Swal from 'sweetalert2'
+import { IClass as IAClass} from '../../Content/ClassList/ClassList'
 type Props = {}
 
-const AddStudent = (props: Props) => {
-  // let message: string
+const AddClass = (props: Props, {classes}:IAClass) => {
   const [message, setMessage] = useState('')
 
-  const [nameSubject, setNameSubject] = useState('')
-  const [idSubject, setIdSubject] = useState('')
-  const [examDate, setExamDate] = useState('')
-  const [examTime, setExamTime] = useState(0)
-  const [grade, setGrade] = useState(1)
+  const [inputData, setInputData] = useState({classID:'', className:'', u:''})
+  const onChange=(e:React.ChangeEvent<HTMLInputElement>) =>{
+    setInputData({...inputData,[e.target.name] : e.target})
+  }
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
+    
+    Swal.fire({
+      icon: 'success',
+      text: 'Add Class Success',
+    })
+    classApi
+      .addClass(values.classID, values.className)
+      .then((res) => {
+        // console.log(res)
+        setMessage(res.message)
+        console.log(message)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -23,16 +38,7 @@ const AddStudent = (props: Props) => {
   }
 
   const handleAddSubject = () => {
-    // subjectApi
-    //   .addSubject(nameSubject, idSubject, examDate, examTime, grade)
-    //   .then((res) => {
-    //     console.log(res)
-    //     setMessage(res.message)
-    //     console.log(message)
-    //   })
-    //   .catch((e) => {
-    //     console.log(e)
-    //   })
+
   }
 
   return (
@@ -48,76 +54,34 @@ const AddStudent = (props: Props) => {
         style={{ width: '500px' }}
       >
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
+        {/* <Form.Item
+          label="Class Code"
+          name="classID"
+          rules={[{ required: true, message: 'Please input Class Code!' }]}
+        >
+          <Input 
+          value={inputData.classID} 
+          onChange={onChange}
+           />
+        </Form.Item> */}
+
         <Form.Item
-          label="Tên lớp"
+          label="Class Name"
           name="className"
-          rules={[{ required: true, message: 'Please input name classs!' }]}
+          rules={[{ required: true, message: 'Please input Class Name !' }]}
         >
           <Input
-            value={nameSubject}
-            onChange={(e) => setNameSubject(e.target.value)}
+            value={inputData.className}
+            onChange={onChange}
           />
         </Form.Item>
-
-        <Form.Item
-          label="Mã môn"
-          name="idSubject"
-          rules={[{ required: true, message: 'Please input id subject!' }]}
-        >
-          <Input
-            value={idSubject}
-            onChange={(e) => setIdSubject(e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Ngày thi"
-          name="examDate"
-          rules={[{ required: true, message: 'Please input date exam!' }]}
-        >
-          <Input
-            type="date"
-            value={examDate}
-            onChange={(e) => setExamDate(e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Thời gian thi"
-          name="examTime"
-          rules={[{ required: true, message: 'Please input time exam!' }]}
-        >
-          <Input
-            type="number"
-            placeholder="phút"
-            value={examTime}
-            onChange={(e) => setExamTime(Number.parseInt(e.target.value))}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Khối"
-          name="grade"
-          rules={[{ required: true, message: 'Please input grade!' }]}
-        >
-          <Input
-            type="number"
-            placeholder="phút"
-            value={grade}
-            onChange={(e) => setGrade(Number.parseFloat(e.target.value))}
-          />
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={handleAddSubject}>
-            Tạo Môn
+          <Button type="primary" htmlType="submit" onClick={onFinish}>
+            Add Student
           </Button>
-          {/* <Button htmlType="button" onClick={onReset}>
-          Reset
-        </Button> */}
         </Form.Item>
       </Form>
     </div>
   )
 }
-export default AddStudent
+export default AddClass

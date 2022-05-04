@@ -2,15 +2,21 @@ import { Button, Modal } from 'antd'
 import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { fetchClass, fetchSubject } from '../../../api/demoApi'
-import { Class } from '../../../models/class'
-import { Subject } from '../../../models/subject'
+import { fetchClass } from '../../../api/demoApi'
+import { Class,TestStudent } from '../../../models/class'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
-import AddSubject from '../SubjectList/AddSubject'
+import AddClass from './AddClass'
 
 type Props = {}
 
+export interface IClass{
+  classes: {
+    classID: number
+    className: string
+    u: TestStudent[]
+  }
+}
 const ClassList = (props: Props) => {
   const [classes, setClasses] = useState<Class[]>([])
   const navigate = useNavigate()
@@ -25,7 +31,8 @@ const ClassList = (props: Props) => {
     fetchClass.fetchData(1).then(
       (response) => {
         console.log(response)
-        setClasses(response)
+        setClasses(response);
+        
       },
       (error) => {
         console.log(error)
@@ -36,28 +43,38 @@ const ClassList = (props: Props) => {
   const columnss = [
     {
       title: 'Class ID',
-      dataIndex: 'code',
-      key: 'code',
+      dataIndex: 'classID',
+      key: 'classID',
       render: (text: string) => <>{text}</>,
     },
     {
       title: 'Class',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'className',
+      key: 'className',
+    },{
+      title: 'List Student',
+      dataIndex: 'u',
+      key: 'u',
     },
   ]
-
   const columns = [
     {
       title: 'Class ID',
-      dataIndex: 'code',
-      key: 'code',
+      dataIndex: 'classID',
+      key: 'classID',
       render: (text: string) => <>{text}</>,
     },
     {
       title: 'Class',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'className',
+      key: 'className',
+    },
+    {
+      title: 'List Student',
+      dataIndex: 'u',
+      key: 'u',
+      render: (users: any) => <div>{console.log("in render:", users) 
+      }here</div>,
     },
     {
       title: '',
@@ -88,7 +105,7 @@ const ClassList = (props: Props) => {
         onCancel={() => setVisible(false)}
         width={700}
       >
-        <AddSubject></AddSubject>
+        <AddClass></AddClass>
       </Modal>
       <Table
         columns={user && user.type === 0 ? columnss : columns}

@@ -19,6 +19,6 @@ export const fetchSubject = {
 export const fetchClass = {
   fetchData: (id: number): Promise<Class[]> => {
     const url = `/getAllClass`
-    return clientAxios.get(url)
+    return clientAxios.get(url);
   },
 }

@@ -2,18 +2,35 @@ import { Button, Checkbox, DatePicker, Form, Input, Space } from 'antd'
 import { useState } from 'react'
 import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
-
+import Swal from 'sweetalert2'
+import { IClass as IAClass} from './ClassList'
 type Props = {}
 
-const AddClass = (props: Props) => {
-  // let message: string
+const AddClass = (props: Props, {classes}:IAClass) => {
   const [message, setMessage] = useState('')
 
-  const [className, setClassName] = useState('')
-  const [classID, setClassID] = useState('')
+  const [inputData, setInputData] = useState({classID:'', className:'', u:''})
+  const onChange=(e:React.ChangeEvent<HTMLInputElement>) =>{
+    setInputData({...inputData,[e.target.name] : e.target})
+  }
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
+    
+    Swal.fire({
+      icon: 'success',
+      text: 'Add Class Success',
+    })
+    classApi
+      .addClass(values.classID, values.className)
+      .then((res) => {
+        // console.log(res)
+        setMessage(res.message)
+        console.log(message)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -21,16 +38,7 @@ const AddClass = (props: Props) => {
   }
 
   const handleAddSubject = () => {
-    classApi
-      .addClass(classID, className)
-      .then((res) => {
-        console.log(res)
-        setMessage(res.message)
-        console.log(message)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+
   }
 
   return (
@@ -46,31 +54,31 @@ const AddClass = (props: Props) => {
         style={{ width: '500px' }}
       >
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
-        <Form.Item
-          label="Class ID"
+        {/* <Form.Item
+          label="Class Code"
           name="classID"
-          rules={[{ required: true, message: 'Please input name classs!' }]}
+          rules={[{ required: true, message: 'Please input Class Code!' }]}
         >
-          <Input value={classID} onChange={(e) => setClassID(e.target.value)} />
-        </Form.Item>
+          <Input 
+          value={inputData.classID} 
+          onChange={onChange}
+           />
+        </Form.Item> */}
 
         <Form.Item
           label="Class Name"
           name="className"
-          rules={[{ required: true, message: 'Please input id subject!' }]}
+          rules={[{ required: true, message: 'Please input Class Name !' }]}
         >
           <Input
-            value={className}
-            onChange={(e) => setClassName(e.target.value)}
+            value={inputData.className}
+            onChange={onChange}
           />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={handleAddSubject}>
+          <Button type="primary" htmlType="submit" onClick={onFinish}>
             Add class
           </Button>
-          {/* <Button htmlType="button" onClick={onReset}>
-          Reset
-        </Button> */}
         </Form.Item>
       </Form>
     </div>
