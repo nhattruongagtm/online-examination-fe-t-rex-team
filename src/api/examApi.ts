@@ -22,4 +22,8 @@ export const examApi = {
     const url = `/exam/question/doing`
     return await clientAxios.post(url, id)
   },
+  loadExamByStudent: (id: number): Promise<Subject[]> => {
+    const url = `/exams/${id}`
+    return clientAxios.get(url)
+  },
 }

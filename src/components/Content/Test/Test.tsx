@@ -241,9 +241,10 @@ const Test = (props: Props) => {
     })
 
     const data: SubmitAnswer = {
-      studentId: (
-        JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
-      ).id,
+      // studentId: (
+      //   JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
+      // ).id,
+      studentId: 1,
       subjectId: subject.id,
       answers: choose,
     }

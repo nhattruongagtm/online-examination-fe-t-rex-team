@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useEffect } from 'react'
-import { CreateInput } from '../pages/Subject/CreateExam'
+import { CreateExamRequest } from '../models/responseData'
+import { CreateInput, FormInput } from '../pages/Subject/CreateExam'
 
+type ExamTest = FormInput & CreateExamRequest
 export interface ExamModel {
   questionList: CreateInput[]
   edit: CreateInput
+  examList: ExamTest[]
 }
 export const initialState: ExamModel = {
   questionList: [],
@@ -31,6 +34,7 @@ export const initialState: ExamModel = {
       },
     ],
   },
+  examList: [],
 }
 const examSlice = createSlice({
   name: 'createExam',
@@ -65,6 +69,9 @@ const examSlice = createSlice({
     resetEdit: (state) => {
       state.edit = initialState.edit
     },
+    loadExam: (state, action: PayloadAction<ExamTest>) => {
+      state.examList.push(action.payload)
+    },
   },
 })
 
@@ -75,6 +82,7 @@ export const {
   updateQuestion,
   loadEdit,
   resetEdit,
+  loadExam,
 } = examSlice.actions
 
 export default examSlice.reducer
