@@ -22,7 +22,7 @@ export const userApi = {
     confirmNewPassword: string
   ): Promise<ResponseData> => {
     const url = '/user/reset-password'
-    return clientAxios.put(
+    return clientAxios.get(
       `${url}?token=${token}&password=${confirmNewPassword}`
     )
   },

@@ -10,7 +10,7 @@ type Props = {}
 const ResetPassword = (props: Props) => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
-  // const { userId, resetString } = useParams()
+  const [message, setMessage] = useState('')
 
   const navigate = useNavigate()
   const onFinish = (values: any) => {
@@ -31,6 +31,7 @@ const ResetPassword = (props: Props) => {
       .resetPassword(token, confirmNewPassword)
       .then((res) => {
         console.log(res)
+        setMessage(res.message)
       })
       .catch((e) => {
         console.log(e)
@@ -52,7 +53,8 @@ const ResetPassword = (props: Props) => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <div className="forgotPw__title title">Quên mật khẩu</div>
+          <div className="forgotPw__title title">Reset Password</div>
+          <div className='title-message success'>{message}</div>
           <Form.Item
             label="New Password"
             name="newPassword"
