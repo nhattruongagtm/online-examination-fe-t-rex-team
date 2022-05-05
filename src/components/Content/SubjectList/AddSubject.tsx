@@ -35,7 +35,7 @@ const AddSubject = (props: Props) => {
         const subject: Subject = {
           code: Number(idSubject),
           id: 2345644,
-          name: nameSubject
+          name: nameSubject,
         }
         setIdSubject('')
         setNameSubject('')
@@ -43,7 +43,6 @@ const AddSubject = (props: Props) => {
         if (res.message != 'Tên môn đã tồn tại') {
           dispatch(createSubject(subject))
         }
-
       })
       .catch((e) => {
         console.log(e)
@@ -63,7 +62,11 @@ const AddSubject = (props: Props) => {
         style={{ width: '500px' }}
       >
         <div
-          style={{ color: message === 'Tên môn đã tồn tại' ? 'red' : 'green', fontSize: '1.2rem', marginBottom: '1rem' }}
+          style={{
+            color: message === 'Tên môn đã tồn tại' ? 'red' : 'green',
+            fontSize: '1.2rem',
+            marginBottom: '1rem',
+          }}
         >
           {message}
         </div>

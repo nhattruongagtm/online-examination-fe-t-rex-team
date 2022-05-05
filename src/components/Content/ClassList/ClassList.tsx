@@ -32,8 +32,6 @@ const ClassList = (props: Props) => {
   const id = Number(qs.parse(param.search).subjectID)
   console.log(id)
 
-
-
   const [visible, setVisible] = useState(false)
 
   const user = JSON.parse(
@@ -45,7 +43,6 @@ const ClassList = (props: Props) => {
       (response) => {
         console.log(response)
         dispatch(loadClassList(response))
-
       },
       (error) => {
         console.log(error)
@@ -64,7 +61,8 @@ const ClassList = (props: Props) => {
       title: 'Class',
       dataIndex: 'className',
       key: 'className',
-    }, {
+    },
+    {
       title: 'List Student',
       dataIndex: 'u',
       key: 'u',
@@ -86,7 +84,7 @@ const ClassList = (props: Props) => {
     //   title: 'List Student',
     //   dataIndex: 'u',
     //   key: 'u',
-    //   render: (users: any) => <div>{console.log("in render:", users) 
+    //   render: (users: any) => <div>{console.log("in render:", users)
     //   }here</div>,
     // },
     {
@@ -95,7 +93,11 @@ const ClassList = (props: Props) => {
       key: 'classID',
       render: (text: string, record: Class) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?classID=${record.classID}&&className=${record.className}`)}
+          onClick={() =>
+            navigate(
+              `${IRoute.STUDENT_LIST}?classID=${record.classID}&&className=${record.className}`
+            )
+          }
         >
           List of Student
         </Button>

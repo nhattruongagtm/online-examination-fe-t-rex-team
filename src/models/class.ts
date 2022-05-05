@@ -1,12 +1,12 @@
 export interface Class {
   classID: number
   className: string
-  u: TestStudent[];
+  u: TestStudent[]
   subjectID: number
 }
 
 export interface TestStudent {
-  id?: number;
-  fullName?: string;
-  email?:  string;
+  id?: number
+  fullName?: string
+  email?: string
 }

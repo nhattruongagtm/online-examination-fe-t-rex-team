@@ -54,7 +54,7 @@ const ResetPassword = (props: Props) => {
           autoComplete="off"
         >
           <div className="forgotPw__title title">Reset Password</div>
-          <div className='title-message success'>{message}</div>
+          <div className="title-message success">{message}</div>
           <Form.Item
             label="New Password"
             name="newPassword"

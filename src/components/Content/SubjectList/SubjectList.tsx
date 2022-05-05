@@ -13,6 +13,7 @@ import { deleteSubject, loadSubjectList } from '../../../slice/subjectSlice'
 import { RootState } from '../../../store'
 import { IRoute } from '../router'
 import AddSubject from './AddSubject'
+import useUser from '../../../hook/useUser'
 
 type Props = {}
 
@@ -20,8 +21,10 @@ const SubjectList = (props: Props) => {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const subjectList = useSelector((state: RootState) => state.subjects.subjectList);
-
+  const subjectList = useSelector(
+    (state: RootState) => state.subjects.subjectList
+  )
+  const u = useUser()
   const [visible, setVisible] = useState(false)
 
   const user = JSON.parse(
@@ -85,7 +88,9 @@ const SubjectList = (props: Props) => {
       key: 'id',
       render: (text: string, record: Subject) => (
         <Button
-          onClick={() => navigate(`${IRoute.CLASS_LIST}?subjectID=${record.id}`)}
+          onClick={() =>
+            navigate(`${IRoute.CLASS_LIST}?subjectID=${record.id}`)
+          }
         >
           List of Class
         </Button>
@@ -96,7 +101,9 @@ const SubjectList = (props: Props) => {
       key: 'create',
       render: (text: string, record: Subject) => (
         <Button
-          onClick={() => navigate(`${IRoute.CREATE_EXAM}?subjectID=${record.id}`)}
+          onClick={() =>
+            navigate(`${IRoute.CREATE_EXAM}?subjectID=${record.id}`)
+          }
         >
           View exam questions
         </Button>
@@ -106,13 +113,7 @@ const SubjectList = (props: Props) => {
     {
       title: '',
       key: 'create',
-      render: (text: string, record: any) => (
-        <Button
-
-        >
-          Edit
-        </Button>
-      ),
+      render: (text: string, record: any) => <Button>Edit</Button>,
     },
 
     {
@@ -120,9 +121,8 @@ const SubjectList = (props: Props) => {
       dataIndex: 'id',
       key: 'create',
       render: (text: string, record: Subject) => (
-        <Button danger onClick={() => handleDeleteSubject(record.id)}
-        >
-          <DeleteOutlined className='subject' />
+        <Button danger onClick={() => handleDeleteSubject(record.id)}>
+          <DeleteOutlined className="subject" />
         </Button>
       ),
     },
@@ -130,12 +130,14 @@ const SubjectList = (props: Props) => {
 
   return (
     <>
-      <Button
-        style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
-        onClick={() => setVisible(true)}
-      >
-        Add Subject
-      </Button>
+      {user.type === 1 && (
+        <Button
+          style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
+          onClick={() => setVisible(true)}
+        >
+          Add Subject
+        </Button>
+      )}
       <Modal
         okButtonProps={{ style: { display: 'none' } }}
         title="Add Subject"

@@ -48,7 +48,7 @@ const ForgotPassword = (props: Props) => {
     <div className="forgotPw__page">
       <div className="forgotPw__form">
         <div className="forgotPw__title title">Forgot Password</div>
-        <div className='title-message'>{message}</div>
+        <div className="title-message">{message}</div>
         <Form
           name="basic"
           labelCol={{
@@ -105,7 +105,6 @@ const ForgotPassword = (props: Props) => {
           </Form.Item>
         </Form>
         {/* </Formik> */}
-
       </div>
     </div>
   )

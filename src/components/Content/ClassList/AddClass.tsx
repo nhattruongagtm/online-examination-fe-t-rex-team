@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
 import Swal from 'sweetalert2'
-import { IClass as IAClass} from './ClassList'
+import { IClass as IAClass } from './ClassList'
 import { studentApi } from '../../../api/student'
 import { useDispatch } from 'react-redux'
 import { Class } from '../../../models/class'
@@ -12,12 +12,12 @@ type Props = {
   subjectID: number
 }
 
-const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
+const AddClass = ({ subjectID }: Props, { classes }: IAClass) => {
   const [message, setMessage] = useState('')
   const dispatch = useDispatch()
 
   const [inputData, setInputData] = useState<string>('')
-  const onChange=(e:React.ChangeEvent<HTMLInputElement>) =>{
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData(e.target.value)
   }
 
@@ -44,9 +44,7 @@ const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
     console.log('Failed:', errorInfo)
   }
 
-  const handleAddSubject = () => {
-
-  }
+  const handleAddSubject = () => {}
 
   return (
     <div>
@@ -67,10 +65,7 @@ const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
           name="className"
           rules={[{ required: true, message: 'Please input Class Name !' }]}
         >
-          <Input
-            value={inputData}
-            onChange={onChange}
-          />
+          <Input value={inputData} onChange={onChange} />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">

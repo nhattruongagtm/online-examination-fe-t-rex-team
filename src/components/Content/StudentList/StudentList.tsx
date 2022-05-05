@@ -3,7 +3,7 @@ import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { fetchClass, fetchSubject } from '../../../api/demoApi'
-import { Class,TestStudent } from '../../../models/class'
+import { Class, TestStudent } from '../../../models/class'
 import { Subject } from '../../../models/subject'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
@@ -18,12 +18,12 @@ import { createStudent, loadStudentList } from '../../../slice/studentSlice'
 
 type Props = {}
 
-export interface IClass{
+export interface IClass {
   classes: {
     u: {
-      id?: number;
-      fullName?: string;
-      email?:  string;
+      id?: number
+      fullName?: string
+      email?: string
     }
   }
 }
@@ -31,7 +31,9 @@ const StudentList = (props: Props) => {
   const [students, setStudents] = useState<Class[]>([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const studentList = useSelector((state: RootState)=> state.studentList.student)
+  const studentList = useSelector(
+    (state: RootState) => state.studentList.student
+  )
   const param = useLocation()
   const [visible, setVisible] = useState(false)
   const id = Number(qs.parse(param.search).classID)
@@ -63,7 +65,8 @@ const StudentList = (props: Props) => {
       title: 'Full Name',
       dataIndex: 'className',
       key: 'className',
-    },{
+    },
+    {
       title: 'Email',
       dataIndex: 'u.email',
       key: 'u',
@@ -75,14 +78,12 @@ const StudentList = (props: Props) => {
       dataIndex: 'id',
       key: 'id',
       // render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.id}</div>)}</div>,
-
     },
     {
       title: 'Full Name',
       dataIndex: 'fullName',
       key: 'fullName',
       // render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.fullName}</div>)}</div>,
-
     },
     {
       title: 'Email',
@@ -107,7 +108,6 @@ const StudentList = (props: Props) => {
         visible={visible}
         onCancel={() => setVisible(false)}
         width={700}
-    
       >
         <AddStudent classID={id} classesName={className as string}></AddStudent>
       </Modal>

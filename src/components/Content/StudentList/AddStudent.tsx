@@ -1,4 +1,13 @@
-import { Button, Checkbox, DatePicker, Form, Input, Select, Space, Table } from 'antd'
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Space,
+  Table,
+} from 'antd'
 import { useEffect, useState } from 'react'
 import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
@@ -21,9 +30,9 @@ type Props = {
 export interface IClass {
   classes: {
     u: {
-      id?: number;
-      fullName?: string;
-      email?: string;
+      id?: number
+      fullName?: string
+      email?: string
     }
   }
 }
@@ -38,7 +47,11 @@ const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
   const [message, setMessage] = useState('')
   const dispatch = useDispatch()
   const [select, setSelect] = useState<string[]>([])
-  const [inputData, setInputData] = useState({ classID: '', className: '', u: '' })
+  const [inputData, setInputData] = useState({
+    classID: '',
+    className: '',
+    u: '',
+  })
   // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setInputData({ ...inputData, [e.target.name]: e.target })
   // }
@@ -46,7 +59,7 @@ const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
     fetchStudent.getAllStudent().then(
       (response) => {
         console.log(response)
-        setStudents(response);
+        setStudents(response)
       },
       (error) => {
         console.log(error)
@@ -55,17 +68,20 @@ const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
   }, [])
 
   const onFinish = (value: any) => {
-    select.map(item => {
+    select.map((item) => {
       console.log(item, classesName, classID)
       fetchStudent
         .addStuToClass(Number(item), classesName, classID)
         .then((res) => {
           console.log(res)
-          userApi.getUserByID(Number(item)).then(res => {
-            dispatch(createStudent(res))
-          }).catch(e => {
-            console.log(e)
-          })
+          userApi
+            .getUserByID(Number(item))
+            .then((res) => {
+              dispatch(createStudent(res))
+            })
+            .catch((e) => {
+              console.log(e)
+            })
         })
         .catch((e) => {
           console.log(e)
@@ -85,10 +101,9 @@ const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
   function handleChange(value: string[]) {
     console.log(value)
     setSelect(value as string[])
-
   }
 
-  const { Option } = Select;
+  const { Option } = Select
   return (
     <div>
       <Form
@@ -103,16 +118,25 @@ const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
       >
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
 
-        <Select mode="tags" style={{ width: '100%' }} onChange={handleChange} tokenSeparators={[',']}>
+        <Select
+          mode="tags"
+          style={{ width: '100%' }}
+          onChange={handleChange}
+          tokenSeparators={[',']}
+        >
           {students.map((s) => (
-            <Option key={s.id} >
+            <Option key={s.id}>
               {s.id} - {s.fullName}
             </Option>
           ))}
         </Select>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" style={{ marginTop: '1rem' }} htmlType="submit">
+          <Button
+            type="primary"
+            style={{ marginTop: '1rem' }}
+            htmlType="submit"
+          >
             Add Student
           </Button>
         </Form.Item>

@@ -20,10 +20,10 @@ export const fetchSubject = {
 export const fetchClass = {
   fetchData: (id: number): Promise<Class[]> => {
     const url = `/getAllClass/${id}`
-    return clientAxios.get(url);
+    return clientAxios.get(url)
   },
   fetchDataStudent: (classID: number): Promise<Class[]> => {
     const url = `getUserByClassID/${classID}`
-    return clientAxios.get(url);
+    return clientAxios.get(url)
   },
 }
