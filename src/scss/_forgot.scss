@@ -28,15 +28,27 @@
 
   .forgotPw__title {}
 
+  .title-message {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: orange;
+  }
+
+  .success {
+    color: #678433;
+    font-size: 20px;
+  }
+
   .forget {
     font-size: 15px;
   }
 
   .link-login {
     margin-left: 1rem;
-    width: 50%  ;
+    width: 50%;
   }
-  .btnsm{
+
+  .btnsm {
     width: 50%;
   }
 

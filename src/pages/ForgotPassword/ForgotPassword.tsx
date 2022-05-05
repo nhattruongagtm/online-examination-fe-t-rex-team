@@ -4,6 +4,8 @@ import { IRoute } from '../../components/Content/router'
 import { userApi } from '../../api/userApi'
 import { useNavigate, useParams } from 'react-router'
 import { Formik } from 'formik'
+import { useDispatch } from 'react-redux'
+import { loadMessage } from '../../slice/responseSlice'
 
 type Props = {}
 
@@ -13,6 +15,7 @@ const ForgotPassword = (props: Props) => {
   const [message, setMessage] = useState('')
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const onFinish = (values: any) => {
     alert('Gửi thành công, vui lòng kiểm tra email')
   }
@@ -30,8 +33,10 @@ const ForgotPassword = (props: Props) => {
         .sendEmail(email)
         .then((res) => {
           console.log(res)
-          if (res.message === 'Invalid token') {
-          }
+          dispatch(loadMessage(res))
+          setMessage(res.message)
+          console.log(res.message)
+          // navigate(IRoute.EMAIL_SENT)
         })
         .catch((e) => {
           console.log(e)
@@ -42,7 +47,8 @@ const ForgotPassword = (props: Props) => {
   return (
     <div className="forgotPw__page">
       <div className="forgotPw__form">
-        <div className="forgotPw__title title">Quên mật khẩu</div>
+        <div className="forgotPw__title title">Forgot Password</div>
+        <div className='title-message'>{message}</div>
         <Form
           name="basic"
           labelCol={{
@@ -99,6 +105,7 @@ const ForgotPassword = (props: Props) => {
           </Form.Item>
         </Form>
         {/* </Formik> */}
+
       </div>
     </div>
   )
