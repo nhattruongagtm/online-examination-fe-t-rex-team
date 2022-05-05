@@ -8,6 +8,9 @@ import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
 import AddClass from './AddClass'
 import qs from 'query-string'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadClassList } from '../../../slice/classSlice'
+import { RootState } from '../../../store'
 
 type Props = {}
 export interface IParam{
@@ -23,9 +26,12 @@ export interface IClass{
 const ClassList = (props: Props) => {
   const [classes, setClasses] = useState<Class[]>([])
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const classList = useSelector((state: RootState)=>state.classList.classList)
   const param = useLocation()
   const id = Number(qs.parse(param.search).subjectID)
   console.log(id)
+
   
 
   const [visible, setVisible] = useState(false)
@@ -38,7 +44,7 @@ const ClassList = (props: Props) => {
     fetchClass.fetchData(id).then(
       (response) => {
         console.log(response)
-        setClasses(response);
+       dispatch(loadClassList(response))
         
       },
       (error) => {
@@ -113,11 +119,11 @@ const ClassList = (props: Props) => {
         onCancel={() => setVisible(false)}
         width={700}
       >
-        <AddClass ></AddClass>
+        <AddClass subjectID={id}></AddClass>
       </Modal>
       <Table
         columns={user && user.type === 0 ? columnss : columns}
-        dataSource={classes}
+        dataSource={classList}
       />
     </>
   )

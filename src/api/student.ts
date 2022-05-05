@@ -4,7 +4,7 @@ import { clientAxios } from './clientAxios'
 
 export const studentApi = {
   addStudent: (classID: string, className: string): Promise<ResponseDataClass> => {
-    const url = '/addStutoClass'
+    const url = '/addClass'
     return clientAxios.post(url, { classID, className })
   },
 }

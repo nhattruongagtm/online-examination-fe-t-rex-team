@@ -5,30 +5,38 @@ import { subjectApi } from '../../../api/subject'
 import Swal from 'sweetalert2'
 import { IClass as IAClass} from './ClassList'
 import { studentApi } from '../../../api/student'
-type Props = {}
+import { useDispatch } from 'react-redux'
+import { Class } from '../../../models/class'
+import { createClass } from '../../../slice/classSlice'
+type Props = {
+  subjectID: number
+}
 
-const AddClass = (props: Props, {classes}:IAClass) => {
+
+
+const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
   const [message, setMessage] = useState('')
+  const dispatch = useDispatch()
 
-  const [inputData, setInputData] = useState({classID:'', className:'', u:''})
+  const [inputData, setInputData] = useState<string>('')
   const onChange=(e:React.ChangeEvent<HTMLInputElement>) =>{
-    setInputData({...inputData,[e.target.name] : e.target})
+    setInputData(e.target.value)
   }
 
-  const onFinish = (values: any) => {
+  const onFinish = (value: any) => {
     
-    console.log('Success:', values)
-    
-    Swal.fire({
-      icon: 'success',
-      text: 'Add Student Success',
-    })
-    studentApi
-      .addStudent(values.classID, values.className)
+    classApi
+      .addClass(subjectID, value.className)
       .then((res) => {
         // console.log(res)
         setMessage(res.message)
-        console.log(message)
+        console.log(res)
+
+        Swal.fire({
+          icon: 'success',
+          text: 'Add Student Success',
+        })
+        dispatch(createClass(res.object as Class))
       })
       .catch((e) => {
         console.log(e)
@@ -63,12 +71,12 @@ const AddClass = (props: Props, {classes}:IAClass) => {
           rules={[{ required: true, message: 'Please input Class Name !' }]}
         >
           <Input
-            value={inputData.className}
+            value={inputData}
             onChange={onChange}
           />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={onFinish}>
+          <Button type="primary" htmlType="submit">
             Add class
           </Button>
         </Form.Item>
