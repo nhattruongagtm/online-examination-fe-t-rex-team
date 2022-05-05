@@ -40,8 +40,8 @@ const Test = (props: Props) => {
   const [subject, setSubject] = useState<Subject>({
     id: 1,
     code: 1,
-    examDate: 13146546548,
-    examTime: 44646546486,
+    date: '2022-07-08',
+    time: '2022-08-08',
     name: 'Nhập môn công nghệ phần mềm',
   })
   const [input, setInput] = useState<InputCreate>()
@@ -56,27 +56,29 @@ const Test = (props: Props) => {
 
   const [testInfo] = useTestCode('code')
 
-  // useEffect(() => {
-  //   u &&
-  //     examApi
-  //       .checkTest(u.id, {
-  //         id: testInfo.id,
-  //         date: testInfo.dateString,
-  //       })
-  //       .then((res) => {
-  //         console.log(res)
-  //       })
-  //       .catch((e) => {
-  //         console.log(e)
-  //       })
-  // }, [])
+  useEffect(() => {
+    u &&
+      examApi
+        .checkTest(u.id, {
+          id: testInfo.id,
+          date: testInfo.dateString,
+        })
+        .then((res) => {
+          if (!res) {
+            navigate(IRoute.NOT_FOUND)
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+  }, [])
 
   useEffect(() => {
     const subject: Subject = {
       id: 1,
       code: 1,
-      examDate: 13146546548,
-      examTime: 44646546486,
+      date: '2022-05-06',
+      time: '2022-05-07',
       name: 'Nhập môn công nghệ phần mềm',
     }
     setSubject(subject)

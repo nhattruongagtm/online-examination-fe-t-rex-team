@@ -2,7 +2,8 @@ export interface Subject {
   id: number
   code: number
   name: string
-  examDate?: number
-  examTime?: number
+  date?: string
+  time?: string
   grade?: number
+  duration?: number
 }

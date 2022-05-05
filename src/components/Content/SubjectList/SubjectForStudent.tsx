@@ -8,6 +8,8 @@ import useUser from '../../../hook/useUser'
 import { Subject } from '../../../models/subject'
 import { loadSubjectList } from '../../../slice/subjectSlice'
 import { RootState } from '../../../store'
+import { checkExamDate, excludeDate } from '../../../utils/checkExamDate'
+import { IRoute } from '../router'
 
 type Props = {}
 
@@ -65,7 +67,22 @@ const SubjectForStudent = (props: Props) => {
       key: 'test',
       render: (text: string, subject: Subject) => (
         <>
-          <Button>Go To Test</Button>
+          <Button
+            disabled={
+              subject.date && subject.duration
+                ? !checkExamDate(subject.date, subject.duration)
+                : true
+            }
+            onClick={() =>
+              navigate(
+                `${IRoute.TEST}?code=${subject.id}/${excludeDate(
+                  subject.date as string
+                )}`
+              )
+            }
+          >
+            Go To Test
+          </Button>
         </>
       ),
     },

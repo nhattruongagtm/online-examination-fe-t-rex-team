@@ -11,4 +11,5 @@ export enum IRoute {
   CLASS_LIST = '/danh-sach-lop',
   STUDENT_LIST = '/danh-sach-sinh-vien',
   TEST = '/test',
+  NOT_FOUND = '/404',
 }
