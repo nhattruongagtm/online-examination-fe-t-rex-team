@@ -25,7 +25,7 @@ export interface IClass{
   }
 }
 const StudentList = (props: Props) => {
-  const [students, setStudetns] = useState<Class[]>([])
+  const [students, setStudents] = useState<Class[]>([])
   const navigate = useNavigate()
   const param = useLocation()
   const [visible, setVisible] = useState(false)
@@ -38,7 +38,7 @@ const StudentList = (props: Props) => {
     fetchStudent.fetchDataStudent(id).then(
       (response) => {
         console.log(response)
-        setStudetns(response);
+        setStudents(response);
       },
       (error) => {
         console.log(error)
