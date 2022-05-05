@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Modal } from 'antd'
 import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
