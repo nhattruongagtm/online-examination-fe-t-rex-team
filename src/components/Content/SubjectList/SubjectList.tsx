@@ -3,6 +3,7 @@ import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { fetchSubject } from '../../../api/demoApi'
+import { Class } from '../../../models/class'
 import { Subject } from '../../../models/subject'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
@@ -84,10 +85,11 @@ const SubjectList = (props: Props) => {
     // },
     {
       title: '',
-      key: 'list',
-      render: (text: string, record: any) => (
+      dataIndex: 'id',
+      key: 'id',
+      render: (text: string, record: Subject) => (
         <Button
-          onClick={() => navigate(`${IRoute.CLASS_LIST}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.CLASS_LIST}?subjectID=${record.id}`)}
         >
           List of Class
         </Button>
@@ -96,9 +98,9 @@ const SubjectList = (props: Props) => {
     {
       title: '',
       key: 'create',
-      render: (text: string, record: any) => (
+      render: (text: string, record: Subject) => (
         <Button
-          onClick={() => navigate(`${IRoute.CREATE_EXAM}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.CREATE_EXAM}?subjectID=${record.id}`)}
         >
           View exam questions
         </Button>

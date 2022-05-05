@@ -1,15 +1,18 @@
 import { Button, Modal } from 'antd'
 import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { fetchClass } from '../../../api/demoApi'
 import { Class,TestStudent } from '../../../models/class'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
 import AddClass from './AddClass'
+import qs from 'query-string'
 
 type Props = {}
-
+export interface IParam{
+  subjectID :string
+}
 export interface IClass{
   classes: {
     classID: number
@@ -20,6 +23,10 @@ export interface IClass{
 const ClassList = (props: Props) => {
   const [classes, setClasses] = useState<Class[]>([])
   const navigate = useNavigate()
+  const param = useLocation()
+  const id = Number(qs.parse(param.search).subjectID)
+  console.log(id)
+  
 
   const [visible, setVisible] = useState(false)
 
@@ -28,7 +35,7 @@ const ClassList = (props: Props) => {
   ) as LoginResponse
 
   useEffect(() => {
-    fetchClass.fetchData(1).then(
+    fetchClass.fetchData(id).then(
       (response) => {
         console.log(response)
         setClasses(response);
@@ -69,19 +76,20 @@ const ClassList = (props: Props) => {
       dataIndex: 'className',
       key: 'className',
     },
-    {
-      title: 'List Student',
-      dataIndex: 'u',
-      key: 'u',
-      render: (users: any) => <div>{console.log("in render:", users) 
-      }here</div>,
-    },
+    // {
+    //   title: 'List Student',
+    //   dataIndex: 'u',
+    //   key: 'u',
+    //   render: (users: any) => <div>{console.log("in render:", users) 
+    //   }here</div>,
+    // },
     {
       title: '',
-      key: 'list',
-      render: (text: string, record: any) => (
+      dataIndex: 'classID',
+      key: 'classID',
+      render: (text: string, record: Class) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?ma-mon-hoc=${123}`)}
+          onClick={() => navigate(`${IRoute.STUDENT_LIST}?classID=${record.classID}`)}
         >
           List of Student
         </Button>
@@ -105,7 +113,7 @@ const ClassList = (props: Props) => {
         onCancel={() => setVisible(false)}
         width={700}
       >
-        <AddClass></AddClass>
+        <AddClass ></AddClass>
       </Modal>
       <Table
         columns={user && user.type === 0 ? columnss : columns}

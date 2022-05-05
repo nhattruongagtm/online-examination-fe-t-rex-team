@@ -66,9 +66,9 @@ const AddClass = (props: Props, {classes}:IAClass) => {
         </Form.Item> */}
 
         <Form.Item
-          label="Class Name"
+          label="Name"
           name="className"
-          rules={[{ required: true, message: 'Please input Class Name !' }]}
+          rules={[{ required: true, message: 'Please input Name !' }]}
         >
           <Input
             value={inputData.className}

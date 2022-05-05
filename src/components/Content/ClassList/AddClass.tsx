@@ -4,6 +4,7 @@ import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
 import Swal from 'sweetalert2'
 import { IClass as IAClass} from './ClassList'
+import { studentApi } from '../../../api/student'
 type Props = {}
 
 const AddClass = (props: Props, {classes}:IAClass) => {
@@ -15,14 +16,15 @@ const AddClass = (props: Props, {classes}:IAClass) => {
   }
 
   const onFinish = (values: any) => {
+    
     console.log('Success:', values)
     
     Swal.fire({
       icon: 'success',
-      text: 'Add Class Success',
+      text: 'Add Student Success',
     })
-    classApi
-      .addClass(values.classID, values.className)
+    studentApi
+      .addStudent(values.classID, values.className)
       .then((res) => {
         // console.log(res)
         setMessage(res.message)
@@ -54,16 +56,6 @@ const AddClass = (props: Props, {classes}:IAClass) => {
         style={{ width: '500px' }}
       >
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
-        {/* <Form.Item
-          label="Class Code"
-          name="classID"
-          rules={[{ required: true, message: 'Please input Class Code!' }]}
-        >
-          <Input 
-          value={inputData.classID} 
-          onChange={onChange}
-           />
-        </Form.Item> */}
 
         <Form.Item
           label="Class Name"

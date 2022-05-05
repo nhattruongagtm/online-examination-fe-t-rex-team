@@ -1,5 +1,6 @@
 import { Class } from '../models/class'
 import { Subject } from '../models/subject'
+import { User } from '../models/user'
 import { clientAxios } from './clientAxios'
 
 export const testApi = {
@@ -18,7 +19,11 @@ export const fetchSubject = {
 
 export const fetchClass = {
   fetchData: (id: number): Promise<Class[]> => {
-    const url = `/getAllClass`
+    const url = `/getAllClass/${id}`
+    return clientAxios.get(url);
+  },
+  fetchDataStudent: (classID: number): Promise<Class[]> => {
+    const url = `getUserByClassID/${classID}`
     return clientAxios.get(url);
   },
 }

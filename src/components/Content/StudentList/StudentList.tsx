@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd'
 import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { fetchClass, fetchSubject } from '../../../api/demoApi'
 import { Class,TestStudent } from '../../../models/class'
 import { Subject } from '../../../models/subject'
@@ -10,6 +10,8 @@ import { IRoute } from '../router'
 import AddSubject from '../SubjectList/AddSubject'
 import AddStudent from './AddStudent'
 // import AddClass from './AddClass'
+import qs from 'query-string'
+import { fetchStudent } from '../../../api/student'
 
 type Props = {}
 
@@ -23,20 +25,20 @@ export interface IClass{
   }
 }
 const StudentList = (props: Props) => {
-  const [classes, setClasses] = useState<Class[]>([])
+  const [students, setStudetns] = useState<Class[]>([])
   const navigate = useNavigate()
-
+  const param = useLocation()
   const [visible, setVisible] = useState(false)
-
+  const id = Number(qs.parse(param.search).classID)
   const user = JSON.parse(
     localStorage.getItem('e-exam') as string
   ) as LoginResponse
 
   useEffect(() => {
-    fetchClass.fetchData(1).then(
+    fetchStudent.fetchDataStudent(id).then(
       (response) => {
         console.log(response)
-        setClasses(response);
+        setStudetns(response);
       },
       (error) => {
         console.log(error)
@@ -64,23 +66,23 @@ const StudentList = (props: Props) => {
   const columns = [
     {
       title: 'Student ID',
-      dataIndex: 'u',
-      key: 'u',
-      render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.id}</div>)}</div>,
+      dataIndex: 'id',
+      key: 'id',
+      // render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.id}</div>)}</div>,
 
     },
     {
       title: 'Full Name',
-      dataIndex: 'u',
-      key: 'u',
-      render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.fullName}</div>)}</div>,
+      dataIndex: 'fullName',
+      key: 'fullName',
+      // render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.fullName}</div>)}</div>,
 
     },
     {
       title: 'Email',
-      dataIndex: 'u',
-      key: 'u',
-      render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.email}</div>)}</div>,
+      dataIndex: 'email',
+      key: 'email',
+      // render: (users: TestStudent[]) => <div>{users.map((item,index) => <div key={`item-${index}`}>{item.email}</div>)}</div>,
     },
   ]
 
@@ -104,7 +106,7 @@ const StudentList = (props: Props) => {
       </Modal>
       <Table
         columns={user && user.type === 0 ? columnss : columns}
-        dataSource={classes}
+        dataSource={students}
       />
     </>
   )
