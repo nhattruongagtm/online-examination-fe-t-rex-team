@@ -12,8 +12,6 @@ type Props = {
   subjectID: number
 }
 
-
-
 const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
   const [message, setMessage] = useState('')
   const dispatch = useDispatch()
@@ -24,7 +22,6 @@ const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
   }
 
   const onFinish = (value: any) => {
-    
     classApi
       .addClass(subjectID, value.className)
       .then((res) => {
@@ -34,7 +31,7 @@ const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
 
         Swal.fire({
           icon: 'success',
-          text: 'Add Student Success',
+          text: 'Add Class Success',
         })
         dispatch(createClass(res.object as Class))
       })

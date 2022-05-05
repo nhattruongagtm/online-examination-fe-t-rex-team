@@ -3,7 +3,7 @@ import Table from 'antd/lib/table/Table'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import { fetchClass } from '../../../api/demoApi'
-import { Class,TestStudent } from '../../../models/class'
+import { Class, TestStudent } from '../../../models/class'
 import { InputForm, LoginResponse } from '../../../pages/Login/Login'
 import { IRoute } from '../router'
 import AddClass from './AddClass'
@@ -13,10 +13,10 @@ import { loadClassList } from '../../../slice/classSlice'
 import { RootState } from '../../../store'
 
 type Props = {}
-export interface IParam{
-  subjectID :string
+export interface IParam {
+  subjectID: string
 }
-export interface IClass{
+export interface IClass {
   classes: {
     classID: number
     className: string
@@ -27,12 +27,12 @@ const ClassList = (props: Props) => {
   const [classes, setClasses] = useState<Class[]>([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const classList = useSelector((state: RootState)=>state.classList.classList)
+  const classList = useSelector((state: RootState) => state.classList.classList)
   const param = useLocation()
   const id = Number(qs.parse(param.search).subjectID)
   console.log(id)
 
-  
+
 
   const [visible, setVisible] = useState(false)
 
@@ -44,8 +44,8 @@ const ClassList = (props: Props) => {
     fetchClass.fetchData(id).then(
       (response) => {
         console.log(response)
-       dispatch(loadClassList(response))
-        
+        dispatch(loadClassList(response))
+
       },
       (error) => {
         console.log(error)
@@ -64,7 +64,7 @@ const ClassList = (props: Props) => {
       title: 'Class',
       dataIndex: 'className',
       key: 'className',
-    },{
+    }, {
       title: 'List Student',
       dataIndex: 'u',
       key: 'u',
@@ -95,7 +95,7 @@ const ClassList = (props: Props) => {
       key: 'classID',
       render: (text: string, record: Class) => (
         <Button
-          onClick={() => navigate(`${IRoute.STUDENT_LIST}?classID=${record.classID}`)}
+          onClick={() => navigate(`${IRoute.STUDENT_LIST}?classID=${record.classID}&&className=${record.className}`)}
         >
           List of Student
         </Button>

@@ -26,4 +26,8 @@ export const userApi = {
       `${url}?token=${token}&password=${confirmNewPassword}`
     )
   },
+  getUserByID: (id: number): Promise<User> => {
+    const url = `/getUserByID/${id}`
+    return clientAxios.get(url)
+  },
 }

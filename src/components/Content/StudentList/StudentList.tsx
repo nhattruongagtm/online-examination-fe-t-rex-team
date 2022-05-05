@@ -12,6 +12,9 @@ import AddStudent from './AddStudent'
 // import AddClass from './AddClass'
 import qs from 'query-string'
 import { fetchStudent } from '../../../api/student'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../store'
+import { createStudent, loadStudentList } from '../../../slice/studentSlice'
 
 type Props = {}
 
@@ -27,9 +30,12 @@ export interface IClass{
 const StudentList = (props: Props) => {
   const [students, setStudents] = useState<Class[]>([])
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const studentList = useSelector((state: RootState)=> state.studentList.student)
   const param = useLocation()
   const [visible, setVisible] = useState(false)
   const id = Number(qs.parse(param.search).classID)
+  const className = qs.parse(param.search).className
   const user = JSON.parse(
     localStorage.getItem('e-exam') as string
   ) as LoginResponse
@@ -38,7 +44,7 @@ const StudentList = (props: Props) => {
     fetchStudent.fetchDataStudent(id).then(
       (response) => {
         console.log(response)
-        setStudents(response);
+        dispatch(loadStudentList(response))
       },
       (error) => {
         console.log(error)
@@ -101,12 +107,13 @@ const StudentList = (props: Props) => {
         visible={visible}
         onCancel={() => setVisible(false)}
         width={700}
+    
       >
-        <AddStudent></AddStudent>
+        <AddStudent classID={id} classesName={className as string}></AddStudent>
       </Modal>
       <Table
         columns={user && user.type === 0 ? columnss : columns}
-        dataSource={students}
+        dataSource={studentList}
       />
     </>
   )

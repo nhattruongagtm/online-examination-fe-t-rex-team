@@ -1,4 +1,4 @@
-import { Button, Checkbox, DatePicker, Form, Input, Select, Space } from 'antd'
+import { Button, Checkbox, DatePicker, Form, Input, Select, Space, Table } from 'antd'
 import { useEffect, useState } from 'react'
 import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
@@ -9,62 +9,41 @@ import { fetchStudent } from '../../../api/student'
 import { useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import { Class } from '../../../models/class'
+import { User } from '../../../models/user'
+import { useDispatch } from 'react-redux'
+import { createStudent } from '../../../slice/studentSlice'
+import { userApi } from '../../../api/userApi'
 
-type Props = {}
-
-const AddClass = (props: Props, { classes }: IAClass) => {
+type Props = {
+  classID: number
+  classesName: string
+}
+export interface IClass {
+  classes: {
+    u: {
+      id?: number;
+      fullName?: string;
+      email?: string;
+    }
+  }
+}
+const AddClass = ({ classID, classesName }: Props, { classes }: IAClass) => {
   const user = JSON.parse(
     localStorage.getItem('e-exam') as string
   ) as LoginResponse
-  const [students, setStudents] = useState<Class[]>([])
+  const [students, setStudents] = useState<User[]>([])
   const param = useLocation()
   const [visible, setVisible] = useState(false)
   const id = Number(qs.parse(param.search).classID)
   const [message, setMessage] = useState('')
-
+  const dispatch = useDispatch()
+  const [select, setSelect] = useState<string[]>([])
   const [inputData, setInputData] = useState({ classID: '', className: '', u: '' })
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputData({ ...inputData, [e.target.name]: e.target })
-  }
-
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
-
-  //   classApi
-  //     .addClass(values.classID, values.className)
-  //     .then((res) => {
-  //       // console.log(res)
-  //       setMessage(res.message)
-  //       console.log(message)
-
-  //       Swal.fire({
-  //         icon: 'success',
-  //         text: 'Add Class Success',
-  //       })
-  //     })
-  //     .catch((e) => {
-  //       console.log(e)
-  //     })
-  }
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
-  }
-
-  
-function handleChange(value: any) {
-  console.log(`selected ${value}`);
-} 
-
-  const { Option } = Select;
-
-  const children = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-  }
-
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setInputData({ ...inputData, [e.target.name]: e.target })
+  // }
   useEffect(() => {
-    fetchStudent.fetchDataStudent(id).then(
+    fetchStudent.getAllStudent().then(
       (response) => {
         console.log(response)
         setStudents(response);
@@ -73,7 +52,43 @@ function handleChange(value: any) {
         console.log(error)
       }
     )
-  }, []) 
+  }, [])
+
+  const onFinish = (value: any) => {
+    select.map(item => {
+      console.log(item, classesName, classID)
+      fetchStudent
+        .addStuToClass(Number(item), classesName, classID)
+        .then((res) => {
+          console.log(res)
+          userApi.getUserByID(Number(item)).then(res => {
+            dispatch(createStudent(res))
+          }).catch(e => {
+            console.log(e)
+          })
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    })
+
+    // Swal.fire({
+    //   icon: 'success',
+    //   text: 'Add Student Success',
+    // })
+  }
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo)
+  }
+
+  function handleChange(value: string[]) {
+    console.log(value)
+    setSelect(value as string[])
+
+  }
+
+  const { Option } = Select;
   return (
     <div>
       <Form
@@ -89,12 +104,15 @@ function handleChange(value: any) {
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
 
         <Select mode="tags" style={{ width: '100%' }} onChange={handleChange} tokenSeparators={[',']}>
-          {children}
-          
+          {students.map((s) => (
+            <Option key={s.id} >
+              {s.id} - {s.fullName}
+            </Option>
+          ))}
         </Select>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" style={{ marginTop: '1rem' }} htmlType="submit" onClick={onFinish}>
+          <Button type="primary" style={{ marginTop: '1rem' }} htmlType="submit">
             Add Student
           </Button>
         </Form.Item>
