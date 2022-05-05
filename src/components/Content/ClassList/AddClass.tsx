@@ -4,29 +4,36 @@ import { classApi } from '../../../api/classApi'
 import { subjectApi } from '../../../api/subject'
 import Swal from 'sweetalert2'
 import { IClass as IAClass} from './ClassList'
-type Props = {}
+import { studentApi } from '../../../api/student'
+import { useDispatch } from 'react-redux'
+import { Class } from '../../../models/class'
+import { createClass } from '../../../slice/classSlice'
+type Props = {
+  subjectID: number
+}
 
-const AddClass = (props: Props, {classes}:IAClass) => {
+const AddClass = ({subjectID}: Props, {classes}:IAClass) => {
   const [message, setMessage] = useState('')
+  const dispatch = useDispatch()
 
-  const [inputData, setInputData] = useState({classID:'', className:'', u:''})
+  const [inputData, setInputData] = useState<string>('')
   const onChange=(e:React.ChangeEvent<HTMLInputElement>) =>{
-    setInputData({...inputData,[e.target.name] : e.target})
+    setInputData(e.target.value)
   }
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
-    
-    Swal.fire({
-      icon: 'success',
-      text: 'Add Class Success',
-    })
+  const onFinish = (value: any) => {
     classApi
-      .addClass(values.classID, values.className)
+      .addClass(subjectID, value.className)
       .then((res) => {
         // console.log(res)
         setMessage(res.message)
-        console.log(message)
+        console.log(res)
+
+        Swal.fire({
+          icon: 'success',
+          text: 'Add Class Success',
+        })
+        dispatch(createClass(res.object as Class))
       })
       .catch((e) => {
         console.log(e)
@@ -54,16 +61,6 @@ const AddClass = (props: Props, {classes}:IAClass) => {
         style={{ width: '500px' }}
       >
         <div style={{ color: 'green', fontSize: '1.5rem' }}>{message}</div>
-        {/* <Form.Item
-          label="Class Code"
-          name="classID"
-          rules={[{ required: true, message: 'Please input Class Code!' }]}
-        >
-          <Input 
-          value={inputData.classID} 
-          onChange={onChange}
-           />
-        </Form.Item> */}
 
         <Form.Item
           label="Class Name"
@@ -71,12 +68,12 @@ const AddClass = (props: Props, {classes}:IAClass) => {
           rules={[{ required: true, message: 'Please input Class Name !' }]}
         >
           <Input
-            value={inputData.className}
+            value={inputData}
             onChange={onChange}
           />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={onFinish}>
+          <Button type="primary" htmlType="submit">
             Add class
           </Button>
         </Form.Item>

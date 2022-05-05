@@ -1,6 +1,10 @@
 import { Button, Checkbox, DatePicker, Form, Input, Space } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { subjectApi } from '../../../api/subject'
+import { Subject } from '../../../models/subject'
+import { createSubject } from '../../../slice/subjectSlice'
+import SubjectList from './SubjectList'
 
 type Props = {}
 
@@ -10,6 +14,7 @@ const AddSubject = (props: Props) => {
 
   const [nameSubject, setNameSubject] = useState('')
   const [idSubject, setIdSubject] = useState('')
+  const dispatch = useDispatch()
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
@@ -24,8 +29,21 @@ const AddSubject = (props: Props) => {
       .addSubject(nameSubject, idSubject)
       .then((res) => {
         console.log(res)
+
         setMessage(res.message)
         console.log(message)
+        const subject: Subject = {
+          code: Number(idSubject),
+          id: 2345644,
+          name: nameSubject
+        }
+        setIdSubject('')
+        setNameSubject('')
+
+        if (res.message != 'Tên môn đã tồn tại') {
+          dispatch(createSubject(subject))
+        }
+
       })
       .catch((e) => {
         console.log(e)
@@ -45,20 +63,10 @@ const AddSubject = (props: Props) => {
         style={{ width: '500px' }}
       >
         <div
-          style={{ color: 'green', fontSize: '1.2rem', marginBottom: '1rem' }}
+          style={{ color: message === 'Tên môn đã tồn tại' ? 'red' : 'green', fontSize: '1.2rem', marginBottom: '1rem' }}
         >
           {message}
         </div>
-        <Form.Item
-          label="Name subject"
-          name="nameSubject"
-          rules={[{ required: true, message: 'Please input name subject!' }]}
-        >
-          <Input
-            value={nameSubject}
-            onChange={(e) => setNameSubject(e.target.value)}
-          />
-        </Form.Item>
 
         <Form.Item
           label="Code subject"
@@ -71,43 +79,16 @@ const AddSubject = (props: Props) => {
           />
         </Form.Item>
 
-        {/* <Form.Item
-          label="Exam date"
-          name="examDate"
-          rules={[{ required: true, message: 'Please input date exam!' }]}
+        <Form.Item
+          label="Name subject"
+          name="nameSubject"
+          rules={[{ required: true, message: 'Please input name subject!' }]}
         >
           <Input
-            type="date"
-            value={examDate}
-            onChange={(e) => setExamDate(e.target.value)}
+            value={nameSubject}
+            onChange={(e) => setNameSubject(e.target.value)}
           />
         </Form.Item>
-
-        <Form.Item
-          label="Exam time"
-          name="examTime"
-          rules={[{ required: true, message: 'Please input time exam!' }]}
-        >
-          <Input
-            type="number"
-            placeholder="phút"
-            value={examTime}
-            onChange={(e) => setExamTime(Number.parseInt(e.target.value))}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Grade"
-          name="grade"
-          rules={[{ required: true, message: 'Please input grade!' }]}
-        >
-          <Input
-            type="number"
-            placeholder="phút"
-            value={grade}
-            onChange={(e) => setGrade(Number.parseFloat(e.target.value))}
-          />
-        </Form.Item> */}
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit" onClick={handleAddSubject}>

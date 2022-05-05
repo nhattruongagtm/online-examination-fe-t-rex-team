@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { userApi } from '../../api/userApi'
 import { IRoute } from '../../components/Content/router'
-interface Props {}
+interface Props { }
 
 export interface LoginResponse {
   id: number
@@ -122,7 +122,7 @@ const Login = (props: Props) => {
               }}
             >
               <a onClick={() => navigate(IRoute.FORGOT_PASSWORD)}>
-                Forget password
+                Forgot password
               </a>
             </Form.Item>
           </div>
