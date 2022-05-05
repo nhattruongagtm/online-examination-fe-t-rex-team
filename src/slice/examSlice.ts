@@ -12,7 +12,7 @@ export const initialState: ExamModel = {
     id: -1,
     title: '',
     correct: 1,
-    anwsers: [
+    answers: [
       {
         id: 1,
         title: '',

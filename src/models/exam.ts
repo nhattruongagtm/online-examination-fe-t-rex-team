@@ -19,3 +19,14 @@ export interface Student {
   id: number
   fullname: string
 }
+
+export interface CSVResponse<T> {
+  data: T[]
+  errors: any[]
+  meta: any[]
+}
+
+export interface CheckExam {
+  id: number
+  date: string
+}

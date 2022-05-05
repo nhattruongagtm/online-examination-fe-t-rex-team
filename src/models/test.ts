@@ -36,6 +36,7 @@ export interface DateTime {
 export interface TestCode {
   id: number
   date: DateTime
+  dateString: string
 }
 export interface QuestionRequest {
   title: string

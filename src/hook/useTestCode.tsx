@@ -30,7 +30,6 @@ const useTestCode = (code: string) => {
   const testInfo = testCode ? testCode.split('/') : []
   const subjectId = testInfo[0]
   const testDate = getDateFromString(testInfo[1])
-  console.log(testInfo)
   const data: TestCode = {
     id: Number(subjectId),
     date: {
@@ -38,6 +37,9 @@ const useTestCode = (code: string) => {
       month: testDate.month,
       year: testDate.year,
     },
+    dateString: `${testDate.year}-${
+      testDate.month < 10 ? `0${testDate.month}` : testDate.month
+    }-${testDate.day < 10 ? `0${testDate.day}` : testDate.day}`,
   }
   return [data]
 }

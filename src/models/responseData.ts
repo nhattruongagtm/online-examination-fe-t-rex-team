@@ -7,7 +7,6 @@ export interface ResponseData {
 }
 
 export interface CreateExamRequest {
-  idSubject: number
   listQuestions: QuestionRequest[]
 }
 export interface ResponseDataClass {
