@@ -97,7 +97,6 @@ const SubjectForTeacher = (props: Props) => {
 
   const handleDeleteSubject = (id: number) => {
     dispatch(deleteSubject(id))
-
     subjectApi
       .deleteSubject(id)
       .then((res) => {
