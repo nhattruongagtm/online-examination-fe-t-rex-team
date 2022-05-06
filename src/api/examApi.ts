@@ -2,7 +2,7 @@ import { CheckExam } from '../models/exam'
 import { CreateExamRequest } from '../models/responseData'
 import { ExamModel } from '../slice/examSlice'
 import { clientAxios } from './clientAxios'
-import { Test } from '../models/test'
+import { ExamResp, Test } from '../models/test'
 import { Subject } from '../models/subject'
 
 export const examApi = {
@@ -18,7 +18,7 @@ export const examApi = {
     const url = `/checkTest/${id}`
     return clientAxios.post(url, params)
   },
-  loadTest: async (id: number): Promise<Test> => {
+  loadTest: async (id: number): Promise<ExamResp> => {
     const url = `/exam/question/doing`
     return await clientAxios.post(url, id)
   },

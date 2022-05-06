@@ -16,6 +16,7 @@ import {
 import { LoginResponse } from '../../../pages/Login/Login'
 import { loadTest } from '../../../slice/testSlice'
 import { RootState } from '../../../store'
+import Loading from '../Loading'
 import { IRoute } from '../router'
 import Question from './Question'
 
@@ -37,12 +38,13 @@ const Test = (props: Props) => {
   const testStore = useSelector((state: RootState) => state.test)
   const { choose, test: testList } = testStore
   const [u] = useUser()
+  const [isLoading, setIsLoading] = useState(false)
   const [subject, setSubject] = useState<Subject>({
     id: 1,
     code: 1,
-    date: '2022-07-08',
-    time: '2022-08-08',
-    name: 'Nhập môn công nghệ phần mềm',
+    date: '',
+    time: '',
+    name: '',
   })
   const [input, setInput] = useState<InputCreate>()
 
@@ -73,163 +75,34 @@ const Test = (props: Props) => {
         })
   }, [])
 
-  useEffect(() => {
-    const subject: Subject = {
-      id: 1,
-      code: 1,
-      date: '2022-05-06',
-      time: '2022-05-07',
-      name: 'Nhập môn công nghệ phần mềm',
-    }
-    setSubject(subject)
-  }, [])
+  useEffect(() => {}, [])
 
   useEffect(() => {
     if (isFinished) {
       setTimeout(true)
     }
   }, [isFinished])
+
   useEffect(() => {
-    // const test: TestModel = [
-    //   {
-    //     id: 1,
-    //     title: 'T-rex thành lập vào năm nào?',
-    //     answers: [
-    //       {
-    //         id: 1,
-    //         title: '2022',
-    //       },
-    //       {
-    //         id: 2,
-    //         title: '2019',
-    //       },
-    //       {
-    //         id: 3,
-    //         title: '2023',
-    //       },
-    //       {
-    //         id: 4,
-    //         title: '2021',
-    //       },
-    //     ],
-    //     correct: 1,
-    //     choose: -1,
-    //     flag: false,
-    //     status: 0,
-    //   },
-    //   {
-    //     id: 2,
-    //     title: 'Biểu tượng của T-rex là gì',
-    //     answers: [
-    //       {
-    //         id: 1,
-    //         title: 'Khủng long',
-    //       },
-    //       {
-    //         id: 2,
-    //         title: 'Ngựa 1 sừng',
-    //       },
-    //       {
-    //         id: 3,
-    //         title: 'Thiên nga',
-    //       },
-    //       {
-    //         id: 4,
-    //         title: 'Rùa',
-    //       },
-    //     ],
-    //     correct: 1,
-    //     choose: -1,
-    //     flag: false,
-    //     status: 0,
-    //   },
-    //   {
-    //     id: 3,
-    //     title: 'Slogan của T-rex là gì?',
-    //     answers: [
-    //       {
-    //         id: 1,
-    //         title: 'Nâng niu từng dòng code',
-    //       },
-    //       {
-    //         id: 2,
-    //         title: 'Rawr....Rawr...',
-    //       },
-    //       {
-    //         id: 3,
-    //         title: 'gr ừ..gr ừ',
-    //       },
-    //       {
-    //         id: 4,
-    //         title: 'roarrrrrr',
-    //       },
-    //     ],
-    //     correct: 2,
-    //     choose: 1,
-    //     flag: false,
-    //     status: 0,
-    //   },
-    //   {
-    //     id: 4,
-    //     title: 'T-rex có mấy thành viên?',
-    //     answers: [
-    //       {
-    //         id: 1,
-    //         title: '8',
-    //       },
-    //       {
-    //         id: 2,
-    //         title: '9',
-    //       },
-    //       {
-    //         id: 3,
-    //         title: '10',
-    //       },
-    //       {
-    //         id: 4,
-    //         title: '5',
-    //       },
-    //     ],
-    //     correct: 2,
-    //     choose: 1,
-    //     flag: false,
-    //     status: 0,
-    //   },
-    //   {
-    //     id: 5,
-    //     title: 'Có bao nhiêu devs?',
-    //     answers: [
-    //       {
-    //         id: 1,
-    //         title: '5',
-    //       },
-    //       {
-    //         id: 2,
-    //         title: '6',
-    //       },
-    //       {
-    //         id: 3,
-    //         title: '7',
-    //       },
-    //       {
-    //         id: 4,
-    //         title: '8',
-    //       },
-    //     ],
-    //     correct: 3,
-    //     choose: 1,
-    //     flag: false,
-    //     status: 0,
-    //   },
-    // ]
+    setIsLoading(true)
     examApi
       .loadTest(testInfo.id)
       .then((res) => {
         console.log(res)
-        dispatch(loadTest(res))
+        dispatch(loadTest(res.listQuestions))
+        setIsLoading(false)
+        setSubject({
+          code: 0,
+          id: res.subjectID,
+          name: res.name,
+          duration: res.duration,
+          date: res.date,
+          time: res.time,
+        })
       })
       .catch((e) => {
         console.log(e)
+        setIsLoading(false)
       })
   }, [])
 
@@ -251,6 +124,8 @@ const Test = (props: Props) => {
       answers: choose,
     }
 
+    setIsLoading(true)
+
     submitTest
       .submitTest(data)
       .then((res) => {
@@ -260,10 +135,12 @@ const Test = (props: Props) => {
           correct: res.correct,
           total: res.total,
         })
+        setIsLoading(false)
         setVisible1(true)
       })
       .catch((e) => {
         console.log(e)
+        setIsLoading(false)
       })
   }
 
@@ -326,7 +203,7 @@ const Test = (props: Props) => {
         <div className="test__sidebar__header">
           <h5>Môn thi: {subject.name}</h5>
           <div className="exam__time">
-            <h5>Ngày thi: 20/5/2022</h5>
+            <h5>Ngày thi: {subject.date}</h5>
             <h5>
               Thời gian:{' '}
               <span>{`${minute < 10 ? `0${minute}` : minute}:${
@@ -402,6 +279,7 @@ const Test = (props: Props) => {
           Kết quả: {result.correct} / {result.total}
         </p>
       </Modal>
+      {isLoading && <Loading />}
     </Layout>
   )
 }

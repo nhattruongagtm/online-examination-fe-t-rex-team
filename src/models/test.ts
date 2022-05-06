@@ -46,3 +46,17 @@ export interface QuestionRequest {
 export interface AnswerRequest {
   title: string
 }
+export interface QuestionResp {
+  id: number
+  title: string
+  answers: Answer[]
+  correct: number
+}
+export interface ExamResp {
+  subjectID: number
+  name: string
+  time: string
+  date: string
+  duration: number
+  listQuestions: Question[]
+}
