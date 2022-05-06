@@ -8,6 +8,7 @@ import { useCountDown } from '../../../hook/useCountDown'
 import useTestCode from '../../../hook/useTestCode'
 import useUser from '../../../hook/useUser'
 import { Subject } from '../../../models/subject'
+import Countdown from 'react-countdown'
 import {
   ResponseResult,
   SubmitAnswer,
@@ -19,6 +20,7 @@ import { RootState } from '../../../store'
 import Loading from '../Loading'
 import { IRoute } from '../router'
 import Question from './Question'
+import { getMark } from '../../../utils/getMark'
 
 const { Sider, Content } = Layout
 type Props = {}
@@ -33,8 +35,8 @@ interface InputCreate {
 const Test = (props: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const countDown = useCountDown({ time: 10 })
-  const [minute, second, isFinished] = countDown
+
+  // const [minute, second, isFinished] = countDown
   const testStore = useSelector((state: RootState) => state.test)
   const { choose, test: testList } = testStore
   const [u] = useUser()
@@ -45,7 +47,9 @@ const Test = (props: Props) => {
     date: '',
     time: '',
     name: '',
+    dateTime: '',
   })
+  // const countDown = useCountDown({ time: new Date(time).})
   const [input, setInput] = useState<InputCreate>()
 
   const [visible, setVisible] = React.useState(false)
@@ -77,11 +81,11 @@ const Test = (props: Props) => {
 
   useEffect(() => {}, [])
 
-  useEffect(() => {
-    if (isFinished) {
-      setTimeout(true)
-    }
-  }, [isFinished])
+  // useEffect(() => {
+  //   if (isFinished) {
+  //     setTimeout(true)
+  //   }
+  // }, [isFinished])
 
   useEffect(() => {
     setIsLoading(true)
@@ -98,6 +102,7 @@ const Test = (props: Props) => {
           duration: res.duration,
           date: res.date,
           time: res.time,
+          dateTime: res.dateTime,
         })
       })
       .catch((e) => {
@@ -119,12 +124,15 @@ const Test = (props: Props) => {
       // studentId: (
       //   JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
       // ).id,
-      studentId: 1,
+      studentId: u ? u.id : -1,
       subjectId: subject.id,
       answers: choose,
     }
 
     setIsLoading(true)
+
+    const rs = getMark(choose, testList)
+    console.log('grade: ' + rs.correct, '/', rs.total)
 
     submitTest
       .submitTest(data)
@@ -135,6 +143,7 @@ const Test = (props: Props) => {
           correct: res.correct,
           total: res.total,
         })
+        setSubject({ ...subject, dateTime: '00:00:00' })
         setIsLoading(false)
         setVisible1(true)
       })
@@ -206,12 +215,15 @@ const Test = (props: Props) => {
             <h5>Ngày thi: {subject.date}</h5>
             <h5>
               Thời gian:{' '}
-              <span>{`${minute < 10 ? `0${minute}` : minute}:${
+              {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
                 second === 60 ? '00' : second < 10 ? `0${second}` : second
-              }`}</span>
-              {/* <span>
-                <Countdown date={'2022-05-04 22:42:00'} renderer={renderer} />
-              </span> */}
+              }`}</span> */}
+              <span>
+                <Countdown
+                  date={`${subject.date} ${subject.dateTime}`}
+                  renderer={renderer}
+                />
+              </span>
             </h5>
           </div>
         </div>

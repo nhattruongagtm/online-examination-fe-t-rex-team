@@ -69,8 +69,8 @@ const SubjectForStudent = (props: Props) => {
         <>
           <Button
             disabled={
-              subject.date && subject.duration
-                ? !checkExamDate(subject.date, subject.duration)
+              subject.date && subject.duration && subject.time
+                ? !checkExamDate(subject.date, subject.time, subject.duration)
                 : true
             }
             onClick={() =>

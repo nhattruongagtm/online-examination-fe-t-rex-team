@@ -59,4 +59,5 @@ export interface ExamResp {
   date: string
   duration: number
   listQuestions: Question[]
+  dateTime: string
 }

@@ -6,4 +6,5 @@ export interface Subject {
   time?: string
   grade?: number
   duration?: number
+  dateTime?: string
 }
