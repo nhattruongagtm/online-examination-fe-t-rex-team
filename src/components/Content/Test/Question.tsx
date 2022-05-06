@@ -40,7 +40,7 @@ const Question = ({ order, test, id, title }: Props) => {
   return (
     <div className="question__list__item" id={`quest-${id}`}>
       <div className="question__title">
-        Câu {order}: <span>{test.title}</span>
+        <span> Câu {order}: {test.title}</span>
         <Button onClick={() => dispatch(flagQuestion(id))}>
           <i className="bx bxs-flag"></i>
         </Button>

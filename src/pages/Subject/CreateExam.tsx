@@ -75,15 +75,13 @@ const CreateExam = (props: Props) => {
     time: '',
     subjectID: -1,
     teacherID: user ? user.id : -1,
-    createdDate: `${new Date().getFullYear()}-${
-      new Date().getMonth() + 1 < 10
-        ? `0${new Date().getMonth() + 1}`
-        : new Date().getMonth() + 1
-    }-${
-      new Date().getDate() < 10
+    createdDate: `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10
+      ? `0${new Date().getMonth() + 1}`
+      : new Date().getMonth() + 1
+      }-${new Date().getDate() < 10
         ? `0${new Date().getDate()}`
         : new Date().getDate()
-    }`,
+      }`,
   })
   const questionState = useSelector(
     (state: RootState) => state.exam.questionList
@@ -321,7 +319,7 @@ const CreateExam = (props: Props) => {
                   {edit.id === -1
                     ? questionState.length + 1
                     : questionState.findIndex((item) => item.id === edit.id) +
-                      1}
+                    1}
                 </span>
 
                 <Input
@@ -385,7 +383,7 @@ const CreateExam = (props: Props) => {
           {questionState.map((item, index) => (
             <div className="question__list__item" key={item.id}>
               <div className="question__title">
-                Câu {index + 1}: <span>{item.title}</span>
+                <span>Câu {index + 1}: {item.title}</span>
                 <Button onClick={() => dispatch(loadEdit(item))}>
                   <i className="bx bxs-edit"></i>
                 </Button>
