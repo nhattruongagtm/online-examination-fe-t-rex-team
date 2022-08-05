@@ -6,6 +6,8 @@ $width: 350px;
     min-width: $width !important;
     max-width: $width !important;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
     &__header {
       margin-bottom: 30px;
       h5 {
@@ -57,6 +59,15 @@ $width: 350px;
       button {
         padding-left: 30px;
         padding-right: 30px;
+      }
+    }
+    .test__main {
+      height: 92%;
+      // background-color: blue;
+    }
+    .progress__bar {
+      span {
+        color: white;
       }
     }
   }

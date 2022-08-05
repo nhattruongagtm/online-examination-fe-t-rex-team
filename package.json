@@ -27,6 +27,7 @@
     "cors": "^2.8.5",
     "d3": "^7.4.4",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "query-string": "^7.1.1",
     "react": "^17.0.0",
     "react-countdown": "^2.3.2",

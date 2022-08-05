@@ -39,9 +39,10 @@ export interface TestCode {
   dateString: string
 }
 export interface QuestionRequest {
+  id?: number
   title: string
   correct: number
-  answers: AnswerRequest
+  answers: AnswerRequest | Answer[]
 }
 export interface AnswerRequest {
   title: string

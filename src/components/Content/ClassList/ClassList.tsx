@@ -126,6 +126,7 @@ const ClassList = (props: Props) => {
       <Table
         columns={user && user.type === 0 ? columnss : columns}
         dataSource={classList}
+        pagination={{ defaultPageSize: 6 }}
       />
     </>
   )

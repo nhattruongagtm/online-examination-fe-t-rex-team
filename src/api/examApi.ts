@@ -1,6 +1,6 @@
 import { CheckExam } from '../models/exam'
 import { CreateExamRequest } from '../models/responseData'
-import { ExamModel } from '../slice/examSlice'
+import { ExamModel, ExamTest } from '../slice/examSlice'
 import { clientAxios } from './clientAxios'
 import { ExamResp, Test } from '../models/test'
 import { Subject } from '../models/subject'
@@ -19,11 +19,15 @@ export const examApi = {
     return clientAxios.post(url, params)
   },
   loadTest: async (id: number): Promise<ExamResp> => {
-    const url = `/exam/question/doing`
-    return await clientAxios.post(url, id)
+    const url = `/question/` + id
+    return await clientAxios.get(url)
   },
   loadExamByStudent: (id: number): Promise<Subject[]> => {
     const url = `/exams/${id}`
+    return clientAxios.get(url)
+  },
+  loadExamBySubject: (id: number): Promise<ExamTest> => {
+    const url = `/exam/subject/${id}`
     return clientAxios.get(url)
   },
 }

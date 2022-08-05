@@ -1,21 +1,19 @@
-import { Button, Modal } from 'antd'
+import { Button, Input, Modal, Space } from 'antd'
 import Table from 'antd/lib/table/Table'
-import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router'
-import { fetchClass, fetchSubject } from '../../../api/demoApi'
-import { Class, TestStudent } from '../../../models/class'
-import { Subject } from '../../../models/subject'
-import { InputForm, LoginResponse } from '../../../pages/Login/Login'
-import { IRoute } from '../router'
-import AddSubject from '../SubjectList/AddSubject'
-import AddStudent from './AddStudent'
 // import AddClass from './AddClass'
 import qs from 'query-string'
-import { fetchStudent } from '../../../api/student'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router'
+import { fetchStudent } from '../../../api/student'
+import { Class } from '../../../models/class'
+import { User } from '../../../models/user'
+import { LoginResponse } from '../../../pages/Login/Login'
+import { loadStudentList } from '../../../slice/studentSlice'
 import { RootState } from '../../../store'
-import { createStudent, loadStudentList } from '../../../slice/studentSlice'
+import AddStudent from './AddStudent'
 
+const { Search } = Input
 type Props = {}
 
 export interface IClass {
@@ -36,16 +34,21 @@ const StudentList = (props: Props) => {
   )
   const param = useLocation()
   const [visible, setVisible] = useState(false)
+  const [search, setSearch] = useState('')
+
   const id = Number(qs.parse(param.search).classID)
   const className = qs.parse(param.search).className
   const user = JSON.parse(
     localStorage.getItem('e-exam') as string
   ) as LoginResponse
 
+  const ref = useRef<User[]>([])
+
   useEffect(() => {
     fetchStudent.fetchDataStudent(id).then(
       (response) => {
         console.log(response)
+        ref.current = response
         dispatch(loadStudentList(response))
       },
       (error) => {
@@ -93,27 +96,53 @@ const StudentList = (props: Props) => {
     },
   ]
 
+  useEffect(() => {
+    let list: User[] = []
+
+    if (search) {
+      list = ref.current.filter(
+        (item) =>
+          item.fullName.toLowerCase().indexOf(search) !== -1 ||
+          item.id.toString().indexOf(search) !== -1
+      )
+    } else {
+      list = ref.current
+    }
+    dispatch(loadStudentList(list))
+  }, [search])
+
   return (
     <>
-      <Button
-        style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
-        onClick={() => setVisible(true)}
+      <Space
+        style={{ width: '100%', display: 'flex', justifyContent: 'right' }}
       >
-        Add Student
-      </Button>
-      <Modal
-        okButtonProps={{ style: { display: 'none' } }}
-        title="Add Student"
-        centered
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        width={700}
-      >
-        <AddStudent classID={id} classesName={className as string}></AddStudent>
-      </Modal>
+        <Button
+          style={{ float: 'right', margin: '0 4.5rem 1.5rem 0' }}
+          onClick={() => setVisible(true)}
+        >
+          Add Student
+        </Button>
+        <Modal
+          okButtonProps={{ style: { display: 'none' } }}
+          title="Add Student"
+          centered
+          visible={visible}
+          onCancel={() => setVisible(false)}
+          width={700}
+        >
+          <AddStudent
+            classID={id}
+            classesName={className as string}
+          ></AddStudent>
+        </Modal>
+      </Space>
+      <Space direction="horizontal">
+        <Search value={search} onChange={(e) => setSearch(e.target.value)} />
+      </Space>
       <Table
         columns={user && user.type === 0 ? columnss : columns}
         dataSource={studentList}
+        pagination={{ defaultPageSize: 6 }}
       />
     </>
   )

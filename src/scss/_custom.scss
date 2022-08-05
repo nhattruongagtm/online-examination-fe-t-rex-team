@@ -4,16 +4,22 @@ body {
   box-sizing: border-box;
 }
 
+.ant-layout-sider {
+  max-width: 15% !important;
+}
+
 .ant-layout-has-sider {
   min-height: calc(100vh - 64px);
-
+  display: flex;
   .site-layout-background {
-    min-width: 250px !important;
+    min-width: 5% !important;
+    // max-width: 10% !important;
   }
   .ant-layout-content {
     background-color: white;
     box-shadow: 0px 0px 55px 5px rgb(221, 221, 221);
     border-radius: 15px;
+    flex-grow: 1;
   }
 }
 .ant-menu-item-selected {
@@ -38,8 +44,8 @@ body {
   justify-content: space-between;
 }
 .ant-spin-container {
-  height: 450px;
-  overflow-y: scroll;
+  // height: 450px;
+  // overflow-y: scroll;
 }
 .header {
   // height: 100%;
@@ -165,5 +171,11 @@ body {
   img {
     width: 150px;
     opacity: 0.3;
+  }
+}
+
+.ant-input-wrapper {
+  input {
+    height: 32px !important;
   }
 }

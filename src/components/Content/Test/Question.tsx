@@ -1,9 +1,14 @@
 import { Button } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Question as QuestionModel, Test } from '../../../models/test'
-import { chooseAnswer, flagQuestion } from '../../../slice/testSlice'
-
+import {
+  chooseAnswer,
+  flagQuestion,
+  loadPosition,
+} from '../../../slice/testSlice'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store'
 interface Props {
   order: number
   test: QuestionModel
@@ -14,6 +19,9 @@ interface Props {
 const Question = ({ order, test, id, title }: Props) => {
   const dispatch = useDispatch()
   const [answer, setAnswer] = useState<number>(-1)
+  const testState = useSelector((state: RootState) => state.test)
+
+  const { test: testSlice, currentQuestion } = testState
 
   const handleChangeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
@@ -37,11 +45,28 @@ const Question = ({ order, test, id, title }: Props) => {
       })
     )
   }
+
+  useEffect(() => {
+    const pos = document.getElementById(`quest-${id}`)
+    if (pos) {
+      if (currentQuestion === order) {
+        dispatch(loadPosition(pos.offsetTop))
+      }
+    }
+  }, [currentQuestion])
+
   return (
     <div className="question__list__item" id={`quest-${id}`}>
       <div className="question__title">
-        <span> Câu {order}: {test.title}</span>
-        <Button onClick={() => dispatch(flagQuestion(id))}>
+        <span>
+          {' '}
+          Question {order}: {test.title}
+        </span>
+        <Button
+          onClick={() => dispatch(flagQuestion(id))}
+          danger={testSlice[order - 1].flag}
+          type={testSlice[order - 1].flag ? 'primary' : 'dashed'}
+        >
           <i className="bx bxs-flag"></i>
         </Button>
       </div>

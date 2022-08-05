@@ -1,4 +1,4 @@
-import { Button, Layout, Modal } from 'antd'
+import { Button, Layout, Modal, Progress } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
@@ -15,7 +15,7 @@ import {
   Test as TestModel,
 } from '../../../models/test'
 import { LoginResponse } from '../../../pages/Login/Login'
-import { loadTest } from '../../../slice/testSlice'
+import { clickQuestion, loadTest } from '../../../slice/testSlice'
 import { RootState } from '../../../store'
 import Loading from '../Loading'
 import { IRoute } from '../router'
@@ -51,10 +51,11 @@ const Test = (props: Props) => {
   })
   // const countDown = useCountDown({ time: new Date(time).})
   const [input, setInput] = useState<InputCreate>()
-
+  const test = useSelector((state: RootState) => state.test)
+  const { currentQuestion, position } = test
   const [visible, setVisible] = React.useState(false)
   const [visible1, setVisible1] = React.useState(false)
-  const [timeout, setTimeout] = useState<boolean>(false)
+  const [timeout, setIsTimeout] = useState<boolean>(false)
   const [result, setResult] = useState<ResponseResult>({
     total: 0,
     correct: 0,
@@ -63,27 +64,26 @@ const Test = (props: Props) => {
   const [testInfo] = useTestCode('code')
 
   useEffect(() => {
-    u &&
-      examApi
-        .checkTest(u.id, {
-          id: testInfo.id,
-          date: testInfo.dateString,
-        })
-        .then((res) => {
-          if (!res) {
-            navigate(IRoute.NOT_FOUND)
-          }
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+    // u &&
+    //   examApi
+    //     .checkTest(u.id, {
+    //       id: testInfo.id,
+    //       date: testInfo.dateString,
+    //     })
+    //     .then((res) => {
+    //       if (!res) {
+    //         navigate(IRoute.NOT_FOUND)
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       console.log(e)
+    //     })
   }, [])
 
-  useEffect(() => {}, [])
 
   // useEffect(() => {
   //   if (isFinished) {
-  //     setTimeout(true)
+  //     setIsTimeout(true)
   //   }
   // }, [isFinished])
 
@@ -176,81 +176,103 @@ const Test = (props: Props) => {
   }
 
   const handleExit = () => {
-    setTimeout(false)
+    setIsTimeout(false)
     navigate(IRoute.HISTORY)
   }
 
-  const renderer = ({ minutes, seconds, completed }: any) => {
-    if (completed) {
-      // Render a completed state
-      return <span>Time's up!</span>
-    } else {
-      // Render a countdown
-      return (
-        <span>
-          {minutes < 10 ? `0${minutes}` : minutes}:
-          {seconds < 10 ? `0${seconds}` : seconds}
-        </span>
-      )
+  useEffect(() => {
+    const data = document.getElementById('question__list')
+    if (data) {
+      data.scrollTo(0, position - data.offsetTop)
     }
+  }, [position])
+
+  const getProgress = () => {
+    return Math.ceil((choose.length / testList.length) * 100)
   }
 
-  if (!u) {
-    return <>Vui lòng đăng nhập</>
-  }
-  if (
-    testInfo.date.day === 0 ||
-    testInfo.date.month === 0 ||
-    testInfo.date.year === 0
-  ) {
-    return <>Đề thi không tồn tại!</>
-  }
+  // const renderer = ({ minutes, seconds, completed }: any) => {
+  //   if (completed) {
+  //     // Render a completed state
+  //     return <span>Time's up!</span>
+  //   } else {
+  //     // Render a countdown
+  //     return (
+  //       <span>
+  //         {minutes < 10 ? `0${minutes}` : minutes}:
+  //         {seconds < 10 ? `0${seconds}` : seconds}
+  //       </span>
+  //     )
+  //   }
+  // }
+
+  // if (!u) {
+  //   return <>Vui lòng đăng nhập</>
+  // }
+  // if (
+  //   testInfo.date.day === 0 ||
+  //   testInfo.date.month === 0 ||
+  //   testInfo.date.year === 0
+  // ) {
+  //   return <>Đề thi không tồn tại!</>
+  // }
 
   return (
     <Layout className="test">
       <Sider className="test__sidebar">
-        <div className="test__sidebar__header">
-          <h5>Môn thi: {subject.name}</h5>
-          <div className="exam__time">
-            <h5>Ngày thi: {subject.date}</h5>
-            <h5>
-              Thời gian:{' '}
-              {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
+        <div className="test__main">
+          <div className="test__sidebar__header">
+            <h5>Môn thi: {subject.name}</h5>
+            <div className="exam__time">
+              <h5>Ngày thi: {subject.date}</h5>
+              <h5>
+                Thời gian:{' '}
+                {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
                 second === 60 ? '00' : second < 10 ? `0${second}` : second
               }`}</span> */}
-              <span>
-                <Countdown
+                <span>
+                  {/* <Countdown
                   date={`${subject.date} ${subject.dateTime}`}
                   renderer={renderer}
-                />
-              </span>
-            </h5>
+                /> */}
+                </span>
+              </h5>
+            </div>
+          </div>
+          <div className="exam__question" id="exam__question">
+            {testList.map((question, index) => (
+              <Button
+                onClick={() => dispatch(clickQuestion(index + 1))}
+                className={`question__item ${
+                  choose.findIndex((item) => item.id === question.id) > -1 &&
+                  choose[choose.findIndex((item) => item.id === question.id)]
+                    .answer !== -1
+                    ? 'choosed'
+                    : ''
+                } ${question.flag ? 'flag' : ''}`}
+                key={question.id}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </div>
+          <div className="exam__submit">
+            <Button type="primary" onClick={showModal}>
+              Nộp bài
+            </Button>
           </div>
         </div>
-        <div className="exam__question">
-          {testList.map((question, index) => (
-            <Button
-              className={`question__item ${
-                choose.findIndex((item) => item.id === question.id) > -1 &&
-                choose[choose.findIndex((item) => item.id === question.id)]
-                  .answer != -1
-                  ? 'choosed'
-                  : ''
-              } ${question.flag ? 'flag' : ''}`}
-              key={question.id}
-            >
-              {index + 1}
-            </Button>
-          ))}
-        </div>
-        <div className="exam__submit">
-          <Button type="primary" onClick={showModal}>
-            Nộp bài
-          </Button>
-        </div>
+        <span
+          style={{ color: 'white' }}
+        >{`${choose.length} / ${testList.length}`}</span>
+        <Progress
+          percent={getProgress()}
+          status="active"
+          className="progress__bar"
+        />
       </Sider>
       <Content className="test__content">
-        <div className="question__list">
+        <div className="question__list" id="question__list">
           {testList.map((item, index) => (
             <Question
               order={index + 1}

@@ -88,7 +88,13 @@ const SubjectForStudent = (props: Props) => {
     },
   ]
 
-  return <Table columns={columns} dataSource={subjectList} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={subjectList}
+      pagination={{ defaultPageSize: 6 }}
+    />
+  )
 }
 
 export default SubjectForStudent

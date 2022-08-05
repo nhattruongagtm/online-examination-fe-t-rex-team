@@ -5,12 +5,16 @@ export interface ITestSlice {
   item: number
   mark: number
   choose: ChooseAnswer[]
+  currentQuestion: number
+  position: number
 }
 const initialState: ITestSlice = {
   test: [],
   item: -1,
   mark: 0,
   choose: [],
+  currentQuestion: 1,
+  position: 0,
 }
 export interface ChooseAnswer {
   id: number
@@ -53,10 +57,23 @@ export const testSlice = createSlice({
         }
       }
     },
+    clickQuestion: (state, action: PayloadAction<number>) => {
+      state.currentQuestion = action.payload
+    },
+    loadPosition: (state, action: PayloadAction<number>) => {
+      state.position = action.payload
+    },
   },
 })
 
-export const { loadTest, updateTest, submitTest, flagQuestion, chooseAnswer } =
-  testSlice.actions
+export const {
+  loadTest,
+  updateTest,
+  submitTest,
+  flagQuestion,
+  chooseAnswer,
+  clickQuestion,
+  loadPosition,
+} = testSlice.actions
 
 export default testSlice.reducer

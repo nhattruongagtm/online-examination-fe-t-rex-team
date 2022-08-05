@@ -5,9 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { fetchSubject } from '../../../api/demoApi'
+import { examApi } from '../../../api/examApi'
 import { subjectApi } from '../../../api/subject'
 import useUser from '../../../hook/useUser'
 import { Subject } from '../../../models/subject'
+import { editExam } from '../../../slice/examSlice'
 import { deleteSubject, loadSubjectList } from '../../../slice/subjectSlice'
 import { RootState } from '../../../store'
 import { IRoute } from '../router'
@@ -36,6 +38,21 @@ const SubjectForTeacher = (props: Props) => {
         }
       )
   }, [])
+
+  const handleEditExam = async (id: number) => {
+    try {
+      const resp = await examApi.loadExamBySubject(id)
+      if (resp) {
+        console.log(resp)
+        dispatch(editExam(resp))
+        navigate(`${IRoute.CREATE_EXAM}`)
+      } else {
+        console.log('cannot get this exam')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const columns = [
     {
@@ -80,7 +97,9 @@ const SubjectForTeacher = (props: Props) => {
     {
       title: '',
       key: 'create',
-      render: (text: string, record: any) => <Button>Edit</Button>,
+      render: (text: string, record: Subject) => (
+        <Button onClick={() => handleEditExam(record.id)}>Edit</Button>
+      ),
     },
 
     {
@@ -127,7 +146,11 @@ const SubjectForTeacher = (props: Props) => {
       >
         <AddSubject />
       </Modal>
-      <Table columns={columns} dataSource={subjectList} />
+      <Table
+        columns={columns}
+        dataSource={subjectList}
+        pagination={{ defaultPageSize: 6 }}
+      />
     </>
   )
 }
