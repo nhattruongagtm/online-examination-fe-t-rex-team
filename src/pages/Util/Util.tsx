@@ -5,12 +5,17 @@ import React from 'react'
 import ContentPanel from '../../components/Content/ContentPanel'
 import Header from '../../components/Header/Header'
 import SideBar from '../../components/SideBar/SideBar'
-
+import useUser from '../../hook/useUser'
+import Login from '../../pages/Login/Login'
 const { Content } = Layout
 
 type Props = {}
 
 const Util = (props: Props) => {
+  const [u] = useUser()
+  if (!u) {
+    return <Login />
+  }
   return (
     <Layout>
       <Header />

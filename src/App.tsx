@@ -16,25 +16,15 @@ import ResetPassword from './pages/ForgotPassword/ResetPassword'
 function App() {
   const isLogin = localStorage.getItem('e-exam')
 
-  const navigate = useNavigate()
-  if (!isLogin) {
-    return (
-      <>
-        <Routes>
-          <Route path={IRoute.HOME} element={<Login />} />
-          <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
-          <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
-        </Routes>
-      </>
-    )
-  }
   return (
-    <>
-      <Routes>
-        <Route path={IRoute.TEST} element={<Test />} />
-        <Route path="*" element={<Util />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path={IRoute.HOME} element={<Login />} />
+      <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
+      <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
+
+      <Route path={IRoute.TEST} element={<Test />} />
+      <Route path="*" element={<Util />} />
+    </Routes>
   )
 }
 

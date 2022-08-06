@@ -41,7 +41,7 @@ export interface TestCode {
 export interface QuestionRequest {
   id?: number
   title: string
-  correct: number
+  correct: string
   answers: AnswerRequest | Answer[]
 }
 export interface AnswerRequest {

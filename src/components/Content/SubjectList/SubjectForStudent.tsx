@@ -81,7 +81,7 @@ const SubjectForStudent = (props: Props) => {
               )
             }
           >
-            Go To Test
+            Take an Exam
           </Button>
         </>
       ),

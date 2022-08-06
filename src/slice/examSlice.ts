@@ -14,7 +14,7 @@ export const initialState: ExamModel = {
   edit: {
     id: -1,
     title: '',
-    correct: 1,
+    correct: ' ',
     answers: [
       {
         id: 1,
@@ -77,7 +77,7 @@ const examSlice = createSlice({
       state.editTest = action.payload
       state.questionList = action.payload.listQuestions as CreateInput[]
     },
-    editCorrect: (state, action: PayloadAction<number>) => {
+    editCorrect: (state, action: PayloadAction<string>) => {
       state.edit.correct = action.payload
     },
   },

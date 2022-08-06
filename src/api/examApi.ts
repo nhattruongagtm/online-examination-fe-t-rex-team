@@ -30,4 +30,8 @@ export const examApi = {
     const url = `/exam/subject/${id}`
     return clientAxios.get(url)
   },
+  saveRefAnswers: (params: any): Promise<boolean> => {
+    const url = '/refAnswer'
+    return clientAxios.post(url, params)
+  },  
 }

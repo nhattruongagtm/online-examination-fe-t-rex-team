@@ -1,4 +1,11 @@
-import { Button, DatePicker, Input, Radio, Select } from 'antd'
+import {
+  Button,
+  DatePicker,
+  Input,
+  Radio,
+  RadioChangeEvent,
+  Select,
+} from 'antd'
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { useCSVReader } from 'react-papaparse'
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,7 +47,7 @@ export interface CreateInput {
   id: number
   title: string
   answers: Answer[]
-  correct: number
+  correct: string
 }
 
 export interface FormInput {
@@ -56,7 +63,7 @@ const CreateExam = (props: Props) => {
   const initial: CreateInput = {
     id: -1,
     title: '',
-    correct: 1,
+    correct: '',
     answers: [
       {
         id: 1,
@@ -122,7 +129,8 @@ const CreateExam = (props: Props) => {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // create
+
+    console.log(input)
     if (input.id === -1) {
       if (!isValidate()) {
         dispatch(
@@ -234,7 +242,7 @@ const CreateExam = (props: Props) => {
           title: item[5],
         },
       ]
-      const correct = answers.find((ans) => ans.title === item[6])?.id as number
+      const correct = item[6]
 
       const qs: CreateInput = {
         id,
@@ -258,15 +266,21 @@ const CreateExam = (props: Props) => {
     console.log('')
   }
 
+  const handleCheckBox = (e: RadioChangeEvent) => {
+    const index = Number(e.target.value)
+
+    setInput({
+      ...input,
+      correct: input.answers.find((item) => item.title === e.target.value)
+        ?.title as string,
+    })
+  }
+
   const RadioCheck = () => {
     return (
-      <Radio.Group className="answer__item__radio" defaultValue={edit.correct}>
-        {Array.from(new Array(4)).map((item, index) => (
-          <Radio
-            value={index + 1}
-            // checked
-            onChange={(e) => dispatch(editCorrect(Number(e.target.value)))}
-          />
+      <Radio.Group className="answer__item__radio" defaultValue={input.correct}>
+        {input.answers.map((item, index) => (
+          <Radio key={item.id} value={item.title} onChange={handleCheckBox} />
         ))}
       </Radio.Group>
     )
@@ -354,7 +368,7 @@ const CreateExam = (props: Props) => {
                 </CSVReader>
               </div>
               <div className="create__exam__options__item btn__upload">
-                {edit ? (
+                {edit.id > 0 ? (
                   <Button type="primary" danger onClick={handleUpdateExam}>
                     Update
                   </Button>
@@ -400,7 +414,7 @@ const CreateExam = (props: Props) => {
                         name="answer1"
                         style={{
                           backgroundColor:
-                            edit.correct === index + 1 ? '#daf8ff' : '',
+                            input.correct === item.title ? '#daf8ff' : '',
                         }}
                       />
                     ))}

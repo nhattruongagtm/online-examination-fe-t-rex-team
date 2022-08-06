@@ -8,6 +8,7 @@ import { useCountDown } from '../../../hook/useCountDown'
 import useTestCode from '../../../hook/useTestCode'
 import useUser from '../../../hook/useUser'
 import { Subject } from '../../../models/subject'
+import Login from '../../../pages/Login/Login'
 import Countdown from 'react-countdown'
 import {
   ResponseResult,
@@ -21,6 +22,7 @@ import Loading from '../Loading'
 import { IRoute } from '../router'
 import Question from './Question'
 import { getMark } from '../../../utils/getMark'
+import moment from 'moment'
 
 const { Sider, Content } = Layout
 type Props = {}
@@ -64,22 +66,22 @@ const Test = (props: Props) => {
   const [testInfo] = useTestCode('code')
 
   useEffect(() => {
-    // u &&
-    //   examApi
-    //     .checkTest(u.id, {
-    //       id: testInfo.id,
-    //       date: testInfo.dateString,
-    //     })
-    //     .then((res) => {
-    //       if (!res) {
-    //         navigate(IRoute.NOT_FOUND)
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e)
-    //     })
+    u &&
+      examApi
+        .checkTest(u.id, {
+          id: testInfo.id,
+          date: testInfo.dateString,
+        })
+        .then((res) => {
+          console.log(res)
+          if (!res) {
+            // navigate(IRoute.HOME)
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
   }, [])
-
 
   // useEffect(() => {
   //   if (isFinished) {
@@ -111,7 +113,7 @@ const Test = (props: Props) => {
       })
   }, [])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log({
       studentID: (
         JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
@@ -129,28 +131,44 @@ const Test = (props: Props) => {
       answers: choose,
     }
 
-    setIsLoading(true)
+    const refAnswers = choose
+      .map((item) => {
+        return `${item.id}-${
+          test.test.find((i) => i.id === item.id)?.title as string
+        }`
+      })
+      .join('[...]')
+
+    const refs: any = {
+      student: { id: u?.id || -1 },
+      exam: {
+        id: testInfo.id,
+      },
+      refAnswers,
+    }
 
     const rs = getMark(choose, testList)
-    console.log('grade: ' + rs.correct, '/', rs.total)
+    // console.log('grade: ' + rs.correct, '/', rs.total)
 
-    submitTest
-      .submitTest(data)
-      .then((res) => {
+    try {
+      setIsLoading(true)
+      const res = await submitTest.submitTest(data)
+      if (res) {
         console.log(res)
         // navigate(IRoute.HISTORY)
         setResult({
           correct: res.correct,
           total: res.total,
         })
+        // save ref answers
+        await examApi.saveRefAnswers(refs)
         setSubject({ ...subject, dateTime: '00:00:00' })
-        setIsLoading(false)
         setVisible1(true)
-      })
-      .catch((e) => {
-        console.log(e)
-        setIsLoading(false)
-      })
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const showModal = () => {
@@ -191,31 +209,38 @@ const Test = (props: Props) => {
     return Math.ceil((choose.length / testList.length) * 100)
   }
 
-  // const renderer = ({ minutes, seconds, completed }: any) => {
-  //   if (completed) {
-  //     // Render a completed state
-  //     return <span>Time's up!</span>
-  //   } else {
-  //     // Render a countdown
-  //     return (
-  //       <span>
-  //         {minutes < 10 ? `0${minutes}` : minutes}:
-  //         {seconds < 10 ? `0${seconds}` : seconds}
-  //       </span>
-  //     )
-  //   }
-  // }
+  const renderer = ({ minutes, seconds, completed }: any) => {
+    if (completed) {
+      // Render a completed state
+      return <span>Time's up!</span>
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {minutes < 10 ? `0${minutes}` : minutes}:
+          {seconds < 10 ? `0${seconds}` : seconds}
+        </span>
+      )
+    }
+  }
 
-  // if (!u) {
-  //   return <>Vui lòng đăng nhập</>
-  // }
-  // if (
-  //   testInfo.date.day === 0 ||
-  //   testInfo.date.month === 0 ||
-  //   testInfo.date.year === 0
-  // ) {
-  //   return <>Đề thi không tồn tại!</>
-  // }
+  if (
+    testInfo.date.day === 0 ||
+    testInfo.date.month === 0 ||
+    testInfo.date.year === 0
+  ) {
+    return <>Đề thi không tồn tại!</>
+  }
+
+  console.log(u)
+  if (!u) {
+    console.log('unauthorized')
+    return <Login />
+  }
+
+  console.log(
+    `${moment(subject.date).format('yyyy-MM-DD')} ${subject.dateTime}`
+  )
 
   return (
     <Layout className="test">
@@ -224,19 +249,25 @@ const Test = (props: Props) => {
           <div className="test__sidebar__header">
             <h5>Môn thi: {subject.name}</h5>
             <div className="exam__time">
-              <h5>Ngày thi: {subject.date}</h5>
-              <h5>
-                Thời gian:{' '}
-                {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
+              {subject.date && (
+                <h5>Ngày thi: {moment(subject.date).format('DD-MM-yyyy')}</h5>
+              )}
+              {subject.dateTime && (
+                <h5>
+                  Thời gian:{' '}
+                  {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
                 second === 60 ? '00' : second < 10 ? `0${second}` : second
               }`}</span> */}
-                <span>
-                  {/* <Countdown
-                  date={`${subject.date} ${subject.dateTime}`}
-                  renderer={renderer}
-                /> */}
-                </span>
-              </h5>
+                  <span>
+                    <Countdown
+                      date={`${moment(subject.date).format('yyyy-MM-DD')} ${
+                        subject.dateTime
+                      }`}
+                      renderer={renderer}
+                    />
+                  </span>
+                </h5>
+              )}
             </div>
           </div>
           <div className="exam__question" id="exam__question">
