@@ -10,6 +10,7 @@ import SubjectList from './SubjectList/SubjectList'
 import AddSubject from './SubjectList/AddSubject'
 import CreateExam from '../../pages/Subject/CreateExam'
 import ClassList from './ClassList/ClassList'
+import Dashboard from './Dashboard/Dashboard'
 
 type Props = {}
 
@@ -20,6 +21,7 @@ const ContentPanel = (props: Props) => {
         <Route path={IRoute.SUBJECT_LIST} element={<SubjectList />} />
         <Route path={IRoute.HISTORY} element={<History />} />
         <Route path={IRoute.CHANGE_PASSWORD} element={<ChangePassword />} />
+        <Route path={IRoute.DASHBOARD} element={<Dashboard />} />
         <Route path={IRoute.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={IRoute.RESET_PASSWORD} element={<ResetPassword />} />
         <Route path={IRoute.ADD_SUBJECT} element={<AddSubject />} />
