@@ -61,6 +61,11 @@ const SideBar = (props: Props) => {
           icon: '',
         },
         {
+          path: IRoute.VIEW_POINT_EXAM,
+          title: 'View Point Exam',
+          icon: '',
+        },
+        {
           path: IRoute.DASHBOARD,
           title: 'Dashboard',
           icon: '',

@@ -11,6 +11,7 @@ import AddSubject from './SubjectList/AddSubject'
 import CreateExam from '../../pages/Subject/CreateExam'
 import ClassList from './ClassList/ClassList'
 import Dashboard from './Dashboard/Dashboard'
+import ViewPointExam from './Grade/ViewPointExam'
 
 type Props = {}
 
@@ -28,6 +29,7 @@ const ContentPanel = (props: Props) => {
         <Route path={IRoute.STUDENT_LIST} element={<StudentList />} />
         <Route path={IRoute.CREATE_EXAM} element={<CreateExam />} />
         <Route path={IRoute.CLASS_LIST} element={<ClassList />} />
+        <Route path={IRoute.VIEW_POINT_EXAM} element={<ViewPointExam />} />
         <Route path={IRoute.NOT_FOUND} element={<>404 NOT FOUND</>} />
       </Routes>
     </div>

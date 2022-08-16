@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Pie, measureTextWidth } from '@ant-design/plots';
-import { Row, Col, Card } from 'antd';
-import { fetchStudent } from '../../../api/student';
-import { User } from '../../../models/user';
+import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
+import { Pie, measureTextWidth } from '@ant-design/plots'
+import { Row, Col, Card } from 'antd'
+import { fetchStudent } from '../../../api/student'
+import { User } from '../../../models/user'
 
 type Props = {}
 
@@ -22,7 +22,7 @@ const AttendanceChart = (props: Props) => {
       type: 'Incident',
       value: 25,
     },
-  ];
+  ]
   const config = {
     appendPadding: 10,
     data,
@@ -58,8 +58,8 @@ const AttendanceChart = (props: Props) => {
         content: 'Attendance',
       },
     },
-  };
-  return <Pie {...config} />;
+  }
+  return <Pie {...config} />
 }
 
 export default AttendanceChart

@@ -11,6 +11,7 @@ export enum IRoute {
   ADD_SUBJECT = '/them-mon-thi',
   CLASS_LIST = '/danh-sach-lop',
   STUDENT_LIST = '/danh-sach-sinh-vien',
+  VIEW_POINT_EXAM = '/xem-diem-thi',
   TEST = '/test',
   NOT_FOUND = '/404',
 }

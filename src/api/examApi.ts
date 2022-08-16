@@ -33,5 +33,5 @@ export const examApi = {
   saveRefAnswers: (params: any): Promise<boolean> => {
     const url = '/refAnswer'
     return clientAxios.post(url, params)
-  },  
+  },
 }

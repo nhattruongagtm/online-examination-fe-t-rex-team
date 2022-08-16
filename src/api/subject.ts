@@ -16,9 +16,9 @@ export const subjectApi = {
   getAllSubject: (): Promise<Subject[]> => {
     const url = `getAllSubject`
     return clientAxios.get(url)
-  }, 
-  getAllClass: (id:any): Promise<Class[]> => {
+  },
+  getAllClass: (id: any): Promise<Class[]> => {
     const url = `getAllClass/${id}`
     return clientAxios.get(url)
-  }, 
+  },
 }
