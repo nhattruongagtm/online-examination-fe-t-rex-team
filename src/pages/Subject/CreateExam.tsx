@@ -29,6 +29,8 @@ import {
   updateQuestion,
 } from '../../slice/examSlice'
 import { RootState } from '../../store'
+import { toast } from 'react-toastify'
+import { openNotification } from '../../utils/notification'
 
 const { Option } = Select
 type Props = {}
@@ -57,6 +59,8 @@ export interface FormInput {
   teacherID: number
   subjectID: number
   createdDate: string
+  id?: number
+  subject?: { id: number }
 }
 
 const CreateExam = (props: Props) => {
@@ -95,7 +99,7 @@ const CreateExam = (props: Props) => {
     date: editTest?.date || '',
     duration: editTest?.duration || -1,
     time: editTest?.time || '',
-    subjectID: -1,
+    subjectID: editTest?.subject?.id || -1,
     teacherID: user ? user.id : -1,
     createdDate: `${new Date().getFullYear()}-${
       new Date().getMonth() + 1 < 10
@@ -106,6 +110,7 @@ const CreateExam = (props: Props) => {
         ? `0${new Date().getDate()}`
         : new Date().getDate()
     }`,
+    id: editTest?.id || undefined,
   })
   const validationShema = yup.object().shape({
     date: yup.string().required('Please choose an exam date!'),
@@ -127,10 +132,10 @@ const CreateExam = (props: Props) => {
     }
     return true
   }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log(input)
+    console.log(input.id)
     if (input.id === -1) {
       if (!isValidate()) {
         dispatch(
@@ -143,8 +148,18 @@ const CreateExam = (props: Props) => {
       }
     } else {
       // update
-      dispatch(updateQuestion(input))
-      dispatch(resetEdit())
+
+      try {
+        const resp = await examApis.updateQuestion(input)
+        if (resp) {
+          openNotification('success', 'Updated Sucessfully!')
+        }
+        console.log(resp)
+      } catch (error) {
+        console.log(error)
+      }
+      // dispatch(updateQuestion(input))
+      // dispatch(resetEdit())
     }
   }
   const handleOnChange = (value: string, index: number) => {
@@ -204,16 +219,27 @@ const CreateExam = (props: Props) => {
 
       console.log(data)
 
-      examApi
-        .createExam({ ...data, time: time + ':00' })
-        .then((res) => {
-          if (res) {
-            alert('Tạo đề thi thành công!')
-          }
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      if (editTest && editTest.id) {
+        examApis
+          .updateExam(editTest.id, data)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } else {
+        examApi
+          .createExam({ ...data, time: time + ':00' })
+          .then((res) => {
+            if (res) {
+              alert('Tạo đề thi thành công!')
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      }
     }
   }
 
@@ -263,7 +289,7 @@ const CreateExam = (props: Props) => {
   }
 
   const handleUpdateExam = () => {
-    console.log('')
+    console.log(input)
   }
 
   const handleCheckBox = (e: RadioChangeEvent) => {
@@ -369,7 +395,7 @@ const CreateExam = (props: Props) => {
               </div>
               <div className="create__exam__options__item btn__upload">
                 {edit.id > 0 ? (
-                  <Button type="primary" danger onClick={handleUpdateExam}>
+                  <Button type="primary" danger onClick={handleCreateExam}>
                     Update
                   </Button>
                 ) : (

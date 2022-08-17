@@ -50,11 +50,14 @@ const SubjectForStudent = (props: Props) => {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
+      render: (_: string, subject: Subject) => (
+        <>{new Date(subject.date as string).toLocaleDateString()}</>
+      ),
     },
     {
       title: 'Time',
       dataIndex: 'time',
-      key: 'tume',
+      key: 'time',
     },
     {
       title: 'Duration',

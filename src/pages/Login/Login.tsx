@@ -1,11 +1,10 @@
-import { createFromIconfontCN } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
-import Password from 'antd/lib/input/Password'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { userApi } from '../../api/userApi'
 import { IRoute } from '../../components/Content/router'
+import Util from '../../pages/Util/Util'
+import useUser from '../../hook/useUser'
 interface Props {}
 
 export interface LoginResponse {
@@ -21,6 +20,7 @@ export interface InputForm {
 }
 
 const Login = (props: Props) => {
+  const [u] = useUser()
   const [inputForm, setInputForm] = useState({
     username: '',
     password: '',
@@ -45,6 +45,9 @@ const Login = (props: Props) => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
+  }
+  if (u) {
+    return <Util />
   }
   return (
     <div className="login__page">

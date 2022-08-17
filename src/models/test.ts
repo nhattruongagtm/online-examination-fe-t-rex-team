@@ -62,3 +62,12 @@ export interface ExamResp {
   listQuestions: Question[]
   dateTime: string
 }
+
+export interface TestResp {
+  examId: string
+  subjectName: string
+  correct: number
+  total: number
+  createdDate: number
+  isTest: boolean
+}

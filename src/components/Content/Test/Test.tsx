@@ -23,6 +23,7 @@ import { IRoute } from '../router'
 import Question from './Question'
 import { getMark } from '../../../utils/getMark'
 import moment from 'moment'
+import { toast } from 'react-toastify'
 
 const { Sider, Content } = Layout
 type Props = {}
@@ -74,8 +75,15 @@ const Test = (props: Props) => {
         })
         .then((res) => {
           console.log(res)
+
+          examApi.isTested(u.id, testInfo.id).then((res) => {
+            if (res) {
+              navigate(IRoute.HOME)
+              toast('You took this exam!')
+            }
+          })
           if (!res) {
-            // navigate(IRoute.HOME)
+            navigate(IRoute.HOME)
           }
         })
         .catch((e) => {
@@ -113,31 +121,26 @@ const Test = (props: Props) => {
       })
   }, [])
 
-  const handleSubmit = async () => {
-    console.log({
-      studentID: (
-        JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
-      ).id,
-      subjectID: subject.id,
-      answers: choose,
+  const getAnswer = (id: number) => {
+    let rs = ''
+    test.test.forEach((item) => {
+      item.answers.forEach((i) => {
+        if (id === i.id) {
+          console.log(i.title)
+          rs = i.title
+        }
+      })
     })
 
-    const data: SubmitAnswer = {
-      // studentId: (
-      //   JSON.parse(localStorage.getItem('e-exam') as string) as LoginResponse
-      // ).id,
-      studentId: u ? u.id : -1,
-      subjectId: subject.id,
-      answers: choose,
-    }
+    return rs
+  }
 
+  const handleSubmit = async () => {
     const refAnswers = choose
       .map((item) => {
-        return `${item.id}-${
-          test.test.find((i) => i.id === item.id)?.title as string
-        }`
+        return `${item.id}-${getAnswer(item.answer)}`
       })
-      .join('[...]')
+      .join('x...x')
 
     const refs: any = {
       student: { id: u?.id || -1 },
@@ -147,24 +150,27 @@ const Test = (props: Props) => {
       refAnswers,
     }
 
-    const rs = getMark(choose, testList)
-    // console.log('grade: ' + rs.correct, '/', rs.total)
-
     try {
-      setIsLoading(true)
-      const res = await submitTest.submitTest(data)
-      if (res) {
-        console.log(res)
-        // navigate(IRoute.HISTORY)
-        setResult({
-          correct: res.correct,
-          total: res.total,
-        })
-        // save ref answers
-        await examApi.saveRefAnswers(refs)
-        setSubject({ ...subject, dateTime: '00:00:00' })
-        setVisible1(true)
+      if (u) {
+        const check = await examApi.isTested(u.id, testInfo.id)
+        if (!check) {
+          const resp = await examApi.saveRefAnswers(refs)
+          console.log(resp)
+
+          if (resp) {
+            setResult({
+              correct: resp.correct,
+              total: resp.total,
+            })
+          }
+          setSubject({ ...subject, dateTime: '00:00:00' })
+          setVisible1(true)
+        } else {
+          toast('You took this exam!')
+        }
       }
+
+      // }
     } catch (error) {
     } finally {
       setIsLoading(false)
@@ -212,6 +218,8 @@ const Test = (props: Props) => {
   const renderer = ({ minutes, seconds, completed }: any) => {
     if (completed) {
       // Render a completed state
+      handleSubmit()
+      navigate(IRoute.HOME)
       return <span>Time's up!</span>
     } else {
       // Render a countdown
@@ -255,9 +263,6 @@ const Test = (props: Props) => {
               {subject.dateTime && (
                 <h5>
                   Thời gian:{' '}
-                  {/* <span>{`${minute < 10 ? `0${minute}` : minute}:${
-                second === 60 ? '00' : second < 10 ? `0${second}` : second
-              }`}</span> */}
                   <span>
                     <Countdown
                       date={`${moment(subject.date).format('yyyy-MM-DD')} ${
