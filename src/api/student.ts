@@ -30,3 +30,7 @@ export const fetchStudent = {
     return clientAxios.post(url, { className, classID })
   },
 }
+
+export const get = (url: string,option?:any) => {
+  return clientAxios.get(url,{...option});
+}
