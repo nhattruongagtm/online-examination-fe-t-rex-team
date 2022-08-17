@@ -2,6 +2,7 @@ export enum IRoute {
   HOME = '/',
   SUBJECT_LIST = '/danh-sach-mon-hoc',
   CHANGE_PASSWORD = '/doi-mat-khau',
+  DASHBOARD = '/dashboard',
   FORGOT_PASSWORD = '/quen-mat-khau',
   RESET_PASSWORD = '/dat-lai-mat-khau',
   HISTORY = '/lich-su-thi',
@@ -10,6 +11,7 @@ export enum IRoute {
   ADD_SUBJECT = '/them-mon-thi',
   CLASS_LIST = '/danh-sach-lop',
   STUDENT_LIST = '/danh-sach-sinh-vien',
+  VIEW_POINT_EXAM = '/xem-diem-thi',
   TEST = '/test',
   NOT_FOUND = '/404',
 }

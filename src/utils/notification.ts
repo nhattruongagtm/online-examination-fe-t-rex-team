@@ -6,7 +6,7 @@ export const openNotification = (
   notification[type]({
     message: '',
     placement: 'top',
-    duration: 2,  
+    duration: 2,
     description: content,
   })
 }
