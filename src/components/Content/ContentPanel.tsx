@@ -11,7 +11,7 @@ import AddSubject from './SubjectList/AddSubject'
 import CreateExam from '../../pages/Subject/CreateExam'
 import ClassList from './ClassList/ClassList'
 import Dashboard from './Dashboard/Dashboard'
-import ViewPointExam from './Grade/ViewPointExam'
+import ViewPointExam from './ViewMark/ViewPointExam'
 
 type Props = {}
 

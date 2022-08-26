@@ -10,3 +10,11 @@ export interface TestStudent {
   fullName?: string
   email?: string
 }
+export interface ViewMark {
+  id: number
+  fullname: string
+  correct: number
+  total: number
+  createDate: string
+  mark: number
+}
