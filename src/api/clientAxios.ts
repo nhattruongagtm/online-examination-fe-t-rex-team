@@ -1,8 +1,14 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { TOKEN } from '../models/router'
+import { TokenResp } from '../models/responseData'
+const token = localStorage.getItem(TOKEN)
+  ? (JSON.parse(localStorage.getItem(TOKEN) as string) as TokenResp)
+  : { access_token: '' }
 export const clientAxios = axios.create({
   baseURL: 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token.access_token,
   },
 })
 
@@ -13,7 +19,7 @@ clientAxios.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
-    return Promise.reject(error)
+    return Promise.reject(error)   
   }
 )
 

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import authSlice from './authSlice'
 import classSlice from './classSlice'
 import examSlice from './examSlice'
 import responseSlice from './responseSlice'
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
   response: responseSlice,
   classList: classSlice,
   studentList: studentSlice,
+  auth: authSlice,
 })

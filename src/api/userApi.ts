@@ -1,13 +1,18 @@
 import axios from 'axios'
-import { ResponseData } from '../models/responseData'
+import { ResponseData, TokenResp } from '../models/responseData'
 import { User } from '../models/user'
 import { LoginResponse } from '../pages/Login/Login'
 import { clientAxios } from './clientAxios'
 
 export const userApi = {
-  login: (username: string, password: string): Promise<LoginResponse> => {
-    const url = '/login'
-    return clientAxios.post(url, { username, password })
+  login: (username: string, password: string): Promise<TokenResp> => {
+    const url = '/api/login'
+    let s = new URLSearchParams(
+      Object.entries({ username, password })
+    ).toString()
+    return clientAxios.post(url, s, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    })
   },
   changePassword: (id: number, password: string): Promise<User> => {
     const url = `/change-pass/${id}`
@@ -28,6 +33,10 @@ export const userApi = {
   },
   getUserByID: (id: number): Promise<User> => {
     const url = `/getUserByID/${id}`
+    return clientAxios.get(url)
+  },
+  getUserByUsername: (username: string): Promise<User> => {
+    const url = '/user/' + username
     return clientAxios.get(url)
   },
 }

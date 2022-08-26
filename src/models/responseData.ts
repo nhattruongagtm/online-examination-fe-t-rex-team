@@ -14,3 +14,12 @@ export interface ResponseDataClass {
   message: string
   object: Object
 }
+
+export interface TokenResp {
+  access_token: string
+  refesh_token: string
+}
+export interface DecodedUser {
+  sub: string
+  roles: []
+}

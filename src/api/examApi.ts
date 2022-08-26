@@ -59,4 +59,12 @@ export const examApi = {
     const url = '/exam/' + id
     return clientAxios.put(url, params)
   },
+  createQuestion: (params: any): Promise<any> => {
+    const url = '/question'
+    return clientAxios.post(url, params)
+  },
+  createAnswer: (params: any): Promise<any> => {
+    const url = '/answer'
+    return clientAxios.post(url, params)
+  },
 }

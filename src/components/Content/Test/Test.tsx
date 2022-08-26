@@ -78,8 +78,8 @@ const Test = (props: Props) => {
 
           examApi.isTested(u.id, testInfo.id).then((res) => {
             if (res) {
+              toast.warning('You took this exam!')
               navigate(IRoute.HOME)
-              toast('You took this exam!')
             }
           })
           if (!res) {
@@ -163,8 +163,9 @@ const Test = (props: Props) => {
               total: resp.total,
             })
           }
-          setSubject({ ...subject, dateTime: '00:00:00' })
           setVisible1(true)
+
+          setSubject({ ...subject, dateTime: '00:00:00' })
         } else {
           toast('You took this exam!')
         }
@@ -218,8 +219,8 @@ const Test = (props: Props) => {
   const renderer = ({ minutes, seconds, completed }: any) => {
     if (completed) {
       // Render a completed state
-      handleSubmit()
-      navigate(IRoute.HOME)
+      // handleSubmit()
+      // navigate(IRoute.HOME)
       return <span>Time's up!</span>
     } else {
       // Render a countdown
@@ -240,15 +241,15 @@ const Test = (props: Props) => {
     return <>Đề thi không tồn tại!</>
   }
 
-  console.log(u)
+  // console.log(u)
   if (!u) {
     console.log('unauthorized')
     return <Login />
   }
 
-  console.log(
-    `${moment(subject.date).format('yyyy-MM-DD')} ${subject.dateTime}`
-  )
+  // console.log(
+  //   `${moment(subject.date).format('yyyy-MM-DD')} ${subject.dateTime}`
+  // )
 
   return (
     <Layout className="test">

@@ -13,6 +13,7 @@ type Props = {}
 
 const Util = (props: Props) => {
   const [u] = useUser()
+  console.log(u)
   if (!u) {
     return <Login />
   }

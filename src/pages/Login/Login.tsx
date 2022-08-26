@@ -16,7 +16,6 @@ export interface LoginResponse {
 export interface InputForm {
   username: string
   password: string
-  remember: boolean
 }
 
 const Login = (props: Props) => {
@@ -24,14 +23,14 @@ const Login = (props: Props) => {
   const [inputForm, setInputForm] = useState({
     username: '',
     password: '',
-    remember: false,
   })
   const navigate = useNavigate()
   const onFinish = () => {
+    
     userApi
       .login(inputForm.username, inputForm.password)
       .then((res) => {
-        if (res.id) {
+        if (res.access_token) {
           localStorage.setItem('e-exam', JSON.stringify(res))
           navigate(IRoute.SUBJECT_LIST)
         } else {

@@ -6,4 +6,5 @@ export interface User {
   fullName: string
   photoUrl: string
   type: number
+  roles: string[]
 }

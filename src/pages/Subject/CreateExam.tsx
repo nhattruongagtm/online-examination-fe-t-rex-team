@@ -2,6 +2,7 @@ import {
   Button,
   DatePicker,
   Input,
+  Modal,
   Radio,
   RadioChangeEvent,
   Select,
@@ -23,10 +24,11 @@ import {
   addQuestion,
   deleteQuestion,
   editCorrect,
+  editExam,
   loadEdit,
   loadQuestions,
   resetEdit,
-  updateQuestion,
+  updateQuestion as updateQs,
 } from '../../slice/examSlice'
 import { RootState } from '../../store'
 import { toast } from 'react-toastify'
@@ -92,7 +94,7 @@ const CreateExam = (props: Props) => {
   const answerPrefix = ['A', 'B', 'C', 'D']
   const edit = useSelector((state: RootState) => state.exam.edit)
   const editTest = useSelector((state: RootState) => state.exam.editTest)
-  const [input, setInput] = useState<CreateInput>(edit)
+  const [input, setInput] = useState<CreateInput>(initial)
   const [subjectList, setSubjectList] = useState<Subject[]>([])
   const [user] = useUser()
   const [formInput, setFormInput] = useState<FormInput>({
@@ -135,26 +137,50 @@ const CreateExam = (props: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log(input.id)
     if (input.id === -1) {
       if (!isValidate()) {
-        dispatch(
-          addQuestion({
-            ...input,
-            id: Math.floor(Math.random() * 9000),
-          })
-        )
-        setInput(initial)
+        if (editTest) {
+          // create question
+          const { title, correct, answers } = input
+
+          try {
+            const resp = await examApis.createQuestion({
+              title,
+              correct,
+              answers,
+              exam: { id: editTest.id },
+            })
+            if (resp) {
+              dispatch(addQuestion(resp))
+              setInput(initial)
+              openNotification('success', 'Created Question Successfully!')
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        } else {
+          dispatch(
+            addQuestion({
+              ...input,
+              id: Math.floor(Math.random() * 9000),
+            })
+          )
+          setInput(initial)
+        }
       }
     } else {
       // update
 
       try {
+        input.answers.forEach(async (item) => {
+          await examApis.updateAnswer(item)
+        })
         const resp = await examApis.updateQuestion(input)
         if (resp) {
+          dispatch(loadEdit(null))
           openNotification('success', 'Updated Sucessfully!')
+          dispatch(updateQs(resp))
         }
-        console.log(resp)
       } catch (error) {
         console.log(error)
       }
@@ -188,7 +214,7 @@ const CreateExam = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    setInput(edit)
+    edit && setInput(edit)
   }, [edit])
 
   const handleCreateExam = () => {
@@ -221,14 +247,16 @@ const CreateExam = (props: Props) => {
 
       if (editTest && editTest.id) {
         examApis
-          .updateExam(editTest.id, data)
+          .updateExam(editTest.id, { ...data, subject: { id: data.subjectID } })
           .then((res) => {
+            alert('Cập nhật đề thi thành công!')
             console.log(res)
           })
           .catch((e) => {
             console.log(e)
           })
       } else {
+        console.log({ ...data, time: time + ':00' })
         examApi
           .createExam({ ...data, time: time + ':00' })
           .then((res) => {
@@ -312,6 +340,41 @@ const CreateExam = (props: Props) => {
     )
   }
 
+  const DeleteButton = ({ id }: { id: number }) => {
+    const [isDisplay, setIsDisplay] = useState<boolean>(false)
+
+    const handleDeleteQuestion = async (id: number) => {
+      try {
+        const resp = await examApis.deleteQuestion(id)
+        if (resp) {
+          setIsDisplay(false)
+          openNotification('success', 'Deleted Succussfully!')
+          dispatch(deleteQuestion(id))
+        }
+      } catch (error) {
+        openNotification('error', 'Error!')
+      }
+    }
+
+    const handleDelete = () => {
+      handleDeleteQuestion(id)
+    }
+    return (
+      <>
+        <Button onClick={() => setIsDisplay(true)}>
+          <i className="bx bx-message-square-x"></i>
+        </Button>
+        <Modal
+          visible={isDisplay}
+          onCancel={() => setIsDisplay(false)}
+          onOk={handleDelete}
+        >
+          Are you sure to delete this question?
+        </Modal>
+      </>
+    )
+  }
+
   return (
     <div className="create__exam">
       <div className="create__exam__main">
@@ -319,7 +382,7 @@ const CreateExam = (props: Props) => {
           <h3>
             {edit ? 'Update' : 'Create'} an Exam:{' '}
             <Select
-              placeholder="Select an exam time"
+              placeholder="Select a subject"
               className="select__subjects"
               onChange={(e) =>
                 setFormInput({
@@ -393,8 +456,9 @@ const CreateExam = (props: Props) => {
                   }: any) => <Button {...getRootProps()}>Upload File</Button>}
                 </CSVReader>
               </div>
+
               <div className="create__exam__options__item btn__upload">
-                {edit.id > 0 ? (
+                {editTest && editTest.id && editTest.id > 0 ? (
                   <Button type="primary" danger onClick={handleCreateExam}>
                     Update
                   </Button>
@@ -402,18 +466,21 @@ const CreateExam = (props: Props) => {
                   <Button type="primary" onClick={handleCreateExam}>
                     Create
                   </Button>
-                )}
+                )}  
               </div>
             </div>
             <form name="basic" onSubmit={handleSubmit} className="create__form">
               <div className="form__title">
-                <span>
-                  Question:{' '}
-                  {edit.id === -1
-                    ? questionState.length + 1
-                    : questionState.findIndex((item) => item.id === edit.id) +
-                      1}
-                </span>
+                {edit && (
+                  <span>
+                    Question:{' '}
+                    {edit.id === -1
+                      ? questionState.length + 1
+                      : questionState.findIndex(
+                          (item) => item.id === (edit as CreateInput).id
+                        ) + 1}
+                  </span>
+                )}
 
                 <Input
                   placeholder="Enter your question"
@@ -452,7 +519,7 @@ const CreateExam = (props: Props) => {
                 htmlType="submit"
                 disabled={isValidate()}
               >
-                {edit.id !== -1 ? 'Update' : 'Add'}
+                {edit && edit.id !== -1 ? 'Update' : 'Add'}
               </Button>
             </form>
           </div>
@@ -470,11 +537,7 @@ const CreateExam = (props: Props) => {
                 <Button onClick={() => dispatch(loadEdit(item as CreateInput))}>
                   <i className="bx bxs-edit"></i>
                 </Button>
-                <Button
-                  onClick={() => dispatch(deleteQuestion(item.id as number))}
-                >
-                  <i className="bx bx-message-square-x"></i>
-                </Button>
+                <DeleteButton id={item.id} />
               </div>
               <ul className="question__answers">
                 {(item.answers as Answer[]).map((ans, index) => (

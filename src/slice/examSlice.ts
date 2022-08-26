@@ -5,7 +5,7 @@ import { CreateInput, FormInput } from '../pages/Subject/CreateExam'
 export type ExamTest = FormInput & CreateExamRequest
 export interface ExamModel {
   questionList: CreateInput[]
-  edit: CreateInput
+  edit: CreateInput | null
   examList: ExamTest[]
   editTest: ExamTest | null
 }
@@ -64,8 +64,12 @@ const examSlice = createSlice({
     addQuestion: (state, action: PayloadAction<CreateInput>) => {
       state.questionList.push(action.payload)
     },
-    loadEdit: (state, action: PayloadAction<CreateInput>) => {
-      state.edit = action.payload
+    loadEdit: (state, action: PayloadAction<CreateInput | null>) => {
+      if (!action.payload) {
+        state.edit = initialState.edit
+      } else {
+        state.edit = action.payload
+      }
     },
     resetEdit: (state) => {
       state.edit = initialState.edit
@@ -78,7 +82,9 @@ const examSlice = createSlice({
       state.questionList = action.payload.listQuestions as CreateInput[]
     },
     editCorrect: (state, action: PayloadAction<string>) => {
-      state.edit.correct = action.payload
+      if (state.edit) {
+        state.edit.correct = action.payload
+      }
     },
   },
 })

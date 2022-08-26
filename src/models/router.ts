@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-
+export const TOKEN = 'e-exam'
 export interface RouterModel {
   path: string
   title: string
